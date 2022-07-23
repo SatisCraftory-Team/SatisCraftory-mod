@@ -2,19 +2,24 @@ package fr.vgtom4.satiscraftory.screen;
 
 import fr.vgtom4.satiscraftory.block.entity.custom.MinerMk1BlockEntity;
 import fr.vgtom4.satiscraftory.init.BlockInit;
+import fr.vgtom4.satiscraftory.init.ItemInit;
 import fr.vgtom4.satiscraftory.init.MenuTypesInit;
+import fr.vgtom4.satiscraftory.screen.slot.RestrictedSlot;
 import fr.vgtom4.satiscraftory.screen.slot.ResultSlotInit;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
+import static fr.vgtom4.satiscraftory.init.ItemInit.*;
 
 public class MinerMk1Menu extends AbstractContainerMenu {
     private final MinerMk1BlockEntity blockEntity;
@@ -35,11 +40,12 @@ public class MinerMk1Menu extends AbstractContainerMenu {
 
         this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             this.addSlot(new ResultSlotInit(handler, 0, 17, 45));
-            this.addSlot(new SlotItemHandler(handler, 1, 107, 45));
-            this.addSlot(new SlotItemHandler(handler, 2, 125, 45));
-            this.addSlot(new SlotItemHandler(handler, 3, 143, 45));
+            this.addSlot(new RestrictedSlot(handler, 1, 107, 45, POWER_SHARD.get()));
+            this.addSlot(new RestrictedSlot(handler, 2, 125, 45, POWER_SHARD.get()));
+            this.addSlot(new RestrictedSlot(handler, 3, 143, 45, POWER_SHARD.get()));
         });
     }
+
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
