@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 
 
-public class Eliocube extends BaseEntityBlock{
+public class Eliocube extends BaseEntityBlock {
 
     public Eliocube(Properties properties) {
         super(properties);

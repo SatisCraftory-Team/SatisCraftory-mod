@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class MinerMk1Block extends BaseEntityBlock{
+public class MinerMk1Block extends BaseEntityBlock {
 
     public MinerMk1Block(Properties properties) {
         super(properties);
