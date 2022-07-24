@@ -34,5 +34,5 @@ credits="" #optional
 authors="vgtom4" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Mod qui recré Satisfactory dans Minecraft
+Mod to recreate Satisfactory in Minecraft
 '''
