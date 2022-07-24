@@ -10,13 +10,18 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 
 public class XenoZapperItem extends Item {
-    public XenoZapperItem(Properties p_41383_) {
-        super(p_41383_);
+    public XenoZapperItem(Properties properties) {
+        super(properties);
     }
 
     @Override
-    public boolean hurtEnemy(ItemStack p_41395_, LivingEntity p_41396_, LivingEntity p_41397_) {
-
-        return super.hurtEnemy(p_41395_, p_41396_, p_41397_);
+    public boolean hurtEnemy(ItemStack item, LivingEntity attackedEntity, LivingEntity attackingEntity) {
+        if (attackingEntity instanceof ServerPlayer player) {
+            LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(player.level);
+            lightningBolt.setPos(attackedEntity.getX(), attackedEntity.getY(), attackedEntity.getZ());
+            lightningBolt.setVisualOnly(true);
+            player.level.addFreshEntity(lightningBolt);
+        }
+        return super.hurtEnemy(item, attackedEntity, attackingEntity);
     }
 }
