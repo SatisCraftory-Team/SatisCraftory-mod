@@ -1,6 +1,5 @@
 {
   "credit": "Made with Blockbench",
-  "parent": "builtin/entity",
   "textures": {
     "particle": "satiscraftory:machines/miner_mk1"
   },
@@ -8,112 +7,17 @@
     96,
     64
   ],
-  "render_type": "cutout",
   "display": {
     "thirdperson_righthand": {
-      "scale": [
-        0.2,
-        0.2,
-        0.2
-      ]
-    },
-    "thirdperson_lefthand": {
-      "scale": [
-        0.2,
-        0.2,
-        0.2
-      ]
-    },
-    "firstperson_righthand": {
       "rotation": [
-        -15,
-        -13,
-        0
-      ],
-      "translation": [
+        73,
         0,
-        -3.25,
-        0
-      ],
-      "scale": [
-        0.2,
-        0.2,
-        0.2
-      ]
-    },
-    "firstperson_lefthand": {
-      "rotation": [
-        -15,
-        -13,
         0
       ],
       "translation": [
+        21.75,
         0,
-        -3.25,
-        0
-      ],
-      "scale": [
-        0.2,
-        0.2,
-        0.2
-      ]
-    },
-    "ground": {
-      "translation": [
-        0,
-        -1.25,
-        0
-      ],
-      "scale": [
-        0.2,
-        0.2,
-        0.2
-      ]
-    },
-    "gui": {
-      "rotation": [
-        11,
-        -120,
-        0
-      ],
-      "translation": [
-        -0.5,
-        -6,
-        -0.5
-      ],
-      "scale": [
-        0.12,
-        0.12,
-        0.12
-      ]
-    },
-    "head": {
-      "translation": [
-        0,
-        6.25,
-        3.25
-      ],
-      "scale": [
-        0.2,
-        0.2,
-        0.2
-      ]
-    },
-    "fixed": {
-      "rotation": [
-        0,
-        -90,
-        0
-      ],
-      "translation": [
-        -2,
-        -7.5,
-        -0.5
-      ],
-      "scale": [
-        0.15,
-        0.15,
-        0.15
+        -6
       ]
     }
   }
