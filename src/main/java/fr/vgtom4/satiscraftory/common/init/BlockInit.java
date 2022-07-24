@@ -20,21 +20,25 @@ public class BlockInit {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SatisCraftory.MODID);
 
-    /*
-    public static final RegistryObject<Block> ELIOCUBE = register("eliocube",
-            () -> new Eliocube(BlockBehaviour.Properties.of(Material.METAL)),
-            new Item.Properties().tab(SatisCraftory.TAB));*/
 
+    //Block with item
+    public static final RegistryObject<Block> IRON_DEPOSIT = register("iron_deposit",
+            () -> new Block(BlockBehaviour.Properties.of(Material.STONE)),
+            new Item.Properties().tab(SatisCraftory.TAB));
+
+
+    //Block without item
     public static final RegistryObject<Block> ELIOCUBE = registerBlockWithoutBlockItem("eliocube", () -> new EliocubeBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
 
     public static final RegistryObject<Block> MINER_MK1 = registerBlockWithoutBlockItem("miner_mk1", () -> new MinerMK1Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
 
-
-    public static final RegistryObject<Block> IRON_DEPOSIT = register("iron_deposit",
-            () -> new Block(BlockBehaviour.Properties.of(Material.STONE)),
-                  new Item.Properties().tab(SatisCraftory.TAB));
+    public static final RegistryObject<Block> MINER_MK1_P2 = registerBlockWithoutBlockItem("miner_mk1_p2", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
+    public static final RegistryObject<Block> MINER_MK1_P3 = registerBlockWithoutBlockItem("miner_mk1_p3", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
 
 
+
+
+    //initialization with and without item
     private static <T extends Block> RegistryObject<T> registerBlockWithoutBlockItem(String name, Supplier<T> block) {
         return BLOCKS.register(name, block);
     }

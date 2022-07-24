@@ -3,6 +3,7 @@ package fr.vgtom4.satiscraftory.common.block;
 import fr.vgtom4.satiscraftory.common.blockentity.MinerMk1BlockEntity;
 import fr.vgtom4.satiscraftory.common.blockentity.BlockEntityutils;
 import fr.vgtom4.satiscraftory.common.init.BlockEntityInit;
+import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -10,7 +11,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -126,7 +129,6 @@ public class MinerMK1Block extends BaseEntityBlock {
             }
         }
         return InteractionResult.sidedSuccess(level.isClientSide());
-
     }
     //----------------------------------------------------------------------------------------------------------------//
 
@@ -180,4 +182,13 @@ public class MinerMK1Block extends BaseEntityBlock {
         super.animateTick(state, level, pos, randomSource);
     }
     //----------------------------------------------------------------------------------------------------------------//
+
+    @Override
+    public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity livingEntity, ItemStack stack) {
+        int x = blockPos.getX();
+        int y = blockPos.getY();
+        int z = blockPos.getZ();
+        level.setBlockAndUpdate(new BlockPos(x+2, y, z), BlockInit.MINER_MK1_P2.get().defaultBlockState());
+        level.setBlockAndUpdate(new BlockPos(x, y+3, z), BlockInit.MINER_MK1_P3.get().defaultBlockState());
+    }
 }
