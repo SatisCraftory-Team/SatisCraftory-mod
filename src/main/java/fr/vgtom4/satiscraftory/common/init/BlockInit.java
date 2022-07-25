@@ -1,10 +1,7 @@
 package fr.vgtom4.satiscraftory.common.init;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
-import fr.vgtom4.satiscraftory.common.block.ConveyorInputPartBlock;
-import fr.vgtom4.satiscraftory.common.block.ConveyorOutputPartBlock;
-import fr.vgtom4.satiscraftory.common.block.EliocubeBlock;
-import fr.vgtom4.satiscraftory.common.block.MinerMK1Block;
+import fr.vgtom4.satiscraftory.common.block.*;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -38,8 +35,8 @@ public class BlockInit {
 
     public static final RegistryObject<Block> MINER_MK1 = registerBlockWithoutBlockItem("miner_mk1", () -> new MinerMK1Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
 
-    public static final RegistryObject<Block> MINER_MK1_P2 = registerBlockWithoutBlockItem("miner_mk1_p2", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
-    public static final RegistryObject<Block> MINER_MK1_P3 = registerBlockWithoutBlockItem("miner_mk1_p3", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
+    public static final RegistryObject<Block> MINER_MK1_P2 = registerBlockWithoutBlockItem("miner_mk1_p2", () -> new HorizontalFacingBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
+    public static final RegistryObject<Block> MINER_MK1_P3 = registerBlockWithoutBlockItem("miner_mk1_p3", () -> new HorizontalFacingBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
 
 
 

@@ -6,6 +6,7 @@ import fr.vgtom4.satiscraftory.common.init.BlockEntityInit;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
@@ -39,6 +40,9 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class MinerMK1Block extends BaseEntityBlock {
+
+    private static final Vec3i P2OFFSET = new Vec3i(0, 0, 2);
+    private static final Vec3i P3OFFSET = new Vec3i(0, 3, 0);
 
     public MinerMK1Block(Properties properties) {
         super(properties);
@@ -188,7 +192,10 @@ public class MinerMK1Block extends BaseEntityBlock {
         int x = blockPos.getX();
         int y = blockPos.getY();
         int z = blockPos.getZ();
-        level.setBlockAndUpdate(new BlockPos(x+2, y, z), BlockInit.MINER_MK1_P2.get().defaultBlockState());
-        level.setBlockAndUpdate(new BlockPos(x, y+3, z), BlockInit.MINER_MK1_P3.get().defaultBlockState());
+        Vec3i p2Pos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(P2OFFSET, blockState.getValue(FACING));
+        Vec3i p3Pos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(P3OFFSET, blockState.getValue(FACING));
+        //set facing value don't work ¯\_(ツ)_/¯
+        level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p2Pos.getX(), blockPos.getY() + p2Pos.getY(), blockPos.getZ() + p2Pos.getZ()), BlockInit.MINER_MK1_P2.get().defaultBlockState().setValue(FACING, blockState.getValue(FACING)));
+        level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p3Pos.getX(), blockPos.getY() + p3Pos.getY(), blockPos.getZ() + p3Pos.getZ()), BlockInit.MINER_MK1_P3.get().defaultBlockState().setValue(FACING, blockState.getValue(FACING)));
     }
 }
