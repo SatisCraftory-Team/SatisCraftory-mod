@@ -1,5 +1,6 @@
 {
   "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
   "textures": {
     "particle": "satiscraftory:machines/miner_mk1"
   },
@@ -15,9 +16,116 @@
         0
       ],
       "translation": [
-        21.75,
         0,
+        0.75,
+        -2
+      ],
+      "scale": [
+        0.15,
+        0.15,
+        0.15
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        73,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        0.75,
+        -2
+      ],
+      "scale": [
+        0.15,
+        0.15,
+        0.15
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        1,
+        -6,
+        0
+      ],
+      "translation": [
+        3.25,
+        -1,
+        -2
+      ],
+      "scale": [
+        0.15,
+        0.15,
+        0.15
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        1,
+        -6,
+        0
+      ],
+      "translation": [
+        3.25,
+        -1,
+        -2
+      ],
+      "scale": [
+        0.15,
+        0.15,
+        0.15
+      ]
+    },
+    "ground": {
+      "rotation": [
+        1,
+        -6,
+        0
+      ],
+      "translation": [
+        3.25,
+        -1,
+        -2
+      ],
+      "scale": [
+        0.15,
+        0.15,
+        0.15
+      ]
+    },
+    "gui": {
+      "rotation": [
+        18,
+        -106,
         -6
+      ],
+      "translation": [
+        -1,
+        -4.25,
+        0
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.3
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        -90,
+        0
+      ],
+      "translation": [
+        0,
+        -4.25,
+        0
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.3
       ]
     }
   }
