@@ -1,6 +1,8 @@
 package fr.vgtom4.satiscraftory.common.init;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
+import fr.vgtom4.satiscraftory.common.blockentity.ConveyorInputPartBlockEntity;
+import fr.vgtom4.satiscraftory.common.blockentity.ConveyorOutputPartBlockEntity;
 import fr.vgtom4.satiscraftory.common.blockentity.EliocubeBlockEntity;
 import fr.vgtom4.satiscraftory.common.blockentity.MinerMk1BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -18,5 +20,13 @@ public class BlockEntityInit {
     public static final RegistryObject<BlockEntityType<EliocubeBlockEntity>> ELIOCUBE_ENTITY = BLOCK_ENTITIES.register("eliocube_entity",
             () -> BlockEntityType.Builder.of(EliocubeBlockEntity::new,
                     BlockInit.ELIOCUBE.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<ConveyorInputPartBlockEntity>> CONVEYOR_INPUT_PART_ENTITY = BLOCK_ENTITIES.register("conveyor_input_part_entity",
+            () -> BlockEntityType.Builder.of(ConveyorInputPartBlockEntity::new,
+                    BlockInit.CONVEYOR_INPUT_PART.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<ConveyorOutputPartBlockEntity>> CONVEYOR_OUTPUT_PART_ENTITY = BLOCK_ENTITIES.register("conveyor_output_part_entity",
+            () -> BlockEntityType.Builder.of(ConveyorOutputPartBlockEntity::new,
+                    BlockInit.CONVEYOR_OUTPUT_PART.get()).build(null));
 
 }

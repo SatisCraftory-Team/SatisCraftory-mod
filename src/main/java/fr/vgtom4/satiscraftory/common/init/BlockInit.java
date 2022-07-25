@@ -1,6 +1,8 @@
 package fr.vgtom4.satiscraftory.common.init;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
+import fr.vgtom4.satiscraftory.common.block.ConveyorInputPartBlock;
+import fr.vgtom4.satiscraftory.common.block.ConveyorOutputPartBlock;
 import fr.vgtom4.satiscraftory.common.block.EliocubeBlock;
 import fr.vgtom4.satiscraftory.common.block.MinerMK1Block;
 import net.minecraft.world.item.BlockItem;
@@ -28,6 +30,9 @@ public class BlockInit {
     public static final RegistryObject<Block> ELIOCUBE = registerBlockWithoutBlockItem("eliocube", () -> new EliocubeBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
 
     public static final RegistryObject<Block> MINER_MK1 = registerBlockWithoutBlockItem("miner_mk1", () -> new MinerMK1Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
+
+    public static final RegistryObject<Block> CONVEYOR_INPUT_PART = register("conveyor_input_part", () -> new ConveyorInputPartBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
+    public static final RegistryObject<Block> CONVEYOR_OUTPUT_PART = register("conveyor_output_part", () -> new ConveyorOutputPartBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
 
 
     public static final RegistryObject<Block> IRON_DEPOSIT = register("iron_deposit",
