@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -78,13 +79,13 @@ public class MinerMK1Block extends BaseEntityBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return SHAPES.get(pState.getValue(FACING));
+    public VoxelShape getShape(BlockState blockState, BlockGetter pLevel, BlockPos blockPos, CollisionContext context) {
+        return SHAPES.get(blockState.getValue(FACING));
     }
 
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+    public VoxelShape getCollisionShape(BlockState blockState, BlockGetter worldIn, BlockPos blockPos, CollisionContext context) {
         return SHAPE.orElse(Shapes.block());
     }
 
@@ -103,13 +104,13 @@ public class MinerMK1Block extends BaseEntityBlock {
     }
 
     @Override
-    public BlockState rotate(BlockState pState, Rotation pRotation) {
-        return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING)));
+    public BlockState rotate(BlockState blockState, Rotation rotation) {
+        return blockState.setValue(FACING, rotation.rotate(blockState.getValue(FACING)));
     }
 
     @Override
-    public BlockState mirror(BlockState pState, Mirror pMirror) {
-        return pState.rotate(pMirror.getRotation(pState.getValue(FACING)));
+    public BlockState mirror(BlockState blockState, Mirror mirror) {
+        return blockState.rotate(mirror.getRotation(blockState.getValue(FACING)));
     }
 
     @Nullable
@@ -123,7 +124,7 @@ public class MinerMK1Block extends BaseEntityBlock {
 
     //------------------------------------------OPEN_INTERFACE--------------------------------------------------------//
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
+    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
         if (!level.isClientSide()) {
             BlockEntity entity = level.getBlockEntity(blockPos);
             if(entity instanceof MinerMk1BlockEntity) {
@@ -140,31 +141,31 @@ public class MinerMK1Block extends BaseEntityBlock {
     //------------------------------------------BLOCK_ENTITY----------------------------------------------------------//
 
     @Override
-    public RenderShape getRenderShape(BlockState pState) {
+    public RenderShape getRenderShape(BlockState blockState) {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
-    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        if (pState.getBlock() != pNewState.getBlock()) {
-            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState pNewState, boolean pIsMoving) {
+        if (blockState.getBlock() != pNewState.getBlock()) {
+            BlockEntity blockEntity = level.getBlockEntity(blockPos);
             if (blockEntity instanceof MinerMk1BlockEntity) {
                 ((MinerMk1BlockEntity) blockEntity).drops();
             }
         }
-        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+        super.onRemove(blockState, level, blockPos, pNewState, pIsMoving);
     }
 
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new MinerMk1BlockEntity(pPos, pState);
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return new MinerMk1BlockEntity(blockPos, blockState);
     }
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> tBlockEntityType) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> tBlockEntityType) {
         return createTickerHelper(tBlockEntityType, BlockEntityInit.MINER_MK1_BLOCK_ENTITY.get(),
                 MinerMk1BlockEntity::tick);
     }
@@ -175,15 +176,15 @@ public class MinerMK1Block extends BaseEntityBlock {
     public static boolean particle = true;
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource randomSource) {
+    public void animateTick(BlockState blockState, Level level, BlockPos blockPos, RandomSource randomSource) {
         float chance = 0.35f;
         if (chance < randomSource.nextFloat() & particle) {
-            level.addParticle(ParticleTypes.FLAME, pos.getX() + randomSource.nextFloat(), pos.getY() + 1D, pos.getZ() + randomSource.nextFloat(), 0d, 0.05d, 0d);
-            level.addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, pos.getX() + randomSource.nextFloat(), pos.getY() + 2D, pos.getZ() + randomSource.nextFloat(), 0d, 0.05d, 0d);
+            level.addParticle(ParticleTypes.FLAME, blockPos.getX() + randomSource.nextFloat(), blockPos.getY() + 1D, blockPos.getZ() + randomSource.nextFloat(), 0d, 0.05d, 0d);
+            level.addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, blockPos.getX() + randomSource.nextFloat(), blockPos.getY() + 4D, blockPos.getZ() + randomSource.nextFloat(), 0d, 0.05d, 0d);
 
         }
 
-        super.animateTick(state, level, pos, randomSource);
+        super.animateTick(blockState, level, blockPos, randomSource);
     }
     //----------------------------------------------------------------------------------------------------------------//
 
@@ -197,5 +198,32 @@ public class MinerMK1Block extends BaseEntityBlock {
         //set facing value don't work ¯\_(ツ)_/¯
         level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p2Pos.getX(), blockPos.getY() + p2Pos.getY(), blockPos.getZ() + p2Pos.getZ()), BlockInit.MINER_MK1_P2.get().defaultBlockState().setValue(FACING, blockState.getValue(FACING)));
         level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p3Pos.getX(), blockPos.getY() + p3Pos.getY(), blockPos.getZ() + p3Pos.getZ()), BlockInit.MINER_MK1_P3.get().defaultBlockState().setValue(FACING, blockState.getValue(FACING)));
+    }
+
+    @Override
+    public boolean onDestroyedByPlayer(BlockState blockState, Level level, BlockPos blockPos, Player player, boolean willHarvest, FluidState fluid) {
+        int x = blockPos.getX();
+        int y = blockPos.getY();
+        int z = blockPos.getZ();
+
+        Vec3i p2Pos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(P2OFFSET, blockState.getValue(FACING));
+        Vec3i p3Pos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(P3OFFSET, blockState.getValue(FACING));
+
+        if (this == BlockInit.MINER_MK1.get()) {
+            level.destroyBlock(new BlockPos(blockPos.getX() + p2Pos.getX(), blockPos.getY() + p2Pos.getY(), blockPos.getZ() + p2Pos.getZ()), false);
+            level.destroyBlock(new BlockPos(blockPos.getX() + p3Pos.getX(), blockPos.getY() + p3Pos.getY(), blockPos.getZ() + p3Pos.getZ()), false);
+        }
+        //destroy others blocks : don't work
+        /*
+        if (this == BlockInit.MINER_MK1_P2.get()) {
+            level.destroyBlock(new BlockPos(x, y , z), false);
+            level.destroyBlock(new BlockPos(blockPos.getX() + p3Pos.getX(), blockPos.getY() + p3Pos.getY(), blockPos.getZ() + p3Pos.getZ()), false);
+        }
+        if (this == BlockInit.MINER_MK1_P3.get()) {
+            level.destroyBlock(new BlockPos(x, y , z), false);
+            level.destroyBlock(new BlockPos(blockPos.getX() + p2Pos.getX(), blockPos.getY() + p2Pos.getY(), blockPos.getZ() + p2Pos.getZ()), false);
+        }*/
+
+        return super.onDestroyedByPlayer(blockState, level, blockPos, player, willHarvest, fluid);
     }
 }
