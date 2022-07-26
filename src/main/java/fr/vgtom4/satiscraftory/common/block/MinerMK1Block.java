@@ -3,7 +3,6 @@ package fr.vgtom4.satiscraftory.common.block;
 import fr.vgtom4.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import fr.vgtom4.satiscraftory.common.tileentity.BlockEntityutils;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
-import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -12,9 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -26,7 +23,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -180,50 +176,10 @@ public class MinerMK1Block extends BaseEntityBlock {
         float chance = 0.35f;
         if (chance < randomSource.nextFloat() & particle) {
             level.addParticle(ParticleTypes.FLAME, blockPos.getX() + randomSource.nextFloat(), blockPos.getY() + 1D, blockPos.getZ() + randomSource.nextFloat(), 0d, 0.05d, 0d);
-            level.addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, blockPos.getX() + randomSource.nextFloat(), blockPos.getY() + 4D, blockPos.getZ() + randomSource.nextFloat(), 0d, 0.05d, 0d);
-
+            level.addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, blockPos.getX() + randomSource.nextFloat(), blockPos.getY() + 5D, blockPos.getZ() + randomSource.nextFloat(), 0d, 0.05d, 0d);
         }
 
         super.animateTick(blockState, level, blockPos, randomSource);
     }
     //----------------------------------------------------------------------------------------------------------------//
-
-    @Override
-    public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity livingEntity, ItemStack stack) {
-        int x = blockPos.getX();
-        int y = blockPos.getY();
-        int z = blockPos.getZ();
-        Vec3i p2Pos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(P2OFFSET, blockState.getValue(FACING));
-        Vec3i p3Pos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(P3OFFSET, blockState.getValue(FACING));
-        //set facing value don't work ¯\_(ツ)_/¯
-        level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p2Pos.getX(), blockPos.getY() + p2Pos.getY(), blockPos.getZ() + p2Pos.getZ()), BlockInit.MINER_MK1_P2.get().defaultBlockState().setValue(FACING, blockState.getValue(FACING)));
-        level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p3Pos.getX(), blockPos.getY() + p3Pos.getY(), blockPos.getZ() + p3Pos.getZ()), BlockInit.MINER_MK1_P3.get().defaultBlockState().setValue(FACING, blockState.getValue(FACING)));
-    }
-
-    @Override
-    public boolean onDestroyedByPlayer(BlockState blockState, Level level, BlockPos blockPos, Player player, boolean willHarvest, FluidState fluid) {
-        int x = blockPos.getX();
-        int y = blockPos.getY();
-        int z = blockPos.getZ();
-
-        Vec3i p2Pos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(P2OFFSET, blockState.getValue(FACING));
-        Vec3i p3Pos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(P3OFFSET, blockState.getValue(FACING));
-
-        if (this == BlockInit.MINER_MK1.get()) {
-            level.destroyBlock(new BlockPos(blockPos.getX() + p2Pos.getX(), blockPos.getY() + p2Pos.getY(), blockPos.getZ() + p2Pos.getZ()), false);
-            level.destroyBlock(new BlockPos(blockPos.getX() + p3Pos.getX(), blockPos.getY() + p3Pos.getY(), blockPos.getZ() + p3Pos.getZ()), false);
-        }
-        //destroy others blocks : don't work
-        /*
-        if (this == BlockInit.MINER_MK1_P2.get()) {
-            level.destroyBlock(new BlockPos(x, y , z), false);
-            level.destroyBlock(new BlockPos(blockPos.getX() + p3Pos.getX(), blockPos.getY() + p3Pos.getY(), blockPos.getZ() + p3Pos.getZ()), false);
-        }
-        if (this == BlockInit.MINER_MK1_P3.get()) {
-            level.destroyBlock(new BlockPos(x, y , z), false);
-            level.destroyBlock(new BlockPos(blockPos.getX() + p2Pos.getX(), blockPos.getY() + p2Pos.getY(), blockPos.getZ() + p2Pos.getZ()), false);
-        }*/
-
-        return super.onDestroyedByPlayer(blockState, level, blockPos, player, willHarvest, fluid);
-    }
 }
