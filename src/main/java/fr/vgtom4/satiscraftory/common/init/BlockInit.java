@@ -31,11 +31,18 @@ public class BlockInit {
 
 
     //Block with item
+    /*
     public static final RegistryObject<Block> CONVEYOR_INPUT_PART = register("conveyor_input_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(),ConveyorInputPartBlockEntity::new));
-    public static final RegistryObject<Block> CONVEYOR_OUTPUT_PART = register("conveyor_output_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ConveyorOutputPartBlockEntity::new) {});
+    public static final RegistryObject<Block> CONVEYOR_OUTPUT_PART = register("conveyor_output_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ConveyorOutputPartBlockEntity::new));
+    */
+    public static final RegistryObject<Block> CONVEYOR_INPUT_PART = register("conveyor_input_part", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
+    public static final RegistryObject<Block> CONVEYOR_OUTPUT_PART = register("conveyor_output_part", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
+
 
     public static final RegistryObject<Block> CONVEYOR = register("conveyor", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
-    public static final RegistryObject<Block> CONVEYOR_CURVED = register("curved_conveyor", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
+    public static final RegistryObject<Block> CURVED_CONVEYOR = register("curved_conveyor", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
+    public static final RegistryObject<Block> CONVEYOR_MERGER = register("conveyor_merger", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
+    public static final RegistryObject<Block> MANU = register("manu", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
 
 
 
