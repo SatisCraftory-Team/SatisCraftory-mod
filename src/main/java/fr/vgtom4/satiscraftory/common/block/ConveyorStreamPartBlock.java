@@ -1,6 +1,5 @@
 package fr.vgtom4.satiscraftory.common.block;
 
-import fr.vgtom4.satiscraftory.common.blockentity.ConveyorOutputPartBlockEntity;
 import fr.vgtom4.satiscraftory.common.blockentity.ConveyorStreamPartBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,19 +10,30 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.Nullable;
 
-public abstract class ConveyorStreamPartBlock extends BaseEntityBlock {
+import java.util.function.BiFunction;
 
-    public ConveyorStreamPartBlock(Properties properties) {
+public class ConveyorStreamPartBlock<T extends BlockEntity> extends BaseEntityBlock {
+
+    private BiFunction<BlockPos,BlockState,T> blockEntityFactory;
+
+    public ConveyorStreamPartBlock(Properties properties, BiFunction<BlockPos,BlockState,T> blockEntityFactory) {
         super(properties);
         registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
+        this.blockEntityFactory = blockEntityFactory;
+    }
+
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return blockEntityFactory.apply(blockPos,blockState);
     }
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
