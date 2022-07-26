@@ -1,12 +1,13 @@
 package fr.vgtom4.satiscraftory;
 
-import fr.vgtom4.satiscraftory.common.init.BlockEntityInit;
+import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import fr.vgtom4.satiscraftory.common.init.ItemInit;
 import fr.vgtom4.satiscraftory.common.init.MenuTypesInit;
 import fr.vgtom4.satiscraftory.client.screen.MinerMk1Screen;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -19,6 +20,10 @@ import software.bernie.geckolib3.GeckoLib;
 public class SatisCraftory {
     public static final String MODID = "satiscraftory";
 
+    public static Item.Properties geBaseProperties() {
+        return new Item.Properties().tab(TAB);
+    }
+
     public SatisCraftory() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -26,8 +31,11 @@ public class SatisCraftory {
         bus.addListener(this::clientSetup);
 
         BlockInit.BLOCKS.register(bus);
+        BlockInit.BLOCKS_TEST.register(bus);
+        TileEntityInit.TILE_ENTITY_TYPES.register(bus);
+
         ItemInit.ITEMS.register(bus);
-        BlockEntityInit.BLOCK_ENTITIES.register(bus);
+        TileEntityInit.BLOCK_ENTITIES.register(bus);
         MenuTypesInit.MENUS.register(bus);
 
         GeckoLib.initialize();

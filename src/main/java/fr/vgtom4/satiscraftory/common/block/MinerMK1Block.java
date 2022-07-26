@@ -1,8 +1,8 @@
 package fr.vgtom4.satiscraftory.common.block;
 
-import fr.vgtom4.satiscraftory.common.blockentity.MinerMk1BlockEntity;
-import fr.vgtom4.satiscraftory.common.blockentity.BlockEntityutils;
-import fr.vgtom4.satiscraftory.common.init.BlockEntityInit;
+import fr.vgtom4.satiscraftory.common.tileentity.MinerMk1BlockEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.BlockEntityutils;
+import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -166,7 +166,7 @@ public class MinerMK1Block extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> tBlockEntityType) {
-        return createTickerHelper(tBlockEntityType, BlockEntityInit.MINER_MK1_BLOCK_ENTITY.get(),
+        return createTickerHelper(tBlockEntityType, TileEntityInit.MINER_MK1_BLOCK_ENTITY.get(),
                 MinerMk1BlockEntity::tick);
     }
     //----------------------------------------------------------------------------------------------------------------//

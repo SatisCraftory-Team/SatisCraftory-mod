@@ -1,6 +1,6 @@
-package fr.vgtom4.satiscraftory.common.blockentity;
+package fr.vgtom4.satiscraftory.common.tileentity;
 
-import fr.vgtom4.satiscraftory.common.init.BlockEntityInit;
+import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,7 +14,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class EliocubeBlockEntity extends BlockEntity implements IAnimatable {
     public EliocubeBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-        super(BlockEntityInit.ELIOCUBE_ENTITY.get(), pWorldPosition, pBlockState);
+        super(TileEntityInit.ELIOCUBE_ENTITY.get(), pWorldPosition, pBlockState);
     }
 
     private AnimationFactory factory = new AnimationFactory(this);

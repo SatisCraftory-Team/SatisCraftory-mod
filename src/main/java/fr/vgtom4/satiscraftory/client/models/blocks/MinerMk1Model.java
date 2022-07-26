@@ -1,7 +1,7 @@
 package fr.vgtom4.satiscraftory.client.models.blocks;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
-import fr.vgtom4.satiscraftory.common.blockentity.MinerMk1BlockEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 

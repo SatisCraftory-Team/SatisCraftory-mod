@@ -1,4 +1,4 @@
-package fr.vgtom4.satiscraftory.common.blockentity;
+package fr.vgtom4.satiscraftory.common.tileentity;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.shapes.Shapes;

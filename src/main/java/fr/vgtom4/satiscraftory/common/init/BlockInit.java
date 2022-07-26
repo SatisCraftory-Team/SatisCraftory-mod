@@ -2,8 +2,11 @@ package fr.vgtom4.satiscraftory.common.init;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
 import fr.vgtom4.satiscraftory.common.block.*;
-import fr.vgtom4.satiscraftory.common.blockentity.ConveyorInputPartBlockEntity;
-import fr.vgtom4.satiscraftory.common.blockentity.ConveyorOutputPartBlockEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.ConveyorInputPartBlockEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
+import fr.vgtom4.satiscraftory.common.block.base.BlockBounding;
+import fr.vgtom4.satiscraftory.common.builder.BlockBuilder;
+import fr.vgtom4.satiscraftory.common.registry.BlockRegistryObject;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -16,10 +19,15 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 
 public class BlockInit {
+
+    public static final BlockBuilder BLOCKS_TEST = new BlockBuilder(SatisCraftory.MODID);
+
     private BlockInit(){
     }
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SatisCraftory.MODID);
+
+    public static final BlockRegistryObject<BlockBounding, BlockItem> BOUNDING_BLOCK = registerBoundingBlock("bounding_block", BlockBounding::new);
 
 
     //Block with item
@@ -45,6 +53,9 @@ public class BlockInit {
 
 
 
+    private static BlockRegistryObject<BlockBounding, BlockItem> registerBoundingBlock(String name, Supplier<BlockBounding> blockSupplier) {
+        return BLOCKS_TEST.register(name, blockSupplier, block -> new BlockItem(block, new Item.Properties()));
+    }
     //initialization with and without item
     private static <T extends Block> RegistryObject<T> registerBlockWithoutBlockItem(String name, Supplier<T> block) {
         return BLOCKS.register(name, block);

@@ -1,6 +1,6 @@
 package fr.vgtom4.satiscraftory.common.block;
 
-import fr.vgtom4.satiscraftory.common.blockentity.ConveyorStreamPartBlockEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.ConveyorStreamPartBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;

@@ -1,7 +1,7 @@
 package fr.vgtom4.satiscraftory.client.screen;
 
 import fr.vgtom4.satiscraftory.client.screen.slot.ResultSlotInit;
-import fr.vgtom4.satiscraftory.common.blockentity.MinerMk1BlockEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import fr.vgtom4.satiscraftory.common.init.MenuTypesInit;
 import fr.vgtom4.satiscraftory.client.screen.slot.RestrictedSlot;

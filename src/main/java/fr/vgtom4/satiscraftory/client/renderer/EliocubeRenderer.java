@@ -3,7 +3,7 @@ package fr.vgtom4.satiscraftory.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import fr.vgtom4.satiscraftory.client.models.blocks.EliocubeModel;
-import fr.vgtom4.satiscraftory.common.blockentity.EliocubeBlockEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.EliocubeBlockEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;

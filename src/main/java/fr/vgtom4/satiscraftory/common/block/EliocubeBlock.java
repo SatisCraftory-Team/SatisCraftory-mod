@@ -1,6 +1,6 @@
 package fr.vgtom4.satiscraftory.common.block;
 
-import fr.vgtom4.satiscraftory.common.init.BlockEntityInit;
+import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
@@ -88,7 +88,7 @@ public class EliocubeBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return BlockEntityInit.ELIOCUBE_ENTITY.get().create(pPos, pState);
+        return TileEntityInit.ELIOCUBE_ENTITY.get().create(pPos, pState);
     }
 
 

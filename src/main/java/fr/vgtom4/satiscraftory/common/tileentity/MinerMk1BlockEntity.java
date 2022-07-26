@@ -1,6 +1,6 @@
-package fr.vgtom4.satiscraftory.common.blockentity;
+package fr.vgtom4.satiscraftory.common.tileentity;
 
-import fr.vgtom4.satiscraftory.common.init.BlockEntityInit;
+import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.init.ItemInit;
 import fr.vgtom4.satiscraftory.client.screen.MinerMk1Menu;
 import net.minecraft.core.BlockPos;
@@ -37,7 +37,7 @@ import javax.annotation.Nonnull;
 public class MinerMk1BlockEntity extends BlockEntity implements MenuProvider, IAnimatable {
 
     public MinerMk1BlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-        super(BlockEntityInit.MINER_MK1_BLOCK_ENTITY.get(), pWorldPosition, pBlockState);
+        super(TileEntityInit.MINER_MK1_BLOCK_ENTITY.get(), pWorldPosition, pBlockState);
     }
 
     private final ItemStackHandler itemHandler = new ItemStackHandler(4) {
