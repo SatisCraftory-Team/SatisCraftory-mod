@@ -42,7 +42,7 @@ public class BlockInit {
 
     public static final RegistryObject<Block> CONVEYOR = register("conveyor", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
     public static final RegistryObject<Block> CURVED_CONVEYOR = register("curved_conveyor", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
-    public static final RegistryObject<Block> CONVEYOR_MERGER = register("conveyor_merger", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
+    public static final RegistryObject<Block> CONVEYOR_MERGER = register("conveyor_merger", () -> new ConveyorMerger(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
     public static final RegistryObject<Block> MANU = register("manu", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
 
 

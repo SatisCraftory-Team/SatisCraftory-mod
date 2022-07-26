@@ -1,10 +1,8 @@
 package fr.vgtom4.satiscraftory.common.init;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
-import fr.vgtom4.satiscraftory.common.tileentity.ConveyorInputPartBlockEntity;
-import fr.vgtom4.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
-import fr.vgtom4.satiscraftory.common.tileentity.EliocubeBlockEntity;
-import fr.vgtom4.satiscraftory.common.tileentity.MinerMk1BlockEntity;
+import fr.vgtom4.satiscraftory.common.block.ConveyorMerger;
+import fr.vgtom4.satiscraftory.common.tileentity.*;
 import fr.vgtom4.satiscraftory.common.builder.TileEntityBuilder;
 import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.vgtom4.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
@@ -32,6 +30,7 @@ public class TileEntityInit {
     public static final RegistryObject<BlockEntityType<ConveyorOutputPartBlockEntity>> CONVEYOR_OUTPUT_PART_ENTITY = BLOCK_ENTITIES.register("conveyor_output_part_entity",
             () -> BlockEntityType.Builder.of(ConveyorOutputPartBlockEntity::new,
                     BlockInit.CONVEYOR_OUTPUT_PART.get()).build(null));
+
 
     public static final TileEntityRegistryObject<TileEntityBoundingBlock> BOUNDING_BLOCK = TILE_ENTITY_TYPES.builder(BlockInit.BOUNDING_BLOCK, TileEntityBoundingBlock::new).build();
 

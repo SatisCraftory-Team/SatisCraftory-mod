@@ -1,7 +1,8 @@
 {
   "variants": {
-    "": {
-      "model": "satiscraftory:block/conveyors/conveyor_merger"
-    }
+    "facing=north": {"model": "satiscraftory:block/conveyors/conveyor_merger"},
+    "facing=south": {"model": "satiscraftory:block/conveyors/conveyor_merger", "y":  180},
+    "facing=west": {"model": "satiscraftory:block/conveyors/conveyor_merger", "y":  270},
+    "facing=east": {"model": "satiscraftory:block/conveyors/conveyor_merger", "y":  90}
   }
 }
