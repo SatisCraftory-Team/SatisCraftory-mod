@@ -98,7 +98,7 @@ public class MinerMk1Menu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                pPlayer, BlockInit.MINER_MK1.get());
+                pPlayer, BlockInit.MINER_MK1.getBlock());
     }
 
     private void addPlayerInventory(Inventory playerInventory) {

@@ -2,7 +2,7 @@ package fr.vgtom4.satiscraftory.common.builder;
 
 import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.vgtom4.satiscraftory.common.registry.BlockRegistryObject;
-import fr.vgtom4.satiscraftory.common.tileentity.base.TileEntityBase;
+import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -15,8 +15,8 @@ public class TileEntityBuilder extends WrappedDeferredRegister<BlockEntityType<?
         super(modid, ForgeRegistries.BLOCK_ENTITY_TYPES);
     }
 
-    public <BE extends TileEntityBase> TileEntityRegistryObject<BE> register(BlockRegistryObject<?, ?> block, BlockEntityType.BlockEntitySupplier<? extends BE> factory) {
-        return this.<BE>builder(block, factory).clientTicker(TileEntityBase::tickClient).serverTicker(TileEntityBase::tickServer).build();
+    public <BE extends MachineBaseTileEntity> TileEntityRegistryObject<BE> register(BlockRegistryObject<?, ?> block, BlockEntityType.BlockEntitySupplier<? extends BE> factory) {
+        return this.<BE>builder(block, factory).clientTicker(MachineBaseTileEntity::tickClient).serverTicker(MachineBaseTileEntity::tickServer).build();
     }
 
     public <BE extends BlockEntity> BlockEntityTypeBuilder<BE> builder(BlockRegistryObject<?, ?> block, BlockEntityType.BlockEntitySupplier<? extends BE> factory) {

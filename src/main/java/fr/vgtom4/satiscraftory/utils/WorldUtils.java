@@ -13,8 +13,11 @@ import net.minecraft.world.level.chunk.ChunkStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class WorldUtils {
 
@@ -102,7 +105,7 @@ public class WorldUtils {
     @Nullable
     @Contract("_, null, _ -> null")
     public static <T extends BlockEntity> T getTileEntity(@NotNull Class<T> clazz, @Nullable BlockGetter world, @NotNull BlockPos pos) {
-        return getTileEntity(clazz, world, pos, false);
+        return getTileEntity(clazz, world, pos, true);
     }
 
     /**
@@ -125,6 +128,7 @@ public class WorldUtils {
         if (clazz.isInstance(tile)) {
             return clazz.cast(tile);
         } else if (logWrongType) {
+            LoggerFactory.getLogger("test").warn("Unexpected TileEntity class at {}, expected {}, but found: {}", pos, clazz, tile.getClass());
             //Mekanism.logger.warn("Unexpected TileEntity class at {}, expected {}, but found: {}", pos, clazz, tile.getClass());
         }
         return null;

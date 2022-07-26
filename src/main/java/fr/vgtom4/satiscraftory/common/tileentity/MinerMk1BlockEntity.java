@@ -3,6 +3,8 @@ package fr.vgtom4.satiscraftory.common.tileentity;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.init.ItemInit;
 import fr.vgtom4.satiscraftory.client.screen.MinerMk1Menu;
+import fr.vgtom4.satiscraftory.common.interfaces.IBoundingBlock;
+import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -34,10 +36,12 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nonnull;
 
-public class MinerMk1BlockEntity extends BlockEntity implements MenuProvider, IAnimatable {
+public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuProvider, IAnimatable, IBoundingBlock {
 
     public MinerMk1BlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-        super(TileEntityInit.MINER_MK1_BLOCK_ENTITY.get(), pWorldPosition, pBlockState);
+        super(TileEntityInit.MINER_MK1_BLOCK_ENTITY, pWorldPosition, pBlockState);
+
+        this.BOUNDING_BLOCKS_POS.add(pWorldPosition.above().north(1));
     }
 
     private final ItemStackHandler itemHandler = new ItemStackHandler(4) {
@@ -153,6 +157,7 @@ public class MinerMk1BlockEntity extends BlockEntity implements MenuProvider, IA
     public AnimationFactory getFactory() {
         return this.factory;
     }
+
 
     //----------------------------------------------------------------------------------------------------------------//
 }

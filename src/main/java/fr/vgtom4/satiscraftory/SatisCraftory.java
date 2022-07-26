@@ -5,6 +5,7 @@ import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import fr.vgtom4.satiscraftory.common.init.ItemInit;
 import fr.vgtom4.satiscraftory.common.init.MenuTypesInit;
 import fr.vgtom4.satiscraftory.client.screen.MinerMk1Screen;
+import fr.vgtom4.satiscraftory.common.packets.PacketHandler;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -24,11 +25,15 @@ public class SatisCraftory {
         return new Item.Properties().tab(TAB);
     }
 
+    public static PacketHandler packetHandler;
     public SatisCraftory() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         bus.addListener(this::setup);
         bus.addListener(this::clientSetup);
+
+        packetHandler = new PacketHandler();
+        packetHandler.init();
 
         BlockInit.BLOCKS.register(bus);
         BlockInit.BLOCKS_TEST.register(bus);

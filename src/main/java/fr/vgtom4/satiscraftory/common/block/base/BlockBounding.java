@@ -34,7 +34,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BlockBounding extends Block implements IHasTileEntity<TileEntityBoundingBlock> {
+public class BlockBounding extends MachineBaseBlock implements IHasTileEntity<TileEntityBoundingBlock> {
 
 
     @Nullable
@@ -46,13 +46,20 @@ public class BlockBounding extends Block implements IHasTileEntity<TileEntityBou
         return null;
     }
 
+    @Override
+    public TileEntityBoundingBlock newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
+        return new TileEntityBoundingBlock(pos, state);
+    }
+
+
+
     public BlockBounding() {
         //Note: We require setting variable opacity so that the block state does not cache the ability of if blocks can be placed on top of the bounding block
         // Torches cannot be placed on the sides due to vanilla checking the incorrect shape
         //Note: We mark it as not having occlusion as our occlusion shape is not quite right in that it goes past a single block size which confuses MC
         // Eventually we may want to try cropping it but for now this works better
         super(BlockBehaviour.Properties.of(Material.METAL).strength(3.5F, 4.8F)
-                .requiresCorrectToolForDrops().dynamicShape().noOcclusion().isViewBlocking((state, world, pos) -> false));
+                .requiresCorrectToolForDrops().dynamicShape().noOcclusion().isViewBlocking((a, b, c) -> false));
         registerDefaultState(stateDefinition.any());
     }
 
@@ -291,7 +298,8 @@ public class BlockBounding extends Block implements IHasTileEntity<TileEntityBou
         BlockPos mainPos = getMainBlockPos(world, pos);
         if (mainPos == null) {
             //If we don't have a main pos, then act as if the block is empty so that we can move into it properly
-            return Shapes.empty();
+            return Shapes.block();
+             //TODO: fix incorrect shapes comming from the main tile because of null mainPos
         }
         BlockState mainState;
         try {

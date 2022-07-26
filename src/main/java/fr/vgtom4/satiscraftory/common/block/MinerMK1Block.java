@@ -1,5 +1,8 @@
 package fr.vgtom4.satiscraftory.common.block;
 
+import fr.vgtom4.satiscraftory.common.block.base.MachineBaseBlock;
+import fr.vgtom4.satiscraftory.common.interfaces.IHasTileEntity;
+import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.vgtom4.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import fr.vgtom4.satiscraftory.common.tileentity.BlockEntityutils;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
@@ -36,14 +39,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class MinerMK1Block extends BaseEntityBlock {
+public class MinerMK1Block extends MachineBaseBlock implements IHasTileEntity<MinerMk1BlockEntity> {
 
     private static final Vec3i P2OFFSET = new Vec3i(0, 0, 2);
     private static final Vec3i P3OFFSET = new Vec3i(0, 3, 0);
 
     public MinerMK1Block(Properties properties) {
         super(properties);
-        registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
+        registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH).setValue(HAS_BOUNDING_BLOCKS, Boolean.TRUE));
         runCalculation(SHAPE.orElse(Shapes.block()));
     }
 
@@ -97,6 +100,7 @@ public class MinerMK1Block extends BaseEntityBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(FACING);
+        builder.add(HAS_BOUNDING_BLOCKS);
     }
 
     @Override
@@ -138,7 +142,7 @@ public class MinerMK1Block extends BaseEntityBlock {
 
     @Override
     public RenderShape getRenderShape(BlockState blockState) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
+        return RenderShape.INVISIBLE;
     }
 
     @Override
@@ -153,9 +157,13 @@ public class MinerMK1Block extends BaseEntityBlock {
     }
 
 
-    @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+    public TileEntityRegistryObject<? extends MinerMk1BlockEntity> getTileType() {
+        return TileEntityInit.MINER_MK1_BLOCK_ENTITY;
+    }
+
+    @Override
+    public MinerMk1BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new MinerMk1BlockEntity(blockPos, blockState);
     }
 
