@@ -24,6 +24,10 @@ public class BlockInit {
     public static final RegistryObject<Block> CONVEYOR_INPUT_PART = register("conveyor_input_part", () -> new ConveyorInputPartBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
     public static final RegistryObject<Block> CONVEYOR_OUTPUT_PART = register("conveyor_output_part", () -> new ConveyorOutputPartBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
 
+    public static final RegistryObject<Block> CONVEYOR = register("conveyor", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
+    public static final RegistryObject<Block> CONVEYOR_CURVED = register("curved_conveyor", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
+
+
 
     public static final RegistryObject<Block> IRON_DEPOSIT = register("iron_deposit",
             () -> new Block(BlockBehaviour.Properties.of(Material.STONE)),
