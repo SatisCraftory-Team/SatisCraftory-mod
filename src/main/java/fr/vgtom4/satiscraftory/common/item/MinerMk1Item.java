@@ -1,6 +1,6 @@
 package fr.vgtom4.satiscraftory.common.item;
 
-import fr.vgtom4.satiscraftory.client.models.items.MinerMk1ItemRenderer;
+import fr.vgtom4.satiscraftory.client.renderer.items.MinerMk1ItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;

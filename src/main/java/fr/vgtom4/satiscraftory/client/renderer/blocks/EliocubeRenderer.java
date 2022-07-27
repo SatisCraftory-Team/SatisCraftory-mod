@@ -1,4 +1,4 @@
-package fr.vgtom4.satiscraftory.client.renderer;
+package fr.vgtom4.satiscraftory.client.renderer.blocks;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

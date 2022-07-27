@@ -1,8 +1,8 @@
 package fr.vgtom4.satiscraftory.client;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
-import fr.vgtom4.satiscraftory.client.renderer.EliocubeRenderer;
-import fr.vgtom4.satiscraftory.client.renderer.MinerMk1Renderer;
+import fr.vgtom4.satiscraftory.client.renderer.blocks.EliocubeRenderer;
+import fr.vgtom4.satiscraftory.client.renderer.blocks.MinerMk1Renderer;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;

@@ -1,5 +1,6 @@
-package fr.vgtom4.satiscraftory.client.models.items;
+package fr.vgtom4.satiscraftory.client.renderer.items;
 
+import fr.vgtom4.satiscraftory.client.models.items.MinerMk1ItemModel;
 import fr.vgtom4.satiscraftory.common.item.MinerMk1Item;
 import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 
