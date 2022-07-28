@@ -1,8 +1,8 @@
 {
   "variants": {
-    "facing=north": {"model": "satiscraftory:block/conveyors/conveyor_input_part"},
-    "facing=south": {"model": "satiscraftory:block/conveyors/conveyor_input_part", "y":  180},
-    "facing=west": {"model": "satiscraftory:block/conveyors/conveyor_input_part", "y":  270},
-    "facing=east": {"model": "satiscraftory:block/conveyors/conveyor_input_part", "y":  90}
+    "facing=north": {"model": "satiscraftory:logistics/conveyor_input_part"},
+    "facing=south": {"model": "satiscraftory:logistics/conveyor_input_part", "y":  180},
+    "facing=west": {"model": "satiscraftory:logistics/conveyor_input_part", "y":  270},
+    "facing=east": {"model": "satiscraftory:logistics/conveyor_input_part", "y":  90}
   }
 }

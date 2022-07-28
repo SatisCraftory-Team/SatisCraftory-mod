@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "satiscraftory:block/conveyors/ConveyorPole"
+      "model": "satiscraftory:logistics/ConveyorPole"
     }
   }
 }
