@@ -78,10 +78,10 @@ public class ConveyorMerger extends HorizontalDirectionalBlock {
         Vec3i p4Pos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(P4OFFSET, blockState.getValue(FACING));
         Vec3i p5Pos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(P5OFFSET, blockState.getValue(FACING));
 
-        level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p2Pos.getX(), blockPos.getY() + p2Pos.getY(), blockPos.getZ() + p2Pos.getZ()), BlockInit.CONVEYOR_OUTPUT_PART.get().defaultBlockState());
-        level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p3Pos.getX(), blockPos.getY() + p3Pos.getY(), blockPos.getZ() + p3Pos.getZ()), BlockInit.CONVEYOR_INPUT_PART.get().defaultBlockState());
-        level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p4Pos.getX(), blockPos.getY() + p4Pos.getY(), blockPos.getZ() + p4Pos.getZ()), BlockInit.CONVEYOR_INPUT_PART.get().defaultBlockState());
-        level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p5Pos.getX(), blockPos.getY() + p5Pos.getY(), blockPos.getZ() + p5Pos.getZ()), BlockInit.CONVEYOR_INPUT_PART.get().defaultBlockState());
+        level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p2Pos.getX(), blockPos.getY() + p2Pos.getY(), blockPos.getZ() + p2Pos.getZ()), BlockInit.CONVEYOR_OUTPUT_PART.get().defaultBlockState().setValue(FACING, blockState.getValue(FACING)));
+        level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p3Pos.getX(), blockPos.getY() + p3Pos.getY(), blockPos.getZ() + p3Pos.getZ()), BlockInit.CONVEYOR_INPUT_PART.get().defaultBlockState().setValue(FACING, blockState.getValue(FACING)));
+        level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p4Pos.getX(), blockPos.getY() + p4Pos.getY(), blockPos.getZ() + p4Pos.getZ()), BlockInit.CONVEYOR_INPUT_PART.get().defaultBlockState().setValue(FACING, blockState.getValue(FACING)));
+        level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p5Pos.getX(), blockPos.getY() + p5Pos.getY(), blockPos.getZ() + p5Pos.getZ()), BlockInit.CONVEYOR_INPUT_PART.get().defaultBlockState().setValue(FACING, blockState.getValue(FACING)));
     }
 
     @Override

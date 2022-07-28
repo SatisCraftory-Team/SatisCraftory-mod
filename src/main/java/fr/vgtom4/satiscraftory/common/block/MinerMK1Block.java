@@ -1,6 +1,7 @@
 package fr.vgtom4.satiscraftory.common.block;
 
 import fr.vgtom4.satiscraftory.common.block.base.MachineBaseBlock;
+import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import fr.vgtom4.satiscraftory.common.interfaces.IHasTileEntity;
 import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.vgtom4.satiscraftory.common.tileentity.MinerMk1BlockEntity;
@@ -14,7 +15,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -26,6 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -41,8 +45,7 @@ import java.util.stream.Stream;
 
 public class MinerMK1Block extends MachineBaseBlock implements IHasTileEntity<MinerMk1BlockEntity> {
 
-    private static final Vec3i P2OFFSET = new Vec3i(0, 0, 2);
-    private static final Vec3i P3OFFSET = new Vec3i(0, 3, 0);
+    private static final Vec3i P2OFFSET = new Vec3i(0, 0, 3);
 
     public MinerMK1Block(Properties properties) {
         super(properties);
@@ -190,4 +193,41 @@ public class MinerMK1Block extends MachineBaseBlock implements IHasTileEntity<Mi
         super.animateTick(blockState, level, blockPos, randomSource);
     }
     //----------------------------------------------------------------------------------------------------------------//
+
+    /*
+    @Override
+    public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity livingEntity, ItemStack stack) {
+        int x = blockPos.getX();
+        int y = blockPos.getY();
+        int z = blockPos.getZ();
+        Vec3i p2Pos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(P2OFFSET, blockState.getValue(FACING));
+
+        level.setBlockAndUpdate(new BlockPos(blockPos.getX() + p2Pos.getX(), blockPos.getY() + p2Pos.getY(), blockPos.getZ() + p2Pos.getZ()), BlockInit.CONVEYOR_OUTPUT_PART.get().defaultBlockState().setValue(FACING, blockState.getValue(FACING)));
+    }
+
+
+    @Override
+    public boolean onDestroyedByPlayer(BlockState blockState, Level level, BlockPos blockPos, Player player, boolean willHarvest, FluidState fluid) {
+        int x = blockPos.getX();
+        int y = blockPos.getY();
+        int z = blockPos.getZ();
+
+        Vec3i p2Pos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(P2OFFSET, blockState.getValue(FACING));
+
+        if (this == BlockInit.MINER_MK1.getBlock()) {
+            level.destroyBlock(new BlockPos(blockPos.getX() + p2Pos.getX(), blockPos.getY() + p2Pos.getY(), blockPos.getZ() + p2Pos.getZ()), false);
+        }
+        //destroy others blocks : don't work
+        /*
+        if (this == BlockInit.MINER_MK1_P2.get()) {
+            level.destroyBlock(new BlockPos(x, y , z), false);
+            level.destroyBlock(new BlockPos(blockPos.getX() + p3Pos.getX(), blockPos.getY() + p3Pos.getY(), blockPos.getZ() + p3Pos.getZ()), false);
+        }
+        if (this == BlockInit.MINER_MK1_P3.get()) {
+            level.destroyBlock(new BlockPos(x, y , z), false);
+            level.destroyBlock(new BlockPos(blockPos.getX() + p2Pos.getX(), blockPos.getY() + p2Pos.getY(), blockPos.getZ() + p2Pos.getZ()), false);
+        }
+
+        return super.onDestroyedByPlayer(blockState, level, blockPos, player, willHarvest, fluid);
+    }*/
 }
