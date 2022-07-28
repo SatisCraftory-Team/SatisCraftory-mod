@@ -26,10 +26,18 @@ public abstract class MachineBaseTileEntity extends TileEntityUpdatable {
     }
 
     public static void tickClient(Level level, BlockPos pos, BlockState state, MachineBaseTileEntity tile) {
-
+        tile.onClientTick(level, pos, state, tile);
     }
 
     public static void tickServer(Level level, BlockPos pos, BlockState state, MachineBaseTileEntity tile) {
+        tile.onServerTick(level, pos, state, tile);
+    }
+
+    public void onClientTick(Level level, BlockPos pos, BlockState state, MachineBaseTileEntity tile){
+
+    }
+
+    public void onServerTick(Level level, BlockPos pos, BlockState state, MachineBaseTileEntity tile){
 
     }
 

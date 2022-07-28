@@ -1,4 +1,4 @@
-package fr.vgtom4.satiscraftory.common.packets;
+package fr.vgtom4.satiscraftory.common.network.packets;
 
 import fr.vgtom4.satiscraftory.common.interfaces.IPacket;
 import fr.vgtom4.satiscraftory.common.tileentity.base.TileEntityUpdatable;

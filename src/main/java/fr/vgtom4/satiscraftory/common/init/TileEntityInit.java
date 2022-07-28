@@ -1,7 +1,6 @@
 package fr.vgtom4.satiscraftory.common.init;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
-import fr.vgtom4.satiscraftory.common.block.ConveyorMerger;
 import fr.vgtom4.satiscraftory.common.tileentity.*;
 import fr.vgtom4.satiscraftory.common.builder.TileEntityBuilder;
 import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
@@ -43,6 +42,7 @@ public class TileEntityInit {
 //    public static final RegistryObject<BlockEntityType<MinerMk1BlockEntity>> MINER_MK1_BLOCK_ENTITY = BLOCK_ENTITIES.register("miner_mk1_block_entity",
 //            () -> BlockEntityType.Builder.of(MinerMk1BlockEntity::new,
 //                    BlockInit.MINER_MK1.get()).build(null));
-
+    public static final TileEntityRegistryObject<ConveyorBlockEntity> CONVEYOR_FULL = TILE_ENTITY_TYPES.register(BlockInit.CONVEYOR_FULL, (blockPos,blockState) -> new ConveyorBlockEntity(blockPos,blockState,false));
+    public static final TileEntityRegistryObject<ConveyorBlockEntity> CONVEYOR = TILE_ENTITY_TYPES.register(BlockInit.CONVEYOR, ConveyorBlockEntity::new);
 
 }

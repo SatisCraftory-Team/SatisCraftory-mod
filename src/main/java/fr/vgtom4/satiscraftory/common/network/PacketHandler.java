@@ -1,7 +1,9 @@
-package fr.vgtom4.satiscraftory.common.packets;
+package fr.vgtom4.satiscraftory.common.network;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
 import fr.vgtom4.satiscraftory.common.interfaces.IPacket;
+import fr.vgtom4.satiscraftory.common.network.packets.PacketUpdateConveyor;
+import fr.vgtom4.satiscraftory.common.network.packets.PacketUpdateTile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -29,7 +31,7 @@ public class PacketHandler  {
     public void init() {
 
         netHandler.registerMessage(1, PacketUpdateTile.class, IPacket::encode, PacketUpdateTile::decode, IPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-
+        netHandler.registerMessage(2, PacketUpdateConveyor.class, IPacket::encode, PacketUpdateConveyor::decode, IPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
     public <MSG> void sendToAllTracking(MSG message, Entity entity) {

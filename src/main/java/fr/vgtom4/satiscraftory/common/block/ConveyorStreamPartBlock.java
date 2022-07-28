@@ -8,32 +8,27 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiFunction;
 
-public class ConveyorStreamPartBlock<T extends BlockEntity> extends BaseEntityBlock {
-
-    private BiFunction<BlockPos,BlockState,T> blockEntityFactory;
+public class ConveyorStreamPartBlock<T extends BlockEntity> extends BlockDelayedBlockEntity<T> {
 
     public ConveyorStreamPartBlock(Properties properties, BiFunction<BlockPos,BlockState,T> blockEntityFactory) {
-        super(properties);
+        super(properties, blockEntityFactory);
         registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
-        this.blockEntityFactory = blockEntityFactory;
     }
 
-    @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return blockEntityFactory.apply(blockPos,blockState);
+    public RenderShape getRenderShape(BlockState blockState) {
+        return RenderShape.MODEL;
     }
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
