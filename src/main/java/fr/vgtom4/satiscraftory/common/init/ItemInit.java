@@ -1,6 +1,7 @@
 package fr.vgtom4.satiscraftory.common.init;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
+import fr.vgtom4.satiscraftory.common.item.LogoItem;
 import fr.vgtom4.satiscraftory.common.item.XenoZapperItem;
 import fr.vgtom4.satiscraftory.common.item.EliocubeItem;
 import fr.vgtom4.satiscraftory.common.item.MinerMk1Item;
@@ -26,6 +27,9 @@ public final class ItemInit {
 
     public static final RegistryObject<Item> ELIOCUBE_ITEM = ITEMS.register("eliocube",
             () -> new EliocubeItem(BlockInit.ELIOCUBE.get(), new Item.Properties().tab(SatisCraftory.TAB)));
+
+    public static final RegistryObject<Item> LOGO_ITEM = ITEMS.register("logo",
+            () -> new LogoItem(BlockInit.LOGO.get(), new Item.Properties().tab(SatisCraftory.TAB)));
 
 //    public static final RegistryObject<Item> MINER_MK1_ITEM = ITEMS.register("miner_mk1",
 //            () -> new MinerMk1Item(BlockInit.MINER_MK1.get(), new Item.Properties().tab(SatisCraftory.TAB)));

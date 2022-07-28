@@ -23,6 +23,10 @@ public class TileEntityInit {
             () -> BlockEntityType.Builder.of(EliocubeBlockEntity::new,
                     BlockInit.ELIOCUBE.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<LogoBlockEntity>> LOGO_ENTITY = BLOCK_ENTITIES.register("logo_entity",
+            () -> BlockEntityType.Builder.of(LogoBlockEntity::new,
+                    BlockInit.LOGO.get()).build(null));
+
     public static final RegistryObject<BlockEntityType<ConveyorInputPartBlockEntity>> CONVEYOR_INPUT_PART_ENTITY = BLOCK_ENTITIES.register("conveyor_input_part_entity",
             () -> BlockEntityType.Builder.of(ConveyorInputPartBlockEntity::new,
                     BlockInit.CONVEYOR_INPUT_PART.get()).build(null));

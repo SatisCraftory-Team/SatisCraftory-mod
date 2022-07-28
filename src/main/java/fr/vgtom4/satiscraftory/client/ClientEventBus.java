@@ -2,6 +2,7 @@ package fr.vgtom4.satiscraftory.client;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
 import fr.vgtom4.satiscraftory.client.renderer.blocks.EliocubeRenderer;
+import fr.vgtom4.satiscraftory.client.renderer.blocks.LogoRenderer;
 import fr.vgtom4.satiscraftory.client.renderer.blocks.MinerMk1Renderer;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,6 +16,7 @@ public class ClientEventBus {
 
     @SubscribeEvent
     public static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(TileEntityInit.LOGO_ENTITY.get(), LogoRenderer::new);
         event.registerBlockEntityRenderer(TileEntityInit.ELIOCUBE_ENTITY.get(), EliocubeRenderer::new);
         event.registerBlockEntityRenderer(TileEntityInit.MINER_MK1_BLOCK_ENTITY.get(), MinerMk1Renderer::new);
     }
