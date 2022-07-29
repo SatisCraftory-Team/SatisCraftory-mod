@@ -19,6 +19,9 @@ public final class ItemInit {
     public static final RegistryObject<Item> IRON_RESIDUE = ITEMS.register("iron_residue",
             ()-> new Item(new Item.Properties().tab(SatisCraftory.TAB)));
 
+    public static final RegistryObject<Item> PALEBERRY = ITEMS.register("paleberry",
+            ()-> new Item(new Item.Properties().tab(SatisCraftory.TAB).food(FoodInit.PALEBERRY)));
+
     public static final RegistryObject<Item> XENO_ZAPPER = ITEMS.register("xeno_zapper",
             ()-> new XenoZapperItem(new Item.Properties().tab(SatisCraftory.TAB).fireResistant().stacksTo(1)));
 
