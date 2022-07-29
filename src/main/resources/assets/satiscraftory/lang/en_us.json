@@ -11,5 +11,7 @@
   "block.satiscraftory.iron_deposit": "Iron Deposit",
 
   "block.satiscraftory.eliocube": "Eliocube",
-  "item.satiscraftory.eliocube_block_item": "Eliocube"
+  "item.satiscraftory.eliocube_block_item": "Eliocube",
+
+  "gui.satiscraftory.miner_mk1.power": "Power"
 }
