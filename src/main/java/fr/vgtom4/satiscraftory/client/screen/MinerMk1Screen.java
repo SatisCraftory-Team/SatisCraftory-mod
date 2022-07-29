@@ -98,7 +98,7 @@ public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
 
     @Override
     protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
-        GuiComponent.drawString(poseStack, this.font, String.valueOf(percentage_overclock), 124, 26, 0xffffff);
+        GuiComponent.drawString(poseStack, this.font, String.valueOf(percentage_overclock) + " %", 119, 26, 0xff8c00);
     }
 
     @Override
