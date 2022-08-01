@@ -22,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -42,30 +43,24 @@ public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
         super.init();
         this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(this.leftPos + 180, this.topPos + 20, Component.translatable("gui.satiscraftory.miner_mk1.power")));
         this.checkBoxOnOff.setToggled(MinerMk1Screen.OnOff);
-        this.addRenderableWidget(new Button(this.leftPos + 107, this.topPos + 25, 10, 10, Component.literal("-"), button ->
-        {/*
-            int index = this.currentTab.getCurrentIndex();
-            if(index - 1 < 0)
-            {
-                this.loadItem(this.currentTab.getRecipes().size() - 1);
+        this.addRenderableWidget(new Button(this.leftPos + 107, this.topPos + 25, 10, 10, Component.literal("-"), button -> {
+            if (percentage_overclock > 0) {
+                percentage_overclock--;
             }
-            else
-            {
-                this.loadItem(index - 1);
-            }*/
         }));
-        this.addRenderableWidget(new Button(this.leftPos + 149, this.topPos + 25, 10, 10, Component.literal("+"), button ->
-        {/*
-            int index = this.currentTab.getCurrentIndex();
-            if(index + 1 >= this.currentTab.getRecipes().size())
-            {
-                this.loadItem(0);
+        this.addRenderableWidget(new Button(this.leftPos + 149, this.topPos + 25, 10, 10, Component.literal("+"), button -> {
+            if (percentage_overclock < 300) {
+                percentage_overclock++;
             }
-            else
-            {
-                this.loadItem(index + 1);
-            }*/
-        }));
+        }));/*
+        radiusLabel = new ScrollableLabel()
+                .hint(1, 1, 1, 1)
+                .name("radius")
+                .visible(false)
+                .realMaximum(20);
+        visibleRadiusLabel = label(55, 4, 30, 13, "")
+                .desiredWidth(30)
+                .horizontalAlignment(HorizontalAlignment.ALIGN_LEFT);*/
     }
 
     public MinerMk1Screen(MinerMk1Menu pMenu, Inventory pPlayerInventory, Component pTitle) {
@@ -110,9 +105,6 @@ public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
         int startX = this.leftPos;
         int startY = this.topPos;
     }
-
-
-
 
 
 }

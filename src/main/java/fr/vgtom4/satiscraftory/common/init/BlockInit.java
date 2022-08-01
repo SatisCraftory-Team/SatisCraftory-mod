@@ -31,7 +31,7 @@ public class BlockInit {
     public static final BlockRegistryObject<BlockBounding, BlockItem> BOUNDING_BLOCK = registerBoundingBlock("bounding_block", BlockBounding::new);
 
 
-    //Block with item
+    // ------------ Block with item ------------
     public static final RegistryObject<Block> CONVEYOR_INPUT_PART = register("conveyor_input_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(),ConveyorInputPartBlockEntity::new));
     public static final RegistryObject<Block> CONVEYOR_OUTPUT_PART = register("conveyor_output_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ConveyorOutputPartBlockEntity::new));
 
@@ -43,8 +43,11 @@ public class BlockInit {
 
     public static final RegistryObject<Block> IRON_DEPOSIT = register("iron_deposit", () -> new Block(BlockBehaviour.Properties.of(Material.STONE)));
 
+    // Building
+    public static final RegistryObject<Block> FOUNDATION_2M = register("foundation_2m", () -> new Foundations(BlockBehaviour.Properties.of(Material.METAL)));
 
-    //Block without item
+
+    // ------------ Block without item ------------
     public static final RegistryObject<Block> ELIOCUBE = registerBlockWithoutBlockItem("eliocube", () -> new EliocubeBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
     public static final RegistryObject<Block> LOGO = registerBlockWithoutBlockItem("logo", () -> new LogoBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
 
