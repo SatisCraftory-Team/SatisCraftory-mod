@@ -294,25 +294,16 @@ public class BlockBounding extends MachineBaseBlock implements IHasTileEntity<Ti
     public VoxelShape getInteractionShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos) {
         return proxyShape(world, pos, null, (s, level, p, ctx) -> s.getInteractionShape(level, p));
     }
-
-    //Context should only be null if there is none, and it isn't used in the shape proxy
     private VoxelShape proxyShape(BlockGetter world, BlockPos pos, @Nullable CollisionContext context, ShapeProxy proxy) {
         BlockPos mainPos = getMainBlockPos(world, pos);
         if (mainPos == null) {
-            //If we don't have a main pos, then act as if the block is empty so that we can move into it properly
             return Shapes.empty();
         }
         BlockState mainState;
         try {
             mainState = world.getBlockState(mainPos);
         } catch (ArrayIndexOutOfBoundsException e) {
-            //Note: ChunkRenderCache is client side only, though it does not seem to have any class loading issues on the server
-            // due to this exception not being caught in that specific case
             if (world instanceof RenderChunkRegion region) {
-                //Workaround for when the main spot of the miner is out of bounds of the ChunkRenderCache thus causing an
-                // ArrayIndexOutOfBoundException on the client as seen by:
-                // https://github.com/mekanism/Mekanism/issues/5792
-                // https://github.com/mekanism/Mekanism/issues/5844
                 world = region.level;
                 mainState = world.getBlockState(mainPos);
             } else {
@@ -323,7 +314,6 @@ public class BlockBounding extends MachineBaseBlock implements IHasTileEntity<Ti
         }
         VoxelShape shape = proxy.getShape(mainState, world, mainPos, context);
         BlockPos offset = pos.subtract(mainPos);
-        //TODO: Can we somehow cache the withOffset? It potentially would have to then be moved into the Tile, but that is probably fine
         return shape.move(-offset.getX(), -offset.getY(), -offset.getZ());
     }
 
