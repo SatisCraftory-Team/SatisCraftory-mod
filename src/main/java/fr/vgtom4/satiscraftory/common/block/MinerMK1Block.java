@@ -2,6 +2,7 @@ package fr.vgtom4.satiscraftory.common.block;
 
 import fr.vgtom4.satiscraftory.common.block.base.MachineBaseBlock;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
+import fr.vgtom4.satiscraftory.common.interfaces.IHasTickableTileEntity;
 import fr.vgtom4.satiscraftory.common.interfaces.IHasTileEntity;
 import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.vgtom4.satiscraftory.common.tileentity.MinerMk1BlockEntity;
@@ -43,7 +44,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class MinerMK1Block extends MachineBaseBlock implements IHasTileEntity<MinerMk1BlockEntity> {
+public class MinerMK1Block extends MachineBaseBlock implements IHasTickableTileEntity {
 
     private static final Vec3i P2OFFSET = new Vec3i(0, 0, 3);
 
@@ -168,13 +169,6 @@ public class MinerMK1Block extends MachineBaseBlock implements IHasTileEntity<Mi
     @Override
     public MinerMk1BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new MinerMk1BlockEntity(blockPos, blockState);
-    }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> tBlockEntityType) {
-        return createTickerHelper(tBlockEntityType, TileEntityInit.MINER_MK1_BLOCK_ENTITY.get(),
-                MinerMk1BlockEntity::tick);
     }
     //----------------------------------------------------------------------------------------------------------------//
 

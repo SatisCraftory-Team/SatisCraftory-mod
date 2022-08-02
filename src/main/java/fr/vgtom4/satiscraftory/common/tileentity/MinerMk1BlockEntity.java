@@ -17,7 +17,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -109,31 +108,36 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
     }
 
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, MinerMk1BlockEntity pBlockEntity) {
-        if(hasRecipe(pBlockEntity) && hasNotReachedStackLimit(pBlockEntity)) {
-            craftItem(pBlockEntity);
+
+    }
+
+    @Override
+    public void onServerTick(Level level, BlockPos pos, BlockState state, MachineBaseTileEntity tile) {
+        if(hasRecipe() && hasNotReachedStackLimit()) {
+            craftItem();
         }
     }
 
-    private static void craftItem(MinerMk1BlockEntity entity) {/*
-        entity.itemHandler.extractItem(1, 1, false);
-        entity.itemHandler.extractItem(2, 1, false);
-        entity.itemHandler.extractItem(3, 1, false);*/
+    private void craftItem() {/*
+        itemHandler.extractItem(1, 1, false);
+        itemHandler.extractItem(2, 1, false);
+        itemHandler.extractItem(3, 1, false);*/
 
-        entity.itemHandler.setStackInSlot(0, new ItemStack(ItemInit.IRON_RESIDUE.get(),
-                entity.itemHandler.getStackInSlot(0).getCount() + 1));
+        itemHandler.setStackInSlot(0, new ItemStack(ItemInit.IRON_RESIDUE.get(),
+                itemHandler.getStackInSlot(0).getCount() + 1));
                 
     }
 
-    private static boolean hasRecipe(MinerMk1BlockEntity entity) {
-        boolean hasItemInFirstSlot = entity.itemHandler.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get();
-        boolean hasItemInSecondSlot = entity.itemHandler.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();
-        boolean hasItemInThirdSlot = entity.itemHandler.getStackInSlot(3).getItem() == ItemInit.POWER_SHARD.get();
+    private boolean hasRecipe() {
+        boolean hasItemInFirstSlot = itemHandler.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get();
+        boolean hasItemInSecondSlot = itemHandler.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();
+        boolean hasItemInThirdSlot = itemHandler.getStackInSlot(3).getItem() == ItemInit.POWER_SHARD.get();
 
         return hasItemInFirstSlot && hasItemInSecondSlot && hasItemInThirdSlot;
     }
 
-    private static boolean hasNotReachedStackLimit(MinerMk1BlockEntity entity) {
-        return entity.itemHandler.getStackInSlot(0).getCount() < entity.itemHandler.getStackInSlot(0).getMaxStackSize();
+    private boolean hasNotReachedStackLimit() {
+        return itemHandler.getStackInSlot(0).getCount() < itemHandler.getStackInSlot(0).getMaxStackSize();
     }
 
 

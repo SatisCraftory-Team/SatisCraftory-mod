@@ -42,7 +42,8 @@ public class TileEntityInit {
 //    public static final RegistryObject<BlockEntityType<MinerMk1BlockEntity>> MINER_MK1_BLOCK_ENTITY = BLOCK_ENTITIES.register("miner_mk1_block_entity",
 //            () -> BlockEntityType.Builder.of(MinerMk1BlockEntity::new,
 //                    BlockInit.MINER_MK1.get()).build(null));
-    public static final TileEntityRegistryObject<ConveyorBlockEntity> CONVEYOR_FULL = TILE_ENTITY_TYPES.register(BlockInit.CONVEYOR_FULL, (blockPos,blockState) -> new ConveyorBlockEntity(blockPos,blockState,false));
-    public static final TileEntityRegistryObject<ConveyorBlockEntity> CONVEYOR = TILE_ENTITY_TYPES.register(BlockInit.CONVEYOR, ConveyorBlockEntity::new);
+    public static final TileEntityRegistryObject<MinerMk1BlockEntity> MINER_MK1_BLOCK_ENTITY = TILE_ENTITY_TYPES.register(BlockInit.MINER_MK1, MinerMk1BlockEntity::new);
+    public static final TileEntityRegistryObject<ConveyorTileEntity> CONVEYOR_FULL = TILE_ENTITY_TYPES.register(BlockInit.CONVEYOR_FULL, (blockPos, blockState) -> new ConveyorTileEntity(blockPos,blockState,false));
+    public static final TileEntityRegistryObject<ConveyorTileEntity> CONVEYOR = TILE_ENTITY_TYPES.register(BlockInit.CONVEYOR, ConveyorTileEntity::new);
 
 }

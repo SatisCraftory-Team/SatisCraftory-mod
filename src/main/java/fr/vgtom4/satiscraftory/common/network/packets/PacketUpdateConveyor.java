@@ -1,8 +1,7 @@
 package fr.vgtom4.satiscraftory.common.network.packets;
 
-import fr.vgtom4.satiscraftory.SatisCraftory;
 import fr.vgtom4.satiscraftory.common.interfaces.IPacket;
-import fr.vgtom4.satiscraftory.common.tileentity.ConveyorBlockEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.ConveyorTileEntity;
 import fr.vgtom4.satiscraftory.utils.WorldUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -20,7 +19,7 @@ public class PacketUpdateConveyor implements IPacket {
     private final CompoundTag updateTag;
     private final Item[] items;
 
-    public PacketUpdateConveyor(ConveyorBlockEntity tile) {
+    public PacketUpdateConveyor(ConveyorTileEntity tile) {
         this(tile.getBlockPos(), tile.getReducedUpdateTag(), tile.getItems());
     }
 
@@ -34,7 +33,7 @@ public class PacketUpdateConveyor implements IPacket {
     public void handle(NetworkEvent.Context context) {
         ClientLevel world = Minecraft.getInstance().level;
         if(WorldUtils.isBlockLoaded(world,pos)){
-            ConveyorBlockEntity tile = WorldUtils.getTileEntity(ConveyorBlockEntity.class, world, pos, true);
+            ConveyorTileEntity tile = WorldUtils.getTileEntity(ConveyorTileEntity.class, world, pos, true);
             if(tile != null){
                 tile.handleUpdateConveyorPacket(this);
             }

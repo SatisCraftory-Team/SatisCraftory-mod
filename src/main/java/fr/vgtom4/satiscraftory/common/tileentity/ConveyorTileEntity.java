@@ -2,33 +2,36 @@ package fr.vgtom4.satiscraftory.common.tileentity;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
 import fr.vgtom4.satiscraftory.common.block.ConveyorBlock;
+import fr.vgtom4.satiscraftory.common.block.MultiBlockUtil;
 import fr.vgtom4.satiscraftory.common.init.ItemInit;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.network.packets.PacketUpdateConveyor;
 import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.vgtom4.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ConveyorBlockEntity extends MachineBaseTileEntity implements IInputableItem {
+public class ConveyorTileEntity extends MachineBaseTileEntity implements IItemStreamable {
 
     public static final int itemPerConveyor = 2;
 
     public Item[] items = new Item[itemPerConveyor];
-    private IInputableItem connectedStream;
+    private IItemInputable output;
     private int itemPerMin = 60;
 
-    public ConveyorBlockEntity(BlockPos blockPos, BlockState blockState, boolean full) {
+    public ConveyorTileEntity(BlockPos blockPos, BlockState blockState, boolean full) {
         super(TileEntityInit.CONVEYOR_FULL, blockPos, blockState);
 
         items[0] = (ItemInit.IRON_RESIDUE.get());
         items[1] = (ItemInit.IRON_RESIDUE.get());
     }
 
-    public ConveyorBlockEntity(BlockPos blockPos, BlockState blockState) {
+    public ConveyorTileEntity(BlockPos blockPos, BlockState blockState) {
         super(TileEntityInit.CONVEYOR, blockPos, blockState);
     }
 
@@ -55,7 +58,7 @@ public class ConveyorBlockEntity extends MachineBaseTileEntity implements IInput
         if(tickCounter >= 20f * (itemPerMin/60)){
             tickCounter = 0;
             if(items[items.length - 1] != null){
-                TryOutputItem(items[items.length - 1]);
+                tryOutputItem(items[items.length - 1]);
             }
             for(int i = items.length - 2; i >= 0; i--){
                 if(items[i+1] == null){
@@ -86,8 +89,8 @@ public class ConveyorBlockEntity extends MachineBaseTileEntity implements IInput
     }
 
     @Override
-    public void setConnectedStream(IInputableItem stream) {
-        this.connectedStream = stream;
+    public void setOutput(IItemInputable inputTile) {
+        this.output = inputTile;
     }
 
     @Override
@@ -96,14 +99,14 @@ public class ConveyorBlockEntity extends MachineBaseTileEntity implements IInput
     }
 
     @Override
-    public void InputItem(Item item) {
+    public void inputItem(Item item) {
         items[0] = item;
         sendUpdateConveyorPacket();
     }
 
-    public boolean TryOutputItem(Item item) {
-        if(connectedStream != null && connectedStream.canInputItem(item)){
-            connectedStream.InputItem(item);
+    public boolean tryOutputItem(Item item) {
+        if(output != null && output.canInputItem(item)){
+            output.inputItem(item);
             items[items.length - 1] = null;
             sendUpdateConveyorPacket();
             return true;
@@ -124,26 +127,18 @@ public class ConveyorBlockEntity extends MachineBaseTileEntity implements IInput
     }
 
     public void onPlaced(Level level, BlockPos blockPos, BlockState blockState) {
-        BlockPos posForConnection;
-        switch (blockState.getValue(ConveyorBlock.FACING)) {
-            case EAST:
-                posForConnection = blockPos.west();
-                break;
-            case WEST:
-                posForConnection = blockPos.east();
-                break;
-            case NORTH:
-                posForConnection = blockPos.south();
-                break;
-            case SOUTH:
-                posForConnection = blockPos.north();
-                break;
-            default:
-                return;
+        Direction direction = blockState.getValue(ConveyorBlock.FACING);
+        Vec3i inputConnectionPos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(new Vec3i(0,0,-1),direction);
+        Vec3i outputConnectionPos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(new Vec3i(0,0,1),direction);
+        BlockPos posForInputConnection = blockPos.offset(inputConnectionPos);
+        BlockPos posForOutputConnection = blockPos.offset(outputConnectionPos);
+
+        if(WorldUtils.getTileEntity(level, posForInputConnection) instanceof IItemStreamable){
+            ((IItemOutputable) WorldUtils.getTileEntity(level, posForInputConnection)).setOutput(this);
         }
 
-        if(WorldUtils.getTileEntity(level, posForConnection) instanceof IInputableItem){
-            ((IInputableItem) WorldUtils.getTileEntity(level, posForConnection)).setConnectedStream(this);
+        if(WorldUtils.getTileEntity(level, posForOutputConnection) instanceof IItemStreamable){
+            setOutput((IItemInputable) WorldUtils.getTileEntity(level, posForOutputConnection));
         }
     }
 }

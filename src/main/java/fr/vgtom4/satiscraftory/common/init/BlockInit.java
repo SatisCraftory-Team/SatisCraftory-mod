@@ -2,7 +2,7 @@ package fr.vgtom4.satiscraftory.common.init;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
 import fr.vgtom4.satiscraftory.common.block.*;
-import fr.vgtom4.satiscraftory.common.tileentity.ConveyorBlockEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.ConveyorTileEntity;
 import fr.vgtom4.satiscraftory.common.tileentity.ConveyorInputPartBlockEntity;
 import fr.vgtom4.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
 import fr.vgtom4.satiscraftory.common.block.base.BlockBounding;
@@ -55,8 +55,8 @@ public class BlockInit {
     //public static final RegistryObject<Block> MINER_MK1 = registerBlockWithoutBlockItem("miner_mk1", () -> new MinerMK1Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
 
     public static final BlockRegistryObject<MinerMK1Block, BlockItem> MINER_MK1 = BLOCKS_TEST.register("miner_mk1", () -> new MinerMK1Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
-    public static final BlockRegistryObject<ConveyorBlock, BlockItem> CONVEYOR_FULL = BLOCKS_TEST.register("conveyor_full", () -> new ConveyorBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ((blockPos, blockState) -> new ConveyorBlockEntity(blockPos, blockState, false))));
-    public static final BlockRegistryObject<ConveyorBlock, BlockItem> CONVEYOR = BLOCKS_TEST.register("conveyor", () -> new ConveyorBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ConveyorBlockEntity::new));
+    public static final BlockRegistryObject<ConveyorBlock, BlockItem> CONVEYOR_FULL = BLOCKS_TEST.register("conveyor_full", () -> new ConveyorBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ((blockPos, blockState) -> new ConveyorTileEntity(blockPos, blockState, false))));
+    public static final BlockRegistryObject<ConveyorBlock, BlockItem> CONVEYOR = BLOCKS_TEST.register("conveyor", () -> new ConveyorBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ConveyorTileEntity::new));
 
 
     private static BlockRegistryObject<BlockBounding, BlockItem> registerBoundingBlock(String name, Supplier<BlockBounding> blockSupplier) {
