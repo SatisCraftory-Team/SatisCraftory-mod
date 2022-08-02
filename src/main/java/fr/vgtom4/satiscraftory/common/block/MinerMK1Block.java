@@ -60,19 +60,29 @@ public class MinerMK1Block extends MachineBaseBlock implements IHasTickableTileE
     private static final Map<Direction, VoxelShape> SHAPES = new EnumMap<>(Direction.class);
 
     private static final Optional<VoxelShape> SHAPE =  Stream.of(
-            Block.box(-6, 2, -6, -2, 32, -2),
-            Block.box(18, 2, -6, 22, 32, -2),
-            Block.box(18, 2, 18, 22, 32, 22),
-            Block.box(-6, 2, 18, -2, 32, 22),
-            Block.box(-6, 0, -6, 22, 2, -1),
-            Block.box(17, 2.5, -2, 22, 4.5, 18),
-            Block.box(17, 2.5, -16, 22, 4.5, -9),
-            Block.box(-6, 2.5, -2, -1, 4.5, 18),
-            Block.box(-6, 2.5, -16, -1, 4.5, -9),
-            Block.box(-6, 0, 17, 22, 2, 22),
+            Block.box(-7, 39, -31, 23, 42, -7),
+            Block.box(0, 41, 0, 17, 51, 17),
+            Block.box(1, 0, 1, 16, 82, 16),
+            Block.box(0, 82, 0, 17, 86, 16),
+            Block.box(-2, 83, 5, 2, 108, 9),
+            Block.box(-7, 82, 16, 23, 86, 23),
+            Block.box(-6, 42, 19, -2, 84, 21),
+            Block.box(18, 42, 19, 22, 84, 21),
+            Block.box(-6, 0, -2, -1, 4.5, 18),
+            Block.box(17, 0, -2, 22, 4.5, 18),
+            Block.box(-2, 4.5, -43, 18, 24.5, -15),
             Block.box(-6, 0, -9, 22, 6, -6),
-            Block.box(0, 0, 0, 16, 32, 16),
-            Block.box(-2, 4.5, -16, 18, 24.5, -11.75)
+            Block.box(-6, 0, -45, 22, 2, -28),
+            Block.box(0, 6.5, -47, 16, 22.5, -43),
+            Block.box(-6, 0, -28, -1, 4.5, -9),
+            Block.box(17, 0, -28, 22, 4.5, -9),
+            Block.box(-7, 35, -7, 23, 42, 23),
+            Block.box(18, 2, 18, 22, 42, 22),
+            Block.box(-6, 2, 18, -2, 42, 22),
+            Block.box(-6, 2, -6, -2, 42, -2),
+            Block.box(18, 2, -6, 22, 42, -2),
+            Block.box(-6, 0, 17, 22, 2, 22),
+            Block.box(-6, 0, -6, 22, 2, -1)
     ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR));
 
 
