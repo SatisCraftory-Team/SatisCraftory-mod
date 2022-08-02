@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "satiscraftory:flora/pale_berry_bush_with_fruit"
+  }
+}

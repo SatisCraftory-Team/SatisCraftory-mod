@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:block/cross",
+  "parent": "block/cross",
   "textures": {
-    "cross": "minecraft:blocks/sweet_berry_bush"
+    "cross": "satiscraftory:flora/pale_berry_bush"
   }
 }
