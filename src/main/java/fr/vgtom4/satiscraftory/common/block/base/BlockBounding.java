@@ -1,5 +1,6 @@
 package fr.vgtom4.satiscraftory.common.block.base;
 
+import fr.vgtom4.satiscraftory.SatisCraftory;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.interfaces.IHasTileEntity;
 import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
@@ -65,8 +66,8 @@ public class BlockBounding extends MachineBaseBlock implements IHasTileEntity<Ti
 
 
     @Override
-    protected void createBlockStateDefinition(@NotNull StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
+    protected void createBlockStateDefinition(@NotNull StateDefinition.Builder<Block, BlockState> blockStateBuilder) {
+        super.createBlockStateDefinition(blockStateBuilder);
         //BlockStateHelper.fillBlockStateContainer(this, builder);
     }
 
@@ -172,6 +173,7 @@ public class BlockBounding extends MachineBaseBlock implements IHasTileEntity<Ti
         if (mainPos != null) {
             BlockState mainState = world.getBlockState(mainPos);
             mainState.getBlock().playerDestroy(world, player, mainPos, mainState, WorldUtils.getTileEntity(world, mainPos), stack);
+            SatisCraftory.LOGGER.warn("good !");
         } else {
             super.playerDestroy(world, player, pos, state, te, stack);
         }
@@ -298,7 +300,7 @@ public class BlockBounding extends MachineBaseBlock implements IHasTileEntity<Ti
         BlockPos mainPos = getMainBlockPos(world, pos);
         if (mainPos == null) {
             //If we don't have a main pos, then act as if the block is empty so that we can move into it properly
-            return Shapes.block();
+            return Shapes.empty();
              //TODO: fix incorrect shapes comming from the main tile because of null mainPos
         }
         BlockState mainState;
@@ -321,6 +323,7 @@ public class BlockBounding extends MachineBaseBlock implements IHasTileEntity<Ti
             }
         }
         VoxelShape shape = proxy.getShape(mainState, world, mainPos, context);
+        System.out.println("Shape: " + shape);
         BlockPos offset = pos.subtract(mainPos);
         //TODO: Can we somehow cache the withOffset? It potentially would have to then be moved into the Tile, but that is probably fine
         return shape.move(-offset.getX(), -offset.getY(), -offset.getZ());

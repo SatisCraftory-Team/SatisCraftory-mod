@@ -1,55 +1,41 @@
 package fr.vgtom4.satiscraftory.common.block.base;
 
+import fr.vgtom4.satiscraftory.SatisCraftory;
+import fr.vgtom4.satiscraftory.common.block.ConveyorStreamPartBlock;
+import fr.vgtom4.satiscraftory.common.block.MultiBlockUtil;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import fr.vgtom4.satiscraftory.common.interfaces.IHasTileEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
 import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.vgtom4.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
-import fr.vgtom4.satiscraftory.common.tileentity.base.TileEntityUpdatable;
+import fr.vgtom4.satiscraftory.utils.RelativeOrientationUtils;
 import fr.vgtom4.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Vec3i;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.common.util.Lazy;
-import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import java.util.stream.Stream;
 
 public abstract class MachineBaseBlock extends BaseEntityBlock {
 
     public static final BooleanProperty HAS_BOUNDING_BLOCKS = BooleanProperty.create("hasboundingblocks");
+    public static final BooleanProperty HAS_CONVEYOR_INPUT = BooleanProperty.create("hasconveyorinput");
+    public static final BooleanProperty HAS_CONVEYOR_OUTPUT = BooleanProperty.create("hasconveyoroutput");
 
     public MachineBaseBlock(Properties properties) {
         super(properties);
@@ -68,6 +54,13 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
         return super.getPistonPushReaction(state);
     }
 
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(HAS_BOUNDING_BLOCKS);
+        builder.add(HAS_CONVEYOR_OUTPUT);
+        builder.add(HAS_CONVEYOR_INPUT);
+    }
 
     @Override
     @Deprecated
@@ -86,9 +79,7 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
         MachineBaseTileEntity tile = WorldUtils.getTileEntity(MachineBaseTileEntity.class, world, pos);
 
         if (!state.is(newState.getBlock())) {
-                for (BlockPos bounding_blocks_po : tile.BOUNDING_BLOCKS_POS) {
-                    removeBoundingBlocks(world, pos, state);
-                }
+            removeBoundingBlocks(world, pos, state);
         }
 
         if (state.hasBlockEntity() && (!state.is(newState.getBlock()) || !newState.hasBlockEntity())) {
@@ -105,6 +96,12 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
         super.setPlacedBy(world, pos, state, placer, stack);
         if (state.getValue(this.HAS_BOUNDING_BLOCKS)) {
             placeBoundingBlocks(world, pos, state);
+        }
+        if(state.getValue(this.HAS_CONVEYOR_OUTPUT)) {
+            placeConveyorOutput(world, pos, state);
+        }
+        if(state.getValue(this.HAS_CONVEYOR_INPUT)) {
+            placeConveyorInput(world, pos, state);
         }
 
 
@@ -242,20 +239,44 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
 
 
 
-    public Stream<BlockPos> getPositions(Level level, BlockPos pos, BlockState state) {
+    public Stream<Vec3i> getBoundingPositions(Level level, BlockPos pos, BlockState state) {
         MachineBaseTileEntity tile = WorldUtils.getTileEntity(MachineBaseTileEntity.class, level, pos);
         if (tile != null) {
-            for (BlockPos bounding_blocks_po : tile.BOUNDING_BLOCKS_POS) {
-                System.out.println(bounding_blocks_po);
+            for (Vec3i bounding_blocks_pos : tile.BOUNDING_BLOCKS_POS) {
+                //System.out.println(bounding_blocks_pos);
             }
             return tile.BOUNDING_BLOCKS_POS.stream();
         }
         return Stream.empty();
     }
 
+    public Stream<BlockPos> getAbsoluteBoundingBlockPos(Level level, BlockPos pos, BlockState state) {
+        ArrayList<BlockPos> absolutBoundingBlockPos = new ArrayList<>();
+        getBoundingPositions(level, pos, state).forEach(bounding_blocks_pos -> {
+            absolutBoundingBlockPos.add(pos.offset(MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(bounding_blocks_pos,state.getValue(BlockStateProperties.HORIZONTAL_FACING))));
+        });
+        return absolutBoundingBlockPos.stream();
+    }
+
+    public Stream<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> getInputConveyorPositionsOrientations(Level level, BlockPos pos, BlockState state) {
+        MachineBaseTileEntity tile = WorldUtils.getTileEntity(MachineBaseTileEntity.class, level, pos);
+        if (tile != null) {
+            return tile.CONVEYOR_INPUT_POS_ORIENTATION.stream();
+        }
+        return Stream.empty();
+    }
+
+    public Stream<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> getOutputConveyorPositionsOrientations(Level level, BlockPos pos, BlockState state) {
+        MachineBaseTileEntity tile = WorldUtils.getTileEntity(MachineBaseTileEntity.class, level, pos);
+        if (tile != null) {
+            return tile.CONVEYOR_OUTPUT_POS_ORIENTATION.stream();
+        }
+        return Stream.empty();
+    }
+
 
     public void removeBoundingBlocks(Level level, BlockPos pos, BlockState state) {
-        getPositions(level, pos, state).forEach(p -> {
+        getAbsoluteBoundingBlockPos(level, pos, state).forEach(p -> {
             BlockState boundingState = level.getBlockState(p);
             if (!boundingState.isAir()) {
                 //The state might be air if we broke a bounding block first
@@ -270,7 +291,7 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
     }
 
     public void placeBoundingBlocks(Level level, BlockPos orig, BlockState state) {
-        getPositions(level, orig, state).forEach(boundingLocation -> {
+        getAbsoluteBoundingBlockPos(level, orig, state).forEach(boundingLocation -> {
             BlockBounding boundingBlock = BlockInit.BOUNDING_BLOCK.getBlock();
             BlockState newState = boundingBlock.defaultBlockState();
             level.setBlock(boundingLocation, newState, Block.UPDATE_ALL);
@@ -286,4 +307,27 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
         });
     }
 
+    private void placeConveyorOutput(Level world, BlockPos pos, BlockState state) {
+        getOutputConveyorPositionsOrientations(world, pos, state).forEach(tuple -> {
+            BlockPos conveyorOutputPos;
+            RelativeOrientationUtils.RelativeOrientation orientation = tuple.getB();
+            BlockState conveyorState = BlockInit.CONVEYOR_OUTPUT_PART.get().defaultBlockState();
+            Direction blockDirection = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+            conveyorState = conveyorState.setValue(ConveyorStreamPartBlock.FACING, RelativeOrientationUtils.getAbsoluteDirection(orientation, blockDirection));
+            conveyorOutputPos = pos.offset(MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(tuple.getA(),blockDirection));
+            world.setBlock(conveyorOutputPos, conveyorState, Block.UPDATE_ALL);
+        });
+    }
+
+    private void placeConveyorInput(Level world, BlockPos pos, BlockState state) {
+        getInputConveyorPositionsOrientations(world, pos, state).forEach(tuple -> {
+            BlockPos conveyorInputPos;
+            RelativeOrientationUtils.RelativeOrientation orientation = tuple.getB();
+            BlockState conveyorState = BlockInit.CONVEYOR_INPUT_PART.get().defaultBlockState();
+            Direction blockDirection = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+            conveyorState = conveyorState.setValue(ConveyorStreamPartBlock.FACING, RelativeOrientationUtils.getAbsoluteDirection(orientation, blockDirection));
+            conveyorInputPos = pos.offset(MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(tuple.getA(),blockDirection));
+            world.setBlock(conveyorInputPos, conveyorState, Block.UPDATE_ALL);
+        });
+    }
 }

@@ -5,10 +5,13 @@ import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.interfaces.IBoundingBlock;
 import fr.vgtom4.satiscraftory.common.network.packets.PacketUpdateTile;
 import fr.vgtom4.satiscraftory.utils.WorldUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +53,7 @@ public class TileEntityBoundingBlock extends MachineBaseTileEntity {
 
     public void onNeighborChange(Block block, BlockPos neighborPos) {
         if (!isRemote()) {
-            System.out.println("aaa");
+            //System.out.println("aaa");
         }
     }
     public boolean hasReceivedCoords() {
@@ -66,10 +69,33 @@ public class TileEntityBoundingBlock extends MachineBaseTileEntity {
 
     public void setMainLocation(BlockPos pos) {
         receivedCoords = pos != null;
+        mainPos = pos;
         if (!isRemote()) {
-            mainPos = pos;
             sendUpdatePacket();
         }
+    }
+
+    @Override
+    public CompoundTag getReducedUpdateTag() {
+        CompoundTag updateTag = super.getReducedUpdateTag();
+        int[] coords = new int[]{
+                mainPos.getX(),
+                mainPos.getY(),
+                mainPos.getZ()
+        };
+        updateTag.putIntArray("mainPos", coords);
+        updateTag.putBoolean("receivedCoords", receivedCoords);
+        return updateTag;
+    }
+
+    @Override
+    public void handleUpdateTag(@NotNull CompoundTag tag) {
+        receivedCoords = tag.getBoolean("receivedCoords");
+        int[] coords = tag.getIntArray("mainPos");
+        if (coords != null && coords.length == 3) {
+            setMainLocation(new BlockPos(coords[0], coords[1], coords[2]));
+        }
+        super.handleUpdateTag(tag);
     }
 
     public void sendUpdatePacket() {

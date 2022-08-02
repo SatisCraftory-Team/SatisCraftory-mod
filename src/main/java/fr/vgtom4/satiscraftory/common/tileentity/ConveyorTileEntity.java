@@ -141,4 +141,6 @@ public class ConveyorTileEntity extends MachineBaseTileEntity implements IItemSt
             setOutput((IItemInputable) WorldUtils.getTileEntity(level, posForOutputConnection));
         }
     }
+
+
 }

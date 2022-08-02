@@ -5,10 +5,13 @@ import fr.vgtom4.satiscraftory.common.init.ItemInit;
 import fr.vgtom4.satiscraftory.client.screen.MinerMk1Menu;
 import fr.vgtom4.satiscraftory.common.interfaces.IBoundingBlock;
 import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
+import fr.vgtom4.satiscraftory.utils.RelativeOrientationUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -37,10 +40,38 @@ import javax.annotation.Nonnull;
 
 public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuProvider, IAnimatable, IBoundingBlock {
 
-    public MinerMk1BlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-        super(TileEntityInit.MINER_MK1_BLOCK_ENTITY, pWorldPosition, pBlockState);
+    public MinerMk1BlockEntity(BlockPos blockPos, BlockState blockState) {
+        super(TileEntityInit.MINER_MK1_BLOCK_ENTITY, blockPos, blockState);
 
-        this.BOUNDING_BLOCKS_POS.add(pWorldPosition.above().north(1));
+        this.CONVEYOR_OUTPUT_POS_ORIENTATION.add(new Tuple<>(new Vec3i(0,0,3), RelativeOrientationUtils.RelativeOrientation.FRONT));
+        for (int x = -1; x <= 1; x++) {
+            for (int y = 0; y <= 6; y++) {
+                for (int z = -1; z <= 3; z++) {
+                    Vec3i pos = new Vec3i(x, y, z);
+                    if (x == 0 && y == 0 && z == 0) {
+                        continue;
+                    }
+                    boolean shouldNotAdd = false;
+                    for (Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation> tuple : CONVEYOR_OUTPUT_POS_ORIENTATION) {
+                        if(tuple.getA().equals(pos)) {
+                            shouldNotAdd = true;
+                            break;
+                        }
+                    }
+                    for (Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation> tuple : CONVEYOR_INPUT_POS_ORIENTATION) {
+                        if(tuple.getA().equals(pos)) {
+                            shouldNotAdd = true;
+                            break;
+                        }
+                    }
+                    if(shouldNotAdd) {
+                        continue;
+                    }
+                    this.BOUNDING_BLOCKS_POS.add(pos);
+                }
+            }
+        }
+
     }
 
     private final ItemStackHandler itemHandler = new ItemStackHandler(4) {

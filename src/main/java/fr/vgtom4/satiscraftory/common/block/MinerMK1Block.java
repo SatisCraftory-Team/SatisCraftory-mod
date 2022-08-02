@@ -99,7 +99,7 @@ public class MinerMK1Block extends MachineBaseBlock implements IHasTickableTileE
 
     @Override
     public VoxelShape getCollisionShape(BlockState blockState, BlockGetter worldIn, BlockPos blockPos, CollisionContext context) {
-        return SHAPE.orElse(Shapes.block());
+        return SHAPES.get(blockState.getValue(FACING));
     }
 
 
@@ -114,7 +114,6 @@ public class MinerMK1Block extends MachineBaseBlock implements IHasTickableTileE
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(FACING);
-        builder.add(HAS_BOUNDING_BLOCKS);
     }
 
     @Override
