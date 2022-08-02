@@ -1,9 +1,9 @@
 {
-	"credit": "Made with Blockbench",
+	"credit": "Made with Blockbench by vgtom4",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "satiscraftory:block/texture_iron_deposit",
-		"particle": "satiscraftory:block/texture_iron_deposit"
+		"0": "satiscraftory:ressources/copper_deposit",
+		"particle": "satiscraftory:ressources/copper_deposit"
 	},
 	"elements": [
 		{

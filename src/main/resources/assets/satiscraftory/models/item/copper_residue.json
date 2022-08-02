@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench by vgtom4",
 	"texture_size": [32, 16],
 	"textures": {
-		"2": "satiscraftory:ressources/iron_residue"
+		"2": "satiscraftory:ressources/copper_residue"
 	},
 	"elements": [
 		{
@@ -398,12 +398,16 @@
 			"name": "stone",
 			"origin": [8, 8, 8],
 			"color": 0,
+			"nbt": "{}",
+			"armAnimationEnabled": false,
 			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 		},
 		{
 			"name": "group",
 			"origin": [8, 8, 8],
 			"color": 0,
+			"nbt": "{}",
+			"armAnimationEnabled": false,
 			"children": [21, 22, 23, 24, 25, 26]
 		}
 	]

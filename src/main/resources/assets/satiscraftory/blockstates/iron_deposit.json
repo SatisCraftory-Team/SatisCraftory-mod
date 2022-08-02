@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "satiscraftory:block/iron_deposit"
+      "model": "satiscraftory:ressources/iron_deposit"
     }
   }
 }

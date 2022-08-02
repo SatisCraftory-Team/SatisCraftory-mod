@@ -42,6 +42,7 @@ public class BlockInit {
 
 
     public static final RegistryObject<Block> IRON_DEPOSIT = register("iron_deposit", () -> new Block(BlockBehaviour.Properties.of(Material.STONE)));
+    public static final RegistryObject<Block> COPPER_DEPOSIT = register("copper_deposit", () -> new Block(BlockBehaviour.Properties.of(Material.STONE)));
 
     // Building
     public static final RegistryObject<Block> FOUNDATION_2M = register("foundation_2m", () -> new Foundations(BlockBehaviour.Properties.of(Material.METAL)));
