@@ -5,7 +5,6 @@ import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.interfaces.IBoundingBlock;
 import fr.vgtom4.satiscraftory.common.network.packets.PacketUpdateTile;
 import fr.vgtom4.satiscraftory.utils.WorldUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Block;

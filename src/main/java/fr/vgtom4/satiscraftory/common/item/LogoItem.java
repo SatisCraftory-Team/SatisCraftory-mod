@@ -1,6 +1,5 @@
 package fr.vgtom4.satiscraftory.common.item;
 
-import fr.vgtom4.satiscraftory.client.renderer.items.EliocubeItemRenderer;
 import fr.vgtom4.satiscraftory.client.renderer.items.LogoItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;

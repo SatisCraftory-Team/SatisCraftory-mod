@@ -16,8 +16,6 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 public class WorldUtils {
 

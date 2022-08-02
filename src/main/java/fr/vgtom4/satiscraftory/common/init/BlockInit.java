@@ -2,12 +2,12 @@ package fr.vgtom4.satiscraftory.common.init;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
 import fr.vgtom4.satiscraftory.common.block.*;
-import fr.vgtom4.satiscraftory.common.tileentity.ConveyorTileEntity;
-import fr.vgtom4.satiscraftory.common.tileentity.ConveyorInputPartBlockEntity;
-import fr.vgtom4.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
 import fr.vgtom4.satiscraftory.common.block.base.BlockBounding;
 import fr.vgtom4.satiscraftory.common.builder.BlockBuilder;
 import fr.vgtom4.satiscraftory.common.registry.BlockRegistryObject;
+import fr.vgtom4.satiscraftory.common.tileentity.ConveyorInputPartBlockEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.ConveyorTileEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;

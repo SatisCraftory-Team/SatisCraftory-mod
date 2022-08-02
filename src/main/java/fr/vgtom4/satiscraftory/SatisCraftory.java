@@ -1,38 +1,25 @@
 package fr.vgtom4.satiscraftory;
 
 import fr.vgtom4.satiscraftory.client.renderer.blocks.ConveyorRenderer;
-import fr.vgtom4.satiscraftory.common.block.PaleBerryBushBlock;
-import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
+import fr.vgtom4.satiscraftory.client.screen.MinerMk1Screen;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import fr.vgtom4.satiscraftory.common.init.ItemInit;
 import fr.vgtom4.satiscraftory.common.init.MenuTypesInit;
-import fr.vgtom4.satiscraftory.client.screen.MinerMk1Screen;
+import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.network.PacketHandler;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.core.Holder;
-import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SweetBerryBushBlock;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import software.bernie.geckolib3.GeckoLib;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.List;
+import software.bernie.geckolib3.GeckoLib;
 
 @Mod(SatisCraftory.MODID)
 public class SatisCraftory {

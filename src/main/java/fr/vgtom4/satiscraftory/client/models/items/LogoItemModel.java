@@ -1,7 +1,6 @@
 package fr.vgtom4.satiscraftory.client.models.items;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
-import fr.vgtom4.satiscraftory.common.item.EliocubeItem;
 import fr.vgtom4.satiscraftory.common.item.LogoItem;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;

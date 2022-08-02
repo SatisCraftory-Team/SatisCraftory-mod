@@ -1,15 +1,11 @@
 package fr.vgtom4.satiscraftory.common.tileentity.base;
 
-import fr.vgtom4.satiscraftory.common.interfaces.IHasTileEntity;
 import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.vgtom4.satiscraftory.utils.RelativeOrientationUtils;
-import joptsimple.util.KeyValuePair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.compress.utils.Lists;
 

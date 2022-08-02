@@ -3,7 +3,6 @@ package fr.vgtom4.satiscraftory.common.interfaces;
 import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;

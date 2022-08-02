@@ -1,10 +1,10 @@
 package fr.vgtom4.satiscraftory.client.screen;
 
+import fr.vgtom4.satiscraftory.client.screen.slot.RestrictedSlot;
 import fr.vgtom4.satiscraftory.client.screen.slot.ResultSlotInit;
-import fr.vgtom4.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import fr.vgtom4.satiscraftory.common.init.MenuTypesInit;
-import fr.vgtom4.satiscraftory.client.screen.slot.RestrictedSlot;
+import fr.vgtom4.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-import static fr.vgtom4.satiscraftory.common.init.ItemInit.*;
+import static fr.vgtom4.satiscraftory.common.init.ItemInit.POWER_SHARD;
 
 public class MinerMk1Menu extends AbstractContainerMenu {
     private final MinerMk1BlockEntity blockEntity;

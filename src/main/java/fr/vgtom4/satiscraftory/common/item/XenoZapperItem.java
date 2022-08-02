@@ -6,8 +6,6 @@ import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 
 public class XenoZapperItem extends Item {
     public XenoZapperItem(Properties properties) {

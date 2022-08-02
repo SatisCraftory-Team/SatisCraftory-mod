@@ -1,10 +1,9 @@
 package fr.vgtom4.satiscraftory.common.init;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
+import fr.vgtom4.satiscraftory.common.item.EliocubeItem;
 import fr.vgtom4.satiscraftory.common.item.LogoItem;
 import fr.vgtom4.satiscraftory.common.item.XenoZapperItem;
-import fr.vgtom4.satiscraftory.common.item.EliocubeItem;
-import fr.vgtom4.satiscraftory.common.item.MinerMk1Item;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

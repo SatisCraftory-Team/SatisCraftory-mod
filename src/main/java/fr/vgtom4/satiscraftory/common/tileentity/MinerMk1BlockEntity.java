@@ -1,8 +1,8 @@
 package fr.vgtom4.satiscraftory.common.tileentity;
 
-import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
-import fr.vgtom4.satiscraftory.common.init.ItemInit;
 import fr.vgtom4.satiscraftory.client.screen.MinerMk1Menu;
+import fr.vgtom4.satiscraftory.common.init.ItemInit;
+import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.interfaces.IBoundingBlock;
 import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.vgtom4.satiscraftory.utils.RelativeOrientationUtils;

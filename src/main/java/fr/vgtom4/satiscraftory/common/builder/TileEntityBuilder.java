@@ -1,7 +1,7 @@
 package fr.vgtom4.satiscraftory.common.builder;
 
-import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.vgtom4.satiscraftory.common.registry.BlockRegistryObject;
+import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;

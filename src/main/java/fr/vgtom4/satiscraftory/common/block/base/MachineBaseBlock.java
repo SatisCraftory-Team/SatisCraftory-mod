@@ -1,11 +1,9 @@
 package fr.vgtom4.satiscraftory.common.block.base;
 
-import fr.vgtom4.satiscraftory.SatisCraftory;
 import fr.vgtom4.satiscraftory.common.block.ConveyorStreamPartBlock;
 import fr.vgtom4.satiscraftory.common.block.MultiBlockUtil;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import fr.vgtom4.satiscraftory.common.interfaces.IHasTileEntity;
-import fr.vgtom4.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
 import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.vgtom4.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
 import fr.vgtom4.satiscraftory.utils.RelativeOrientationUtils;

@@ -1,9 +1,9 @@
 package fr.vgtom4.satiscraftory.common.init;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
-import fr.vgtom4.satiscraftory.common.tileentity.*;
 import fr.vgtom4.satiscraftory.common.builder.TileEntityBuilder;
 import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
+import fr.vgtom4.satiscraftory.common.tileentity.*;
 import fr.vgtom4.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
