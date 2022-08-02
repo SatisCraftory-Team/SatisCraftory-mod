@@ -301,7 +301,6 @@ public class BlockBounding extends MachineBaseBlock implements IHasTileEntity<Ti
         if (mainPos == null) {
             //If we don't have a main pos, then act as if the block is empty so that we can move into it properly
             return Shapes.empty();
-             //TODO: fix incorrect shapes comming from the main tile because of null mainPos
         }
         BlockState mainState;
         try {
@@ -323,7 +322,6 @@ public class BlockBounding extends MachineBaseBlock implements IHasTileEntity<Ti
             }
         }
         VoxelShape shape = proxy.getShape(mainState, world, mainPos, context);
-        System.out.println("Shape: " + shape);
         BlockPos offset = pos.subtract(mainPos);
         //TODO: Can we somehow cache the withOffset? It potentially would have to then be moved into the Tile, but that is probably fine
         return shape.move(-offset.getX(), -offset.getY(), -offset.getZ());
