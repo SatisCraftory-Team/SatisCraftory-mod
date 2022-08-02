@@ -37,9 +37,8 @@ public class TileEntityInit {
 
     public static final TileEntityRegistryObject<TileEntityBoundingBlock> BOUNDING_BLOCK = TILE_ENTITY_TYPES.builder(BlockInit.BOUNDING_BLOCK, TileEntityBoundingBlock::new).build();
 
-    public static final TileEntityRegistryObject<MinerMk1BlockEntity> MINER_MK1_BLOCK_ENTITY = TILE_ENTITY_TYPES.builder(BlockInit.MINER_MK1, MinerMk1BlockEntity::new).build();
 
-//    public static final RegistryObject<BlockEntityType<MinerMk1BlockEntity>> MINER_MK1_BLOCK_ENTITY = BLOCK_ENTITIES.register("miner_mk1_block_entity",
+    //    public static final RegistryObject<BlockEntityType<MinerMk1BlockEntity>> MINER_MK1_BLOCK_ENTITY = BLOCK_ENTITIES.register("miner_mk1_block_entity",
 //            () -> BlockEntityType.Builder.of(MinerMk1BlockEntity::new,
 //                    BlockInit.MINER_MK1.get()).build(null));
     public static final TileEntityRegistryObject<MinerMk1BlockEntity> MINER_MK1_BLOCK_ENTITY = TILE_ENTITY_TYPES.register(BlockInit.MINER_MK1, MinerMk1BlockEntity::new);
