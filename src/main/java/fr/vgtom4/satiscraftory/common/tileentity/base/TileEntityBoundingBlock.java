@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
 
-public class TileEntityBoundingBlock extends MachineBaseTileEntity {
+public class TileEntityBoundingBlock extends TileEntityUpdatable {
 
     private BlockPos mainPos = BlockPos.ZERO;
 

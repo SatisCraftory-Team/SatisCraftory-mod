@@ -7,6 +7,7 @@ import fr.vgtom4.satiscraftory.common.init.ItemInit;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.network.packets.PacketUpdateConveyor;
 import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.base.TickableTileEntity;
 import fr.vgtom4.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,7 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ConveyorTileEntity extends MachineBaseTileEntity implements IItemStreamable {
+public class ConveyorTileEntity extends TickableTileEntity implements IItemStreamable {
 
     public static final int itemPerConveyor = 2;
 
@@ -53,7 +54,7 @@ public class ConveyorTileEntity extends MachineBaseTileEntity implements IItemSt
     private int tickCounter = 0;
 
     @Override
-    public void onServerTick(Level level, BlockPos pos, BlockState state, MachineBaseTileEntity tile) {
+    public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
         tickCounter++;
         if(tickCounter >= 20f * (itemPerMin/60)){
             tickCounter = 0;
@@ -70,7 +71,7 @@ public class ConveyorTileEntity extends MachineBaseTileEntity implements IItemSt
     }
 
     @Override
-    public void onClientTick(Level level, BlockPos pos, BlockState state, MachineBaseTileEntity tile) {
+    public void onClientTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
         tickCounter++;
         if(tickCounter >= 20f * (itemPerMin/60)) {
             tickCounter = 0;
@@ -133,11 +134,11 @@ public class ConveyorTileEntity extends MachineBaseTileEntity implements IItemSt
         BlockPos posForInputConnection = blockPos.offset(inputConnectionPos);
         BlockPos posForOutputConnection = blockPos.offset(outputConnectionPos);
 
-        if(WorldUtils.getTileEntity(level, posForInputConnection) instanceof IItemStreamable){
+        if(WorldUtils.getTileEntity(level, posForInputConnection) instanceof IItemOutputable){
             ((IItemOutputable) WorldUtils.getTileEntity(level, posForInputConnection)).setOutput(this);
         }
 
-        if(WorldUtils.getTileEntity(level, posForOutputConnection) instanceof IItemStreamable){
+        if(WorldUtils.getTileEntity(level, posForOutputConnection) instanceof IItemInputable){
             setOutput((IItemInputable) WorldUtils.getTileEntity(level, posForOutputConnection));
         }
     }

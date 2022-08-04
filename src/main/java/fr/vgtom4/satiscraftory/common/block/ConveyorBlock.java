@@ -5,6 +5,7 @@ import fr.vgtom4.satiscraftory.common.interfaces.IHasMultipleTickableTileEntity;
 import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.vgtom4.satiscraftory.common.tileentity.ConveyorTileEntity;
 import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.base.TickableTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -58,7 +59,7 @@ public class ConveyorBlock extends BlockDelayedBlockEntity<ConveyorTileEntity> i
     }
 
     @Override
-    public List<TileEntityRegistryObject<? extends MachineBaseTileEntity>> getTilesTypes() {
+    public List<TileEntityRegistryObject<? extends TickableTileEntity>> getTilesTypes() {
         return new ArrayList<>(){
             {
                 add(TileEntityInit.CONVEYOR);
