@@ -2,7 +2,7 @@ package fr.vgtom4.satiscraftory.client.renderer.blocks;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
-import fr.vgtom4.satiscraftory.common.block.ConveyorBlock;
+import fr.vgtom4.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorBlock;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.tileentity.ConveyorTileEntity;
 import net.minecraft.client.renderer.MultiBufferSource;

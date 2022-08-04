@@ -1,4 +1,4 @@
-package fr.vgtom4.satiscraftory.common.block;
+package fr.vgtom4.satiscraftory.common.block.buildings.miners;
 
 import fr.vgtom4.satiscraftory.common.block.base.MachineBaseBlock;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;

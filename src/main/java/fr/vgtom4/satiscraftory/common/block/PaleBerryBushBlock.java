@@ -32,53 +32,53 @@ public class PaleBerryBushBlock extends BushBlock implements BonemealableBlock {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
     private static final VoxelShape SAPLING_SHAPE = Block.box(3.0, 0.0, 3.0, 13.0, 8.0, 13.0);
 
-    public PaleBerryBushBlock(Properties p_51021_) {
-        super(p_51021_);
+    public PaleBerryBushBlock(Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 3));
     }
 
-    public ItemStack getCloneItemStack(BlockGetter p_57256_, BlockPos p_57257_, BlockState p_57258_) {
+    public ItemStack getCloneItemStack(BlockGetter blockGetter, BlockPos blockPos, BlockState blockState) {
         return new ItemStack(ItemInit.PALEBERRY.get());
     }
 
-    public VoxelShape getShape(BlockState p_57291_, BlockGetter p_57292_, BlockPos p_57293_, CollisionContext p_57294_) {
-        if (p_57291_.getValue(AGE) == 0) {
+    public VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
+        if (blockState.getValue(AGE) == 0) {
             return SAPLING_SHAPE;
         } else {
-            return super.getShape(p_57291_, p_57292_, p_57293_, p_57294_);
+            return super.getShape(blockState, blockGetter, blockPos, collisionContext);
         }
     }
 
-    public boolean isRandomlyTicking(BlockState p_57284_) {
-        return p_57284_.getValue(AGE) < 3;
+    public boolean isRandomlyTicking(BlockState blockState) {
+        return blockState.getValue(AGE) < 3;
     }
 
-    public void randomTick(BlockState p_222563_, ServerLevel p_222564_, BlockPos p_222565_, RandomSource p_222566_) {
-        int i = p_222563_.getValue(AGE);
-        if (i < 3 && p_222564_.getRawBrightness(p_222565_.above(), 0) >= 9 && ForgeHooks.onCropsGrowPre(p_222564_, p_222565_, p_222563_, p_222566_.nextInt(5) == 0)) {
-            BlockState blockstate = p_222563_.setValue(AGE, i + 1);
-            p_222564_.setBlock(p_222565_, blockstate, 2);
-            p_222564_.gameEvent(GameEvent.BLOCK_CHANGE, p_222565_, GameEvent.Context.of(blockstate));
-            ForgeHooks.onCropsGrowPost(p_222564_, p_222565_, p_222563_);
+    public void randomTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
+        int i = blockState.getValue(AGE);
+        if (i < 3 && serverLevel.getRawBrightness(blockPos.above(), 0) >= 9 && ForgeHooks.onCropsGrowPre(serverLevel, blockPos, blockState, randomSource.nextInt(5) == 0)) {
+            BlockState blockstate = blockState.setValue(AGE, i + 1);
+            serverLevel.setBlock(blockPos, blockstate, 2);
+            serverLevel.gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(blockstate));
+            ForgeHooks.onCropsGrowPost(serverLevel, blockPos, blockState);
         }
 
     }
 
-    public InteractionResult use(BlockState p_57275_, Level p_57276_, BlockPos p_57277_, Player p_57278_, InteractionHand p_57279_, BlockHitResult p_57280_) {
-        int i = p_57275_.getValue(AGE);
+    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+        int i = blockState.getValue(AGE);
         boolean flag = i == 3;
-        if (!flag && p_57278_.getItemInHand(p_57279_).is(Items.BONE_MEAL)) {
+        if (!flag && player.getItemInHand(interactionHand).is(Items.BONE_MEAL)) {
             return InteractionResult.PASS;
         } else if (i > 1) {
-            int j = 1 + p_57276_.random.nextInt(2);
-            popResource(p_57276_, p_57277_, new ItemStack(ItemInit.PALEBERRY.get(), j + (flag ? 1 : 0)));
-            p_57276_.playSound(null, p_57277_, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + p_57276_.random.nextFloat() * 0.4F);
-            BlockState blockstate = p_57275_.setValue(AGE, 1);
-            p_57276_.setBlock(p_57277_, blockstate, 2);
-            p_57276_.gameEvent(GameEvent.BLOCK_CHANGE, p_57277_, GameEvent.Context.of(p_57278_, blockstate));
-            return InteractionResult.sidedSuccess(p_57276_.isClientSide);
+            int j = 1 + level.random.nextInt(2);
+            popResource(level, blockPos, new ItemStack(ItemInit.PALEBERRY.get(), j + (flag ? 1 : 0)));
+            level.playSound(null, blockPos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
+            BlockState blockstate = blockState.setValue(AGE, 1);
+            level.setBlock(blockPos, blockstate, 2);
+            level.gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(player, blockstate));
+            return InteractionResult.sidedSuccess(level.isClientSide);
         } else {
-            return super.use(p_57275_, p_57276_, p_57277_, p_57278_, p_57279_, p_57280_);
+            return super.use(blockState, level, blockPos, player, interactionHand, blockHitResult);
         }
     }
 

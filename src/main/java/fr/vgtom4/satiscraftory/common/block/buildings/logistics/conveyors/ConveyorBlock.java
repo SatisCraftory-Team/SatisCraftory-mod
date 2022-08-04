@@ -1,15 +1,16 @@
-package fr.vgtom4.satiscraftory.common.block;
+package fr.vgtom4.satiscraftory.common.block.buildings.logistics.conveyors;
 
+import fr.vgtom4.satiscraftory.common.block.BlockDelayedBlockEntity;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.interfaces.IHasMultipleTickableTileEntity;
 import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
-import fr.vgtom4.satiscraftory.common.tileentity.ConveyorStreamPartBlockEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.ConveyorTileEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.vgtom4.satiscraftory.common.tileentity.base.TickableTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -19,15 +20,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class ConveyorStreamPartBlock<T extends BlockEntity> extends BlockDelayedBlockEntity<T> implements IHasMultipleTickableTileEntity {
+public class ConveyorBlock extends BlockDelayedBlockEntity<ConveyorTileEntity> implements IHasMultipleTickableTileEntity {
 
-    public ConveyorStreamPartBlock(Properties properties, BiFunction<BlockPos,BlockState,T> blockEntityFactory) {
+    public ConveyorBlock(Properties properties, BiFunction<BlockPos, BlockState, ConveyorTileEntity> blockEntityFactory) {
         super(properties, blockEntityFactory);
         registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
     }
@@ -47,35 +48,23 @@ public class ConveyorStreamPartBlock<T extends BlockEntity> extends BlockDelayed
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
     }
 
     @Override
-    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
-        if(player.isCrouching()){
-            return InteractionResult.PASS;
+    public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity livingEntity, ItemStack itemStack) {
+        BlockEntity be = level.getBlockEntity(blockPos);
+        if (be instanceof ConveyorTileEntity) {
+            ((ConveyorTileEntity) be).onPlaced(level, blockPos, blockState);
         }
-
-        if(blockHitResult.getDirection() == blockState.getValue(FACING)){
-            //todo: check if player is holding conveyor
-            return InteractionResult.PASS;
-        }
-
-        BlockEntity blockEntity = level.getBlockEntity(blockPos);
-        if(blockEntity instanceof ConveyorStreamPartBlockEntity){
-            ((ConveyorStreamPartBlockEntity)blockEntity).onUse(blockState, level, blockPos, player, interactionHand, blockHitResult);
-        }
-
-        return InteractionResult.SUCCESS;
     }
-
 
     @Override
     public List<TileEntityRegistryObject<? extends TickableTileEntity>> getTilesTypes() {
         return new ArrayList<>(){
             {
-                add(TileEntityInit.CONVEYOR_INPUT_PART_ENTITY);
-                add(TileEntityInit.CONVEYOR_OUTPUT_PART_ENTITY);
+                add(TileEntityInit.CONVEYOR);
+                add(TileEntityInit.CONVEYOR_FULL);
             }
         };
     }

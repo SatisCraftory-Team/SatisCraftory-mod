@@ -3,6 +3,10 @@ package fr.vgtom4.satiscraftory.common.init;
 import fr.vgtom4.satiscraftory.SatisCraftory;
 import fr.vgtom4.satiscraftory.common.block.*;
 import fr.vgtom4.satiscraftory.common.block.base.BlockBounding;
+import fr.vgtom4.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorBlock;
+import fr.vgtom4.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
+import fr.vgtom4.satiscraftory.common.block.buildings.miners.MinerMK1Block;
+import fr.vgtom4.satiscraftory.common.block.examplesTest.EliocubeBlock;
 import fr.vgtom4.satiscraftory.common.builder.BlockBuilder;
 import fr.vgtom4.satiscraftory.common.registry.BlockRegistryObject;
 import fr.vgtom4.satiscraftory.common.tileentity.ConveyorInputPartBlockEntity;
@@ -35,7 +39,7 @@ public class BlockInit {
     // ------------ Block with item ------------
 
     public static final RegistryObject<Block> CURVED_CONVEYOR = register("curved_conveyor", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
-    public static final RegistryObject<Block> CONVEYOR_MERGER = register("conveyor_merger", () -> new ConveyorMerger(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
+    public static final RegistryObject<Block> CONVEYOR_MERGER = register("conveyor_merger", () -> new fr.vgtom4.satiscraftory.common.block.logistics.sorting.ConveyorMerger(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
     public static final RegistryObject<Block> MANU = register("manu", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), new Item.Properties().tab(SatisCraftory.TAB));
 
 

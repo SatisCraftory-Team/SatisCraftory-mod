@@ -1,8 +1,8 @@
 package fr.vgtom4.satiscraftory.common.tileentity;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
-import fr.vgtom4.satiscraftory.common.block.ConveyorBlock;
 import fr.vgtom4.satiscraftory.common.block.MultiBlockUtil;
+import fr.vgtom4.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorBlock;
 import fr.vgtom4.satiscraftory.common.init.ItemInit;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.network.packets.PacketUpdateConveyor;

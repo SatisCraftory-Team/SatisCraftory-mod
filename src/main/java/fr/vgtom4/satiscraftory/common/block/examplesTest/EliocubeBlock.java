@@ -1,4 +1,4 @@
-package fr.vgtom4.satiscraftory.common.block;
+package fr.vgtom4.satiscraftory.common.block.examplesTest;
 
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import net.minecraft.core.BlockPos;

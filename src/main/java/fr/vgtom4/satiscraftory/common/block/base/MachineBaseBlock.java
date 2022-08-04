@@ -1,6 +1,6 @@
 package fr.vgtom4.satiscraftory.common.block.base;
 
-import fr.vgtom4.satiscraftory.common.block.ConveyorStreamPartBlock;
+import fr.vgtom4.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
 import fr.vgtom4.satiscraftory.common.block.MultiBlockUtil;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import fr.vgtom4.satiscraftory.common.interfaces.IHasTileEntity;
