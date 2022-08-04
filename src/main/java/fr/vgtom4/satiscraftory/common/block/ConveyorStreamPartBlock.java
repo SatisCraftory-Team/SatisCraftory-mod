@@ -1,6 +1,10 @@
 package fr.vgtom4.satiscraftory.common.block;
 
+import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
+import fr.vgtom4.satiscraftory.common.interfaces.IHasMultipleTickableTileEntity;
+import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.vgtom4.satiscraftory.common.tileentity.ConveyorStreamPartBlockEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.base.TickableTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -17,9 +21,11 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
 
-public class ConveyorStreamPartBlock<T extends BlockEntity> extends BlockDelayedBlockEntity<T> {
+public class ConveyorStreamPartBlock<T extends BlockEntity> extends BlockDelayedBlockEntity<T> implements IHasMultipleTickableTileEntity {
 
     public ConveyorStreamPartBlock(Properties properties, BiFunction<BlockPos,BlockState,T> blockEntityFactory) {
         super(properties, blockEntityFactory);
@@ -64,4 +70,13 @@ public class ConveyorStreamPartBlock<T extends BlockEntity> extends BlockDelayed
     }
 
 
+    @Override
+    public List<TileEntityRegistryObject<? extends TickableTileEntity>> getTilesTypes() {
+        return new ArrayList<>(){
+            {
+                add(TileEntityInit.CONVEYOR_INPUT_PART_ENTITY);
+                add(TileEntityInit.CONVEYOR_OUTPUT_PART_ENTITY);
+            }
+        };
+    }
 }

@@ -7,12 +7,13 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.items.ItemStackHandler;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.ArrayList;
 
 //TODO: implement here capabilities
-public abstract class MachineBaseTileEntity extends TileEntityUpdatable {
+public abstract class MachineBaseTileEntity extends TickableTileEntity {
 
     public final ArrayList<Vec3i> BOUNDING_BLOCKS_POS = Lists.newArrayList();
     public final ArrayList<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> CONVEYOR_INPUT_POS_ORIENTATION = Lists.newArrayList();
@@ -27,20 +28,6 @@ public abstract class MachineBaseTileEntity extends TileEntityUpdatable {
         super(type, pos, state);
     }
 
-    public static void tickClient(Level level, BlockPos pos, BlockState state, MachineBaseTileEntity tile) {
-        tile.onClientTick(level, pos, state, tile);
-    }
-
-    public static void tickServer(Level level, BlockPos pos, BlockState state, MachineBaseTileEntity tile) {
-        tile.onServerTick(level, pos, state, tile);
-    }
-
-    public void onClientTick(Level level, BlockPos pos, BlockState state, MachineBaseTileEntity tile){
-
-    }
-
-    public void onServerTick(Level level, BlockPos pos, BlockState state, MachineBaseTileEntity tile){
-
-    }
-
+    public abstract ItemStackHandler getOutputInventory();
+    public abstract ItemStackHandler getInputInventory();
 }

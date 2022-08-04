@@ -5,6 +5,7 @@ import fr.vgtom4.satiscraftory.common.init.ItemInit;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
 import fr.vgtom4.satiscraftory.common.interfaces.IBoundingBlock;
 import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.base.TickableTileEntity;
 import fr.vgtom4.satiscraftory.utils.RelativeOrientationUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -138,12 +139,8 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
 
-    public static void tick(Level pLevel, BlockPos pPos, BlockState pState, MinerMk1BlockEntity pBlockEntity) {
-
-    }
-
     @Override
-    public void onServerTick(Level level, BlockPos pos, BlockState state, MachineBaseTileEntity tile) {
+    public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
         if(hasRecipe() && hasNotReachedStackLimit()) {
             craftItem();
         }
@@ -191,6 +188,16 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
     @Override
     public AnimationFactory getFactory() {
         return this.factory;
+    }
+
+    @Override
+    public ItemStackHandler getOutputInventory() {
+        return itemHandler;
+    }
+
+    @Override
+    public ItemStackHandler getInputInventory() {
+        return null;
     }
 
 

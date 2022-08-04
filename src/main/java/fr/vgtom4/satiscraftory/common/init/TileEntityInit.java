@@ -26,18 +26,11 @@ public class TileEntityInit {
             () -> BlockEntityType.Builder.of(LogoBlockEntity::new,
                     BlockInit.LOGO.get()).build(null));
 
-    public static final RegistryObject<BlockEntityType<ConveyorInputPartBlockEntity>> CONVEYOR_INPUT_PART_ENTITY = BLOCK_ENTITIES.register("conveyor_input_part_entity",
-            () -> BlockEntityType.Builder.of(ConveyorInputPartBlockEntity::new,
-                    BlockInit.CONVEYOR_INPUT_PART.get()).build(null));
-
-    public static final RegistryObject<BlockEntityType<ConveyorOutputPartBlockEntity>> CONVEYOR_OUTPUT_PART_ENTITY = BLOCK_ENTITIES.register("conveyor_output_part_entity",
-            () -> BlockEntityType.Builder.of(ConveyorOutputPartBlockEntity::new,
-                    BlockInit.CONVEYOR_OUTPUT_PART.get()).build(null));
-
 
     public static final TileEntityRegistryObject<TileEntityBoundingBlock> BOUNDING_BLOCK = TILE_ENTITY_TYPES.builder(BlockInit.BOUNDING_BLOCK, TileEntityBoundingBlock::new).build();
 
-
+    public static final TileEntityRegistryObject<ConveyorOutputPartBlockEntity> CONVEYOR_OUTPUT_PART_ENTITY = TILE_ENTITY_TYPES.register(BlockInit.CONVEYOR_OUTPUT_PART, ConveyorOutputPartBlockEntity::new);
+    public static final TileEntityRegistryObject<ConveyorOutputPartBlockEntity> CONVEYOR_INPUT_PART_ENTITY = TILE_ENTITY_TYPES.register(BlockInit.CONVEYOR_INPUT_PART, ConveyorOutputPartBlockEntity::new);
     //    public static final RegistryObject<BlockEntityType<MinerMk1BlockEntity>> MINER_MK1_BLOCK_ENTITY = BLOCK_ENTITIES.register("miner_mk1_block_entity",
 //            () -> BlockEntityType.Builder.of(MinerMk1BlockEntity::new,
 //                    BlockInit.MINER_MK1.get()).build(null));

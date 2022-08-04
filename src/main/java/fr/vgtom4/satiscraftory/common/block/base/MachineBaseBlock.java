@@ -4,6 +4,7 @@ import fr.vgtom4.satiscraftory.common.block.ConveyorStreamPartBlock;
 import fr.vgtom4.satiscraftory.common.block.MultiBlockUtil;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import fr.vgtom4.satiscraftory.common.interfaces.IHasTileEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
 import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.vgtom4.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
 import fr.vgtom4.satiscraftory.utils.RelativeOrientationUtils;
@@ -306,14 +307,17 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
     }
 
     private void placeConveyorOutput(Level world, BlockPos pos, BlockState state) {
+        MachineBaseTileEntity tile = WorldUtils.getTileEntity(MachineBaseTileEntity.class, world, pos);
         getOutputConveyorPositionsOrientations(world, pos, state).forEach(tuple -> {
             BlockPos conveyorOutputPos;
             RelativeOrientationUtils.RelativeOrientation orientation = tuple.getB();
-            BlockState conveyorState = BlockInit.CONVEYOR_OUTPUT_PART.get().defaultBlockState();
+            BlockState conveyorState = BlockInit.CONVEYOR_OUTPUT_PART.getBlock().defaultBlockState();
             Direction blockDirection = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
             conveyorState = conveyorState.setValue(ConveyorStreamPartBlock.FACING, RelativeOrientationUtils.getAbsoluteDirection(orientation, blockDirection));
             conveyorOutputPos = pos.offset(MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(tuple.getA(),blockDirection));
             world.setBlock(conveyorOutputPos, conveyorState, Block.UPDATE_ALL);
+            ConveyorOutputPartBlockEntity te = (ConveyorOutputPartBlockEntity) WorldUtils.getTileEntity(world,conveyorOutputPos);
+            te.setMachine(tile);
         });
     }
 
@@ -321,7 +325,7 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
         getInputConveyorPositionsOrientations(world, pos, state).forEach(tuple -> {
             BlockPos conveyorInputPos;
             RelativeOrientationUtils.RelativeOrientation orientation = tuple.getB();
-            BlockState conveyorState = BlockInit.CONVEYOR_INPUT_PART.get().defaultBlockState();
+            BlockState conveyorState = BlockInit.CONVEYOR_INPUT_PART.getBlock().defaultBlockState();
             Direction blockDirection = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
             conveyorState = conveyorState.setValue(ConveyorStreamPartBlock.FACING, RelativeOrientationUtils.getAbsoluteDirection(orientation, blockDirection));
             conveyorInputPos = pos.offset(MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(tuple.getA(),blockDirection));

@@ -1,5 +1,8 @@
 package fr.vgtom4.satiscraftory.common.tileentity;
 
+import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
+import fr.vgtom4.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
+import fr.vgtom4.satiscraftory.common.tileentity.base.TickableTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -9,12 +12,12 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
-public abstract class ConveyorStreamPartBlockEntity extends BlockEntity {
+public abstract class ConveyorStreamPartBlockEntity extends TickableTileEntity {
 
     private BlockEntity master;
     private BlockEntity connectedConveyor;
 
-    public ConveyorStreamPartBlockEntity(BlockEntityType<?> blockType, BlockPos blockPos, BlockState blockState) {
+    public ConveyorStreamPartBlockEntity(TileEntityRegistryObject<?> blockType, BlockPos blockPos, BlockState blockState) {
         super(blockType, blockPos, blockState);
     }
 

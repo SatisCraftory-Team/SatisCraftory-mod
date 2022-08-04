@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class ConveyorInputPartBlockEntity extends ConveyorStreamPartBlockEntity {
 
     public ConveyorInputPartBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(TileEntityInit.CONVEYOR_INPUT_PART_ENTITY.get(), blockPos, blockState);
+        super(TileEntityInit.CONVEYOR_INPUT_PART_ENTITY, blockPos, blockState);
     }
 
     public boolean canInput(){
