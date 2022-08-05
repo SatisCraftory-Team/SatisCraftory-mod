@@ -1,5 +1,6 @@
 package fr.vgtom4.satiscraftory.common.network.packets;
 
+import fr.vgtom4.satiscraftory.SatisCraftory;
 import fr.vgtom4.satiscraftory.common.interfaces.IPacket;
 import fr.vgtom4.satiscraftory.common.tileentity.base.TileEntityUpdatable;
 import fr.vgtom4.satiscraftory.utils.WorldUtils;
@@ -31,7 +32,7 @@ public class PacketUpdateTile implements IPacket {
         if (WorldUtils.isBlockLoaded(world, pos)) {
             TileEntityUpdatable tile = WorldUtils.getTileEntity(TileEntityUpdatable.class, world, pos, true);
             if (tile == null) {
-                LoggerFactory.getLogger("test").warn("Update tile packet received for position: {} in world: {}, but no valid tile was found.", pos,
+               SatisCraftory.LOGGER.warn("Update tile packet received for position: {} in world: {}, but no valid tile was found.", pos,
                         world.dimension().location());
             } else {
                 tile.handleUpdatePacket(updateTag);

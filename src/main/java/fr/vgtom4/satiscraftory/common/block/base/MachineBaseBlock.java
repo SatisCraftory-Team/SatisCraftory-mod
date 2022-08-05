@@ -1,5 +1,6 @@
 package fr.vgtom4.satiscraftory.common.block.base;
 
+import fr.vgtom4.satiscraftory.SatisCraftory;
 import fr.vgtom4.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
 import fr.vgtom4.satiscraftory.common.block.MultiBlockUtil;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
@@ -300,7 +301,7 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
                     //System.out.println("Setting main orig a t "  + orig);
                     tile.setMainLocation(orig);
                 } else {
-                   LoggerFactory.getLogger("test").warn("Unable to find Bounding Block Tile at: {}", boundingLocation);
+                  SatisCraftory.LOGGER.warn("Unable to find Bounding Block Tile at: {}", boundingLocation);
                 }
             }
         });

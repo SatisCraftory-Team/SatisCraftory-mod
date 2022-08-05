@@ -1,6 +1,7 @@
 package fr.vgtom4.satiscraftory.utils;
 
 import com.mojang.datafixers.util.Either;
+import fr.vgtom4.satiscraftory.SatisCraftory;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
@@ -126,7 +127,7 @@ public class WorldUtils {
         if (clazz.isInstance(tile)) {
             return clazz.cast(tile);
         } else if (logWrongType) {
-            LoggerFactory.getLogger("test").warn("Unexpected TileEntity class at {}, expected {}, but found: {}", pos, clazz, tile.getClass());
+           SatisCraftory.LOGGER.warn("Unexpected TileEntity class at {}, expected {}, but found: {}", pos, clazz, tile.getClass());
             //Mekanism.logger.warn("Unexpected TileEntity class at {}, expected {}, but found: {}", pos, clazz, tile.getClass());
         }
         return null;

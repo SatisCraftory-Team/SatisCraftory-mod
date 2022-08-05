@@ -44,7 +44,7 @@ public class TileEntityBoundingBlock extends TileEntityUpdatable {
         BlockEntity tile = getMainTile();
         if (tile != null && !(tile instanceof IBoundingBlock)) {
             // On the off chance that another block got placed there (which seems only likely with corruption, go ahead and log what we found.)
-            LoggerFactory.getLogger("test").error("Found tile {} instead of an IBoundingBlock, at {}. Multiblock cannot function", tile, getMainPos());
+            SatisCraftory.LOGGER.error("Found tile {} instead of an IBoundingBlock, at {}. Multiblock cannot function", tile, getMainPos());
             return null;
         }
         return (IBoundingBlock) tile;
