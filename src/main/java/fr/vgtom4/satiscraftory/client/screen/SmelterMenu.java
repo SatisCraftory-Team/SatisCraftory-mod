@@ -17,8 +17,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-import static fr.vgtom4.satiscraftory.common.init.ItemInit.IRON_RESIDUE;
-import static fr.vgtom4.satiscraftory.common.init.ItemInit.POWER_SHARD;
+import java.util.Arrays;
+
+import static fr.vgtom4.satiscraftory.common.init.ItemInit.*;
 
 public class SmelterMenu extends AbstractContainerMenu {
     private final SmelterBlockEntity blockEntity;
@@ -30,7 +31,7 @@ public class SmelterMenu extends AbstractContainerMenu {
 
     public SmelterMenu(int pContainerId, Inventory inv, BlockEntity entity) {
         super(MenuTypesInit.SMELTER_MENU.get(), pContainerId);
-        checkContainerSize(inv, 4);
+        checkContainerSize(inv, 5);
         blockEntity = ((SmelterBlockEntity) entity);
         this.level = inv.player.level;
 
@@ -42,7 +43,7 @@ public class SmelterMenu extends AbstractContainerMenu {
             this.addSlot(new RestrictedSlot(handler, 1, 107, 45, POWER_SHARD.get()));
             this.addSlot(new RestrictedSlot(handler, 2, 125, 45, POWER_SHARD.get()));
             this.addSlot(new RestrictedSlot(handler, 3, 143, 45, POWER_SHARD.get()));
-            //this.addSlot(new RestrictedSlot(handler, 4, 1, 45, IRON_RESIDUE.get()));
+            this.addSlot(new RestrictedSlot(handler, 4, 1, 45, Arrays.asList(IRON_RESIDUE.get(), COPPER_RESIDUE.get())));
         });
     }
 

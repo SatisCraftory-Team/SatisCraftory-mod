@@ -45,7 +45,7 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
     public SmelterBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(TileEntityInit.SMELTER_BLOCK_ENTITY, blockPos, blockState);
 
-        this.CONVEYOR_OUTPUT_POS_ORIENTATION.add(new Tuple<>(new Vec3i(0,0,3), RelativeOrientationUtils.RelativeOrientation.FRONT));
+        this.CONVEYOR_OUTPUT_POS_ORIENTATION.add(new Tuple<>(new Vec3i(0,0,1), RelativeOrientationUtils.RelativeOrientation.FRONT));
         for (int x = -1; x <= 1; x++) {
             for (int y = 0; y <= 6; y++) {
                 for (int z = -1; z <= 3; z++) {
@@ -73,6 +73,35 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
                 }
             }
         }
+        /*
+        this.CONVEYOR_INPUT_POS_ORIENTATION.add(new Tuple<>(new Vec3i(0,0,-1), RelativeOrientationUtils.RelativeOrientation.BACK));
+        for (int x = -1; x <= 1; x++) {
+            for (int y = 0; y <= 6; y++) {
+                for (int z = -1; z <= 3; z++) {
+                    Vec3i pos = new Vec3i(x, y, z);
+                    if (x == 0 && y == 0 && z == 0) {
+                        continue;
+                    }
+                    boolean shouldNotAdd = false;
+                    for (Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation> tuple : CONVEYOR_INPUT_POS_ORIENTATION) {
+                        if(tuple.getA().equals(pos)) {
+                            shouldNotAdd = true;
+                            break;
+                        }
+                    }
+                    for (Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation> tuple : CONVEYOR_OUTPUT_POS_ORIENTATION) {
+                        if(tuple.getA().equals(pos)) {
+                            shouldNotAdd = true;
+                            break;
+                        }
+                    }
+                    if(shouldNotAdd) {
+                        continue;
+                    }
+                    this.BOUNDING_BLOCKS_POS.add(pos);
+                }
+            }
+        }*/
 
     }
 
