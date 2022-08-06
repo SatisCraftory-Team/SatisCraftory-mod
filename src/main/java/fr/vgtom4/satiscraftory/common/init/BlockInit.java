@@ -6,6 +6,7 @@ import fr.vgtom4.satiscraftory.common.block.base.BlockBounding;
 import fr.vgtom4.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorBlock;
 import fr.vgtom4.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
 import fr.vgtom4.satiscraftory.common.block.buildings.miners.MinerMK1Block;
+import fr.vgtom4.satiscraftory.common.block.buildings.production.smelters.SmelterBlock;
 import fr.vgtom4.satiscraftory.common.block.examplesTest.EliocubeBlock;
 import fr.vgtom4.satiscraftory.common.block.logistics.sorting.ConveyorMerger;
 import fr.vgtom4.satiscraftory.common.builder.BlockBuilder;
@@ -62,8 +63,11 @@ public class BlockInit {
 
 
     //public static final RegistryObject<Block> MINER_MK1 = registerBlockWithoutBlockItem("miner_mk1", () -> new MinerMK1Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
+
     public static final BlockRegistryObject<ConveyorStreamPartBlock, BlockItem> CONVEYOR_INPUT_PART = BLOCKS_TEST.register("conveyor_input_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(),ConveyorInputPartBlockEntity::new));
     public static final BlockRegistryObject<ConveyorStreamPartBlock, BlockItem> CONVEYOR_OUTPUT_PART = BLOCKS_TEST.register("conveyor_output_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ConveyorOutputPartBlockEntity::new));
+
+    public static final BlockRegistryObject<SmelterBlock, BlockItem> SMELTER = BLOCKS_TEST.register("smelter", () -> new SmelterBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
 
     public static final BlockRegistryObject<MinerMK1Block, BlockItem> MINER_MK1 = BLOCKS_TEST.register("miner_mk1", () -> new MinerMK1Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
     public static final BlockRegistryObject<ConveyorBlock, BlockItem> CONVEYOR_FULL = BLOCKS_TEST.register("conveyor_full", () -> new ConveyorBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ((blockPos, blockState) -> new ConveyorTileEntity(blockPos, blockState, false))));

@@ -11,7 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
+public class SmelterScreen extends AbstractContainerScreen<SmelterMenu> {
     private static final ResourceLocation GUI =
             new ResourceLocation(SatisCraftory.MODID, "textures/gui/miner_mk1_gui.png");
 
@@ -21,22 +21,19 @@ public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
 
     private CheckBox checkBoxOnOff;
     private int overclock_percentage = 100;
-    private float default_energy_use = 5;
+    private float default_energy_use = 4;
 
     //level miner_mk1
-    private float default_mining_speed = 60;
+    private float default_speed = 30;
 
-    //info gisement
-    private float purity_modifier = 1;
-
-    //items_per_minute = purity_modifier * overclock_percentage / 100 * default_mining_speed
+    //items_per_minute =  overclock_percentage / 100 * default_speed
     //int items_per_minute;
 
     @Override
     public void init() {
         super.init();
         this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(this.leftPos + 180, this.topPos + 20, Component.translatable("gui.satiscraftory.machine.power")));
-        this.checkBoxOnOff.setToggled(MinerMk1Screen.OnOff);
+        this.checkBoxOnOff.setToggled(SmelterScreen.OnOff);
         this.addRenderableWidget(new Button(this.leftPos + 107, this.topPos + 25, 10, 10, Component.literal("-"), button -> {
             if (overclock_percentage > 0) {
                 overclock_percentage--;
@@ -61,17 +58,17 @@ public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
     protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
         GuiComponent.drawString(poseStack, this.font, String.valueOf(overclock_percentage) + " %", 119, 26, 0xff8c00);
         GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf((double) Math.round((default_energy_use * Math.pow( (double) overclock_percentage / 100, 1.6)) * 100.0) / 100.0) + " MW", 10, 15, 0xff8c00);
-        GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf((double) Math.round((purity_modifier * (double) overclock_percentage / 100 * default_mining_speed) * 100.0) / 100.0) + " items/min", 10, 26, 0xff8c00);
+        GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf((double) Math.round(((double) overclock_percentage / 100 * default_speed) * 100.0) / 100.0) + " items/min", 10, 26, 0xff8c00);
     }
 
-    public MinerMk1Screen(MinerMk1Menu pMenu, Inventory pPlayerInventory, Component pTitle) {
+    public SmelterScreen(SmelterMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
         boolean result = super.mouseClicked(mouseX, mouseY, mouseButton);
-        MinerMk1Screen.OnOff = this.checkBoxOnOff.isToggled();
+        SmelterScreen.OnOff = this.checkBoxOnOff.isToggled();
         return result;
     }
 

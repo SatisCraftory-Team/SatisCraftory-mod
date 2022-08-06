@@ -13,5 +13,5 @@
   "block.satiscraftory.eliocube": "Eliocube",
   "item.satiscraftory.eliocube_block_item": "Eliocube",
 
-  "gui.satiscraftory.miner_mk1.power": "Power"
+  "gui.satiscraftory.machine.power": "Power"
 }
