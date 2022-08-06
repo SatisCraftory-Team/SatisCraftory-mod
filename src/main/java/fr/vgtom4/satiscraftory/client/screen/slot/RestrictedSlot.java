@@ -13,6 +13,7 @@ public class RestrictedSlot extends SlotItemHandler {
     private final List<Item> allowedStacks = Lists.newArrayList();
     public RestrictedSlot(IItemHandler itemHandler, int index, int x, int y, List<Item> allowedStacks) {
         super(itemHandler, index, x, y);
+        this.allowedStacks.addAll(allowedStacks);
     }
 
     public RestrictedSlot(IItemHandler itemHandler, int index, int x, int y, Item allowedStacks) {
@@ -35,6 +36,4 @@ public class RestrictedSlot extends SlotItemHandler {
     public boolean mayPlace(ItemStack stack) {
         return allowedStacks.contains(stack.getItem());
     }
-
-
 }
