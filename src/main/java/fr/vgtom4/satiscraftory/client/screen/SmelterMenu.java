@@ -42,7 +42,7 @@ public class SmelterMenu extends AbstractContainerMenu {
             this.addSlot(new RestrictedSlot(handler, 1, 107, 45, POWER_SHARD.get()));
             this.addSlot(new RestrictedSlot(handler, 2, 125, 45, POWER_SHARD.get()));
             this.addSlot(new RestrictedSlot(handler, 3, 143, 45, POWER_SHARD.get()));
-            this.addSlot(new RestrictedSlot(handler, 4, 1, 45, IRON_RESIDUE.get()));
+            //this.addSlot(new RestrictedSlot(handler, 4, 1, 45, IRON_RESIDUE.get()));
         });
     }
 

@@ -2,6 +2,7 @@ package fr.vgtom4.satiscraftory;
 
 import fr.vgtom4.satiscraftory.client.renderer.blocks.ConveyorRenderer;
 import fr.vgtom4.satiscraftory.client.screen.MinerMk1Screen;
+import fr.vgtom4.satiscraftory.client.screen.SmelterScreen;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import fr.vgtom4.satiscraftory.common.init.ItemInit;
 import fr.vgtom4.satiscraftory.common.init.MenuTypesInit;
@@ -11,6 +12,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -34,7 +36,6 @@ public class SatisCraftory {
     public SatisCraftory() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        bus.addListener(this::setup);
         bus.addListener(this::clientSetup);
         bus.addListener(this::registerRenderers);
 
@@ -53,11 +54,9 @@ public class SatisCraftory {
         System.out.println("ici, c'est le goulag, préparez vous au combat.");
     }
 
-    public void setup(FMLCommonSetupEvent e){
-    }
-
     public void clientSetup(FMLClientSetupEvent e) {
         MenuScreens.register(MenuTypesInit.MINER_MK1_MENU.get(), MinerMk1Screen::new);
+        MenuScreens.register(MenuTypesInit.SMELTER_MENU.get(), SmelterScreen::new);
     }
 
     public void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {

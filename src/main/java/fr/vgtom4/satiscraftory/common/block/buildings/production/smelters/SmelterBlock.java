@@ -2,7 +2,7 @@ package fr.vgtom4.satiscraftory.common.block.buildings.production.smelters;
 
 import fr.vgtom4.satiscraftory.common.block.base.MachineBaseBlock;
 import fr.vgtom4.satiscraftory.common.init.TileEntityInit;
-import fr.vgtom4.satiscraftory.common.interfaces.IHasTickableTileEntity;
+import fr.vgtom4.satiscraftory.common.interfaces.IHasTileEntity;
 import fr.vgtom4.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.vgtom4.satiscraftory.common.tileentity.BlockEntityutils;
 import fr.vgtom4.satiscraftory.common.tileentity.SmelterBlockEntity;
@@ -40,7 +40,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class SmelterBlock extends MachineBaseBlock implements IHasTickableTileEntity {
+public class SmelterBlock extends MachineBaseBlock implements IHasTileEntity<SmelterBlockEntity> {
 
     public SmelterBlock(Properties properties) {
         super(properties);
