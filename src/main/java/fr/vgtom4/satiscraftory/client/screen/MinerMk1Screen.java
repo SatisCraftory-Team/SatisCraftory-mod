@@ -20,7 +20,17 @@ public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
     private static boolean OnOff = false;
 
     private CheckBox checkBoxOnOff;
-    private int percentage_overclock = 100;
+    private int overclock_percentage = 100;
+    private float default_energy_use = 5;
+
+    //level miner_mk1
+    private float default_mining_speed = 60;
+
+    //info gisement
+    private float purity_modifier = 1;
+
+    //items_per_minute = purity_modifier * overclock_percentage / 100 * default_mining_speed
+    //int items_per_minute;
 
     @Override
     public void init() {
@@ -28,13 +38,13 @@ public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
         this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(this.leftPos + 180, this.topPos + 20, Component.translatable("gui.satiscraftory.miner_mk1.power")));
         this.checkBoxOnOff.setToggled(MinerMk1Screen.OnOff);
         this.addRenderableWidget(new Button(this.leftPos + 107, this.topPos + 25, 10, 10, Component.literal("-"), button -> {
-            if (percentage_overclock > 0) {
-                percentage_overclock--;
+            if (overclock_percentage > 0) {
+                overclock_percentage--;
             }
         }));
         this.addRenderableWidget(new Button(this.leftPos + 149, this.topPos + 25, 10, 10, Component.literal("+"), button -> {
-            if (percentage_overclock < 300) {
-                percentage_overclock++;
+            if (overclock_percentage < 250) {
+                overclock_percentage++;
             }
         }));/*
         radiusLabel = new ScrollableLabel()
@@ -45,6 +55,13 @@ public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
         visibleRadiusLabel = label(55, 4, 30, 13, "")
                 .desiredWidth(30)
                 .horizontalAlignment(HorizontalAlignment.ALIGN_LEFT);*/
+    }
+
+    @Override
+    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
+        GuiComponent.drawString(poseStack, this.font, String.valueOf(overclock_percentage) + " %", 119, 26, 0xff8c00);
+        GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf((float) Math.round((default_energy_use * Math.pow( (float) overclock_percentage / 100, 1.6)) * 100.0) / 100.0) + " MW", 10, 15, 0xff8c00);
+        GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf((double) Math.round((purity_modifier * (double) overclock_percentage / 100 * default_mining_speed) * 100.0) / 100.0) + " items/min", 10, 26, 0xff8c00);
     }
 
     public MinerMk1Screen(MinerMk1Menu pMenu, Inventory pPlayerInventory, Component pTitle) {
@@ -73,11 +90,6 @@ public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
     public static boolean isMouseWithin(int mouseX, int mouseY, int x, int y, int width, int height)
     {
         return mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height;
-    }
-
-    @Override
-    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
-        GuiComponent.drawString(poseStack, this.font, String.valueOf(percentage_overclock) + " %", 119, 26, 0xff8c00);
     }
 
     @Override
