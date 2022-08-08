@@ -75,7 +75,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
 
     }
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(4) {
+    public final ItemStackHandler itemHandler = new ItemStackHandler(4) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();

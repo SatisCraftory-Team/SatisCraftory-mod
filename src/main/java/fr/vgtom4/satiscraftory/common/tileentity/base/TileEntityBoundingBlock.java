@@ -75,6 +75,26 @@ public class TileEntityBoundingBlock extends TileEntityUpdatable {
     }
 
     @Override
+    protected void saveAdditional(CompoundTag compoundTag) {
+        super.saveAdditional(compoundTag);
+        int[] coords = new int[]{
+                mainPos.getX(),
+                mainPos.getY(),
+                mainPos.getZ()
+        };
+        compoundTag.putIntArray("mainPos", coords);
+        compoundTag.putBoolean("receivedCoords", receivedCoords);
+    }
+
+    @Override
+    public void load(CompoundTag compoundTag) {
+        super.load(compoundTag);
+        receivedCoords = compoundTag.getBoolean("receivedCoords");
+        int[] coords = compoundTag.getIntArray("mainPos");
+        mainPos = new BlockPos(coords[0], coords[1], coords[2]);
+    }
+
+    @Override
     public CompoundTag getReducedUpdateTag() {
         CompoundTag updateTag = super.getReducedUpdateTag();
         int[] coords = new int[]{
@@ -91,9 +111,7 @@ public class TileEntityBoundingBlock extends TileEntityUpdatable {
     public void handleUpdateTag(@NotNull CompoundTag tag) {
         receivedCoords = tag.getBoolean("receivedCoords");
         int[] coords = tag.getIntArray("mainPos");
-        if (coords != null && coords.length == 3) {
-            setMainLocation(new BlockPos(coords[0], coords[1], coords[2]));
-        }
+        setMainLocation(new BlockPos(coords[0], coords[1], coords[2]));
         super.handleUpdateTag(tag);
     }
 

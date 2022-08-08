@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 
 import static fr.vgtom4.satiscraftory.common.init.ItemInit.POWER_SHARD;
 
@@ -34,13 +35,18 @@ public class MinerMk1Menu extends AbstractContainerMenu {
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
+        ItemStackHandler handl = this.blockEntity.itemHandler;
+        this.addSlot(new ResultSlotInit(handl, 0, 17, 45));
+        this.addSlot(new RestrictedSlot(handl, 1, 107, 45, POWER_SHARD.get()));
+        this.addSlot(new RestrictedSlot(handl, 2, 125, 45, POWER_SHARD.get()));
+        this.addSlot(new RestrictedSlot(handl, 3, 143, 45, POWER_SHARD.get()));
 
-        this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+        /*this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             this.addSlot(new ResultSlotInit(handler, 0, 17, 45));
             this.addSlot(new RestrictedSlot(handler, 1, 107, 45, POWER_SHARD.get()));
             this.addSlot(new RestrictedSlot(handler, 2, 125, 45, POWER_SHARD.get()));
             this.addSlot(new RestrictedSlot(handler, 3, 143, 45, POWER_SHARD.get()));
-        });
+        });*/
     }
 
 

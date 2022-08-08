@@ -1,4 +1,4 @@
-package fr.vgtom4.satiscraftory.common.block;
+package fr.vgtom4.satiscraftory.utils;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;

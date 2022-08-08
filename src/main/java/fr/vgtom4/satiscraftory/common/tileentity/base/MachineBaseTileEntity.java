@@ -5,6 +5,7 @@ import fr.vgtom4.satiscraftory.utils.RelativeOrientationUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.Tuple;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemStackHandler;
@@ -20,7 +21,6 @@ public abstract class MachineBaseTileEntity extends TickableTileEntity {
     public final ArrayList<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> CONVEYOR_OUTPUT_POS_ORIENTATION = Lists.newArrayList();
 
     public void onAdded() {
-        System.out.println("added" + this.getClass());
     }
 
 

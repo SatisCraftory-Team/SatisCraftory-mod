@@ -1,6 +1,6 @@
 package fr.vgtom4.satiscraftory.common.block.logistics.sorting;
 
-import fr.vgtom4.satiscraftory.common.block.MultiBlockUtil;
+import fr.vgtom4.satiscraftory.utils.MultiBlockUtil;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import fr.vgtom4.satiscraftory.common.tileentity.BlockEntityutils;
 import net.minecraft.core.BlockPos;

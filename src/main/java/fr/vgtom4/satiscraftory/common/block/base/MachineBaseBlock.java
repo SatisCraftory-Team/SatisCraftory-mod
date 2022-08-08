@@ -2,7 +2,7 @@ package fr.vgtom4.satiscraftory.common.block.base;
 
 import fr.vgtom4.satiscraftory.SatisCraftory;
 import fr.vgtom4.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
-import fr.vgtom4.satiscraftory.common.block.MultiBlockUtil;
+import fr.vgtom4.satiscraftory.utils.MultiBlockUtil;
 import fr.vgtom4.satiscraftory.common.init.BlockInit;
 import fr.vgtom4.satiscraftory.common.interfaces.IHasTileEntity;
 import fr.vgtom4.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
@@ -26,7 +26,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.PushReaction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.stream.Stream;
