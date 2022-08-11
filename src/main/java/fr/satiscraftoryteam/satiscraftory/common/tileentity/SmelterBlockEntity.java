@@ -104,7 +104,7 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
 
     }
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(4) {
+    private final ItemStackHandler itemHandler = new ItemStackHandler(5) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
