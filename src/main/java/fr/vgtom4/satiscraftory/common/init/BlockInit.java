@@ -5,7 +5,7 @@ import fr.vgtom4.satiscraftory.common.block.*;
 import fr.vgtom4.satiscraftory.common.block.base.BlockBounding;
 import fr.vgtom4.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorBlock;
 import fr.vgtom4.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
-import fr.vgtom4.satiscraftory.common.block.buildings.miners.MinerMK1Block;
+import fr.vgtom4.satiscraftory.common.block.buildings.production.miners.MinerMK1Block;
 import fr.vgtom4.satiscraftory.common.block.buildings.production.smelters.SmelterBlock;
 import fr.vgtom4.satiscraftory.common.block.examplesTest.EliocubeBlock;
 import fr.vgtom4.satiscraftory.common.block.logistics.sorting.ConveyorMerger;
