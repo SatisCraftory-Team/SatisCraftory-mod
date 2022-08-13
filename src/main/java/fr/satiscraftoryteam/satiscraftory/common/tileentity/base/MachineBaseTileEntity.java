@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.apache.commons.compress.utils.Lists;
 
@@ -26,6 +27,6 @@ public abstract class MachineBaseTileEntity extends TickableTileEntity {
         super(type, pos, state);
     }
 
-    public abstract ItemStackHandler getOutputInventory();
-    public abstract ItemStackHandler getInputInventory();
+    public abstract IItemHandler getOutputInventory();
+    public abstract IItemHandler getInputInventory();
 }

@@ -5,6 +5,7 @@ import fr.satiscraftoryteam.satiscraftory.client.screen.slot.ResultSlotInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.MenuTypesInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities.InventoryPartition;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -34,11 +35,12 @@ public class MinerMk1Menu extends AbstractContainerMenu {
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
-        ItemStackHandler handl = this.blockEntity.itemHandler;
-        this.addSlot(new ResultSlotInit(handl, 0, 17, 45));
-        this.addSlot(new RestrictedSlot(handl, 1, 107, 45, POWER_SHARD.get()));
-        this.addSlot(new RestrictedSlot(handl, 2, 125, 45, POWER_SHARD.get()));
-        this.addSlot(new RestrictedSlot(handl, 3, 143, 45, POWER_SHARD.get()));
+        InventoryPartition outputPartition = this.blockEntity.outputPartition;
+        InventoryPartition overclockPartition = this.blockEntity.overclockPartition;
+        this.addSlot(new ResultSlotInit(outputPartition, 0, 17, 45));
+        this.addSlot(new RestrictedSlot(overclockPartition, 0, 107, 45, POWER_SHARD.get()));
+        this.addSlot(new RestrictedSlot(overclockPartition, 1, 125, 45, POWER_SHARD.get()));
+        this.addSlot(new RestrictedSlot(overclockPartition, 2, 143, 45, POWER_SHARD.get()));
 
         /*this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             this.addSlot(new ResultSlotInit(handler, 0, 17, 45));

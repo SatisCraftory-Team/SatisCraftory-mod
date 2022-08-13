@@ -6,6 +6,8 @@ import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IBoundingBlock;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities.InventoryHandler;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities.InventoryPartition;
 import fr.satiscraftoryteam.satiscraftory.utils.RelativeOrientationUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -38,13 +40,23 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuProvider, IAnimatable, IBoundingBlock {
+
+    public final InventoryHandler inventoryHandler;
+    public final InventoryPartition overclockPartition = new InventoryPartition("overclock", 3);
+    public final InventoryPartition outputPartition = new InventoryPartition("output", 1);
 
     public MinerMk1BlockEntity(BlockPos blockPos, BlockState blockState) {
         super(TileEntityInit.MINER_MK1_BLOCK_ENTITY, blockPos, blockState);
 
+        inventoryHandler = new InventoryHandler.Builder()
+                .addPartition(overclockPartition)
+                .addPartition(outputPartition)
+                .build(this);
         this.CONVEYOR_OUTPUT_POS_ORIENTATION.add(new Tuple<>(new Vec3i(0,0,3), RelativeOrientationUtils.RelativeOrientation.FRONT));
+
         for (int x = -1; x <= 1; x++) {
             for (int y = 0; y <= 6; y++) {
                 for (int z = -1; z <= 3; z++) {
@@ -75,12 +87,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
 
     }
 
-    public final ItemStackHandler itemHandler = new ItemStackHandler(4) {
-        @Override
-        protected void onContentsChanged(int slot) {
-            setChanged();
-        }
-    };
+
 
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 
@@ -109,7 +116,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
     @Override
     public void onLoad() {
         super.onLoad();
-        lazyItemHandler = LazyOptional.of(() -> itemHandler);
+        lazyItemHandler = LazyOptional.of(() -> inventoryHandler.inventory);
     }
 
     @Override
@@ -120,20 +127,24 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
 
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag) {
-        tag.put("inventory", itemHandler.serializeNBT());
+        tag.put("inventory", inventoryHandler.serializeNBT());
+        outputPartition.serializeNBT(tag);
+        overclockPartition.serializeNBT(tag);
         super.saveAdditional(tag);
     }
 
     @Override
     public void load(CompoundTag nbt) {
         super.load(nbt);
-        itemHandler.deserializeNBT(nbt.getCompound("inventory"));
+        inventoryHandler.deserializeNBT(nbt.getCompound("inventory"));
+        outputPartition.deserializeNBT(nbt);
+        overclockPartition.deserializeNBT(nbt);
     }
 
     public void drops() {
-        SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
-        for (int i = 0; i < itemHandler.getSlots(); i++) {
-            inventory.setItem(i, itemHandler.getStackInSlot(i));
+        SimpleContainer inventory = new SimpleContainer(inventoryHandler.inventory.getSlots());
+        for (int i = 0; i < inventoryHandler.inventory.getSlots(); i++) {
+            inventory.setItem(i, inventoryHandler.inventory.getStackInSlot(i));
         }
 
         Containers.dropContents(this.level, this.worldPosition, inventory);
@@ -151,21 +162,21 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
         itemHandler.extractItem(2, 1, false);
         itemHandler.extractItem(3, 1, false);*/
 
-        itemHandler.setStackInSlot(0, new ItemStack(ItemInit.IRON_RESIDUE.get(),
-                itemHandler.getStackInSlot(0).getCount() + 1));
+        outputPartition.setStackInSlot(0, new ItemStack(ItemInit.IRON_RESIDUE.get(),
+                outputPartition.getStackInSlot(0).getCount() + 1));
                 
     }
 
     private boolean hasRecipe() {
-        boolean hasItemInFirstSlot = itemHandler.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get();
-        boolean hasItemInSecondSlot = itemHandler.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();
-        boolean hasItemInThirdSlot = itemHandler.getStackInSlot(3).getItem() == ItemInit.POWER_SHARD.get();
+        boolean hasItemInFirstSlot = overclockPartition.getStackInSlot(0).getItem() == ItemInit.POWER_SHARD.get();
+        boolean hasItemInSecondSlot = overclockPartition.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get();
+        boolean hasItemInThirdSlot = overclockPartition.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();
 
         return hasItemInFirstSlot && hasItemInSecondSlot && hasItemInThirdSlot;
     }
 
     private boolean hasNotReachedStackLimit() {
-        return itemHandler.getStackInSlot(0).getCount() < itemHandler.getStackInSlot(0).getMaxStackSize();
+        return outputPartition.getStackInSlot(0).getCount() < outputPartition.getStackInSlot(0).getMaxStackSize();
     }
 
 
@@ -191,12 +202,12 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
     }
 
     @Override
-    public ItemStackHandler getOutputInventory() {
-        return itemHandler;
+    public IItemHandler getOutputInventory() {
+        return outputPartition;
     }
 
     @Override
-    public ItemStackHandler getInputInventory() {
+    public IItemHandler getInputInventory() {
         return null;
     }
 
