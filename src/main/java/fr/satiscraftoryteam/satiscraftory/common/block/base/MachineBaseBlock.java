@@ -291,7 +291,7 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
 
     public void placeBoundingBlocks(Level level, BlockPos orig, BlockState state) {
         getAbsoluteBoundingBlockPos(level, orig, state).forEach(boundingLocation -> {
-            BlockBounding boundingBlock = BlockInit.BOUNDING_BLOCK.getBlock();
+            BlockBounding boundingBlock = (BlockBounding) BlockInit.BOUNDING_BLOCK.getBlock();
             BlockState newState = boundingBlock.defaultBlockState();
             level.setBlock(boundingLocation, newState, Block.UPDATE_ALL);
             if (!level.isClientSide()) {

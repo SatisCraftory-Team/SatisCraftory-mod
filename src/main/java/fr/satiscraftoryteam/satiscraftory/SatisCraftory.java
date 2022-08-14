@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -40,8 +41,7 @@ public class SatisCraftory {
 
         packetHandler.register();
 
-        BlockInit.BLOCKS.register(bus);
-        BlockInit.BLOCKS_TEST.register(bus);
+        BlockInit.register(bus);
         TileEntityInit.TILE_ENTITY_TYPES.register(bus);
 
         ItemInit.ITEMS.register(bus);
