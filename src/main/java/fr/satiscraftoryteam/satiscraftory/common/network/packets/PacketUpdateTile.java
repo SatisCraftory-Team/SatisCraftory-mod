@@ -1,7 +1,7 @@
 package fr.satiscraftoryteam.satiscraftory.common.network.packets;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
-import fr.satiscraftoryteam.satiscraftory.common.interfaces.IPacket;
+import fr.satiscraftoryteam.satiscraftory.common.network.IPacket;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityUpdatable;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.client.Minecraft;

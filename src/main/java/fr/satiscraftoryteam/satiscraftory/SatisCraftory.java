@@ -7,7 +7,7 @@ import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.ItemInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.MenuTypesInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
-import fr.satiscraftoryteam.satiscraftory.common.network.PacketHandler;
+import fr.satiscraftoryteam.satiscraftory.common.network.ModPackets;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -30,15 +30,15 @@ public class SatisCraftory {
         return new Item.Properties().tab(TAB);
     }
 
-    public static PacketHandler packetHandler;
+    public static ModPackets packetHandler = new ModPackets();
     public SatisCraftory() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         bus.addListener(this::clientSetup);
         bus.addListener(this::registerRenderers);
 
-        packetHandler = new PacketHandler();
-        packetHandler.init();
+
+        packetHandler.register();
 
         BlockInit.BLOCKS.register(bus);
         BlockInit.BLOCKS_TEST.register(bus);
@@ -49,6 +49,7 @@ public class SatisCraftory {
         MenuTypesInit.MENUS.register(bus);
 
         GeckoLib.initialize();
+
         System.out.println("ici, c'est le goulag, préparez vous au combat.");
     }
 

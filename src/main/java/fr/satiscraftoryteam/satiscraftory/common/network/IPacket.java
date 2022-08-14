@@ -1,4 +1,4 @@
-package fr.satiscraftoryteam.satiscraftory.common.interfaces;
+package fr.satiscraftoryteam.satiscraftory.common.network;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;

@@ -1,10 +1,8 @@
 package fr.satiscraftoryteam.satiscraftory.common.network;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
-import fr.satiscraftoryteam.satiscraftory.common.interfaces.IPacket;
-import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketUpdateConveyor;
-import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketUpdateTile;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,19 +17,29 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.Optional;
+import java.util.function.Function;
 
-public class PacketHandler  {
+public abstract class AbtractPacketHandler {
 
     private final SimpleChannel netHandler = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(SatisCraftory.MODID))
-                .clientAcceptedVersions("1"::equals)
-                .serverAcceptedVersions("1"::equals)
-                .networkProtocolVersion(() -> "1")
-                .simpleChannel();
+            .clientAcceptedVersions("1"::equals)
+            .serverAcceptedVersions("1"::equals)
+            .networkProtocolVersion(() -> "1")
+            .simpleChannel();
 
-    public void init() {
 
-        netHandler.registerMessage(1, PacketUpdateTile.class, IPacket::encode, PacketUpdateTile::decode, IPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        netHandler.registerMessage(2, PacketUpdateConveyor.class, IPacket::encode, PacketUpdateConveyor::decode, IPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+    private int packetIndex = 0;
+    // S2C = Server to Client
+    protected <MSG extends IPacket> void registerS2CPacket(Class<MSG> type, Function<FriendlyByteBuf, MSG> decode) {
+        registerPacketInternal(type, decode, NetworkDirection.PLAY_TO_SERVER);
+    }
+
+    protected <MSG extends IPacket> void registerC2SPacket(Class<MSG> type, Function<FriendlyByteBuf, MSG> decode) {
+        registerPacketInternal(type, decode, NetworkDirection.PLAY_TO_CLIENT);
+    }
+
+    protected <MSG extends IPacket> void registerPacketInternal(Class<MSG> type, Function<FriendlyByteBuf, MSG> decode, NetworkDirection direction) {
+        netHandler.registerMessage(packetIndex++, type, IPacket::encode, decode, IPacket::handle, Optional.of(direction));
     }
 
     public <MSG> void sendToAllTracking(MSG message, Entity entity) {
