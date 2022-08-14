@@ -6,7 +6,7 @@ import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketUpdateTil
 public class ModPackets extends AbtractPacketHandler {
     public void register() {
 
-        registerS2CPacket(PacketUpdateTile.class, PacketUpdateTile::decode);
-        registerS2CPacket(PacketUpdateConveyor.class, PacketUpdateConveyor::decode);
+        registerC2SPacket(PacketUpdateTile.class, PacketUpdateTile::decode);
+        registerC2SPacket(PacketUpdateConveyor.class, PacketUpdateConveyor::decode);
     }
 }
