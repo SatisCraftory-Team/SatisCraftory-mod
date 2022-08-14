@@ -13,6 +13,7 @@ import fr.satiscraftoryteam.satiscraftory.common.builder.BlockBuilder;
 import fr.satiscraftoryteam.satiscraftory.common.item.EliocubeItem;
 import fr.satiscraftoryteam.satiscraftory.common.item.LogoItem;
 import fr.satiscraftoryteam.satiscraftory.common.item.MinerMk1Item;
+import fr.satiscraftoryteam.satiscraftory.common.item.SmelterItem;
 import fr.satiscraftoryteam.satiscraftory.common.registry.BlockRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorInputPartBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
@@ -59,8 +60,8 @@ public class BlockInit {
     public static final BlockRegistryObject<ConveyorStreamPartBlock, BlockItem> CONVEYOR_INPUT_PART = BLOCKS.register("conveyor_input_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(),ConveyorInputPartBlockEntity::new));
     public static final BlockRegistryObject<ConveyorStreamPartBlock, BlockItem> CONVEYOR_OUTPUT_PART = BLOCKS.register("conveyor_output_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ConveyorOutputPartBlockEntity::new));
 
-    public static final BlockRegistryObject<SmelterBlock, BlockItem> SMELTER =        BLOCKS.register("smelter", () -> new SmelterBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
-    public static final BlockRegistryObject<MinerMK1Block, BlockItem> MINER_MK1 =     BLOCKS.register("miner_mk1", () -> new MinerMK1Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), (block) -> new MinerMk1Item(block, new Item.Properties()));
+    public static final BlockRegistryObject<SmelterBlock, BlockItem> SMELTER =        BLOCKS.register("smelter", () -> new SmelterBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), (block) -> new SmelterItem(block, new Item.Properties().tab(SatisCraftory.TAB)));
+    public static final BlockRegistryObject<MinerMK1Block, BlockItem> MINER_MK1 =     BLOCKS.register("miner_mk1", () -> new MinerMK1Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), (block) -> new MinerMk1Item(block, new Item.Properties().tab(SatisCraftory.TAB)));
     public static final BlockRegistryObject<ConveyorBlock, BlockItem> CONVEYOR_FULL = BLOCKS.register("conveyor_full", () -> new ConveyorBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ((blockPos, blockState) -> new ConveyorTileEntity(blockPos, blockState, false))));
     public static final BlockRegistryObject<ConveyorBlock, BlockItem> CONVEYOR =      BLOCKS.register("conveyor", () -> new ConveyorBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ConveyorTileEntity::new));
 
