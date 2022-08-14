@@ -10,6 +10,8 @@ import fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.smel
 import fr.satiscraftoryteam.satiscraftory.common.block.examplesTest.EliocubeBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.logistics.sorting.ConveyorMerger;
 import fr.satiscraftoryteam.satiscraftory.common.builder.BlockBuilder;
+import fr.satiscraftoryteam.satiscraftory.common.item.EliocubeItem;
+import fr.satiscraftoryteam.satiscraftory.common.item.LogoItem;
 import fr.satiscraftoryteam.satiscraftory.common.item.MinerMk1Item;
 import fr.satiscraftoryteam.satiscraftory.common.registry.BlockRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorInputPartBlockEntity;
@@ -51,13 +53,8 @@ public class BlockInit {
     public static final BlockRegistryObject<Block, BlockItem> FOUNDATION_2M =   BLOCKS.register("foundation_2m", () -> new Foundations(DefaultBlockMaterial.METAL));
 
     public static final BlockRegistryObject<Block, BlockItem> PALE_BERRY_BUSH = BLOCKS.register("pale_berry_bush", () -> new PaleBerryBushBlock(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH)));
-
-
-
-    // no BlockItem
-    //TODO: use BlockBuilder#register to register block with no Blockitem to get rid of SPETIAL_BLOCKS
-    public static final RegistryObject<Block> ELIOCUBE = registerBlockWithoutBlockItem("eliocube", () -> new EliocubeBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()));
-    public static final RegistryObject<Block> LOGO = registerBlockWithoutBlockItem("logo", () -> new LogoBlock(DefaultBlockMaterial.METAL));
+    public static final BlockRegistryObject<Block, BlockItem> ELIOCUBE =        BLOCKS.register("eliocube", () -> new EliocubeBlock(DefaultBlockMaterial.METAL), (block) -> new EliocubeItem(block, new Item.Properties().tab(SatisCraftory.TAB)));
+    public static final BlockRegistryObject<Block, BlockItem> LOGO =            BLOCKS.register("logo", () -> new EliocubeBlock(DefaultBlockMaterial.METAL), (block) -> new LogoItem(block, new Item.Properties().tab(SatisCraftory.TAB)));
 
     public static final BlockRegistryObject<ConveyorStreamPartBlock, BlockItem> CONVEYOR_INPUT_PART = BLOCKS.register("conveyor_input_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(),ConveyorInputPartBlockEntity::new));
     public static final BlockRegistryObject<ConveyorStreamPartBlock, BlockItem> CONVEYOR_OUTPUT_PART = BLOCKS.register("conveyor_output_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ConveyorOutputPartBlockEntity::new));
@@ -66,11 +63,6 @@ public class BlockInit {
     public static final BlockRegistryObject<MinerMK1Block, BlockItem> MINER_MK1 =     BLOCKS.register("miner_mk1", () -> new MinerMK1Block(BlockBehaviour.Properties.of(Material.METAL).noOcclusion()), (block) -> new MinerMk1Item(block, new Item.Properties()));
     public static final BlockRegistryObject<ConveyorBlock, BlockItem> CONVEYOR_FULL = BLOCKS.register("conveyor_full", () -> new ConveyorBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ((blockPos, blockState) -> new ConveyorTileEntity(blockPos, blockState, false))));
     public static final BlockRegistryObject<ConveyorBlock, BlockItem> CONVEYOR =      BLOCKS.register("conveyor", () -> new ConveyorBlock(BlockBehaviour.Properties.of(Material.METAL).noOcclusion(), ConveyorTileEntity::new));
-
-
-    private static <T extends Block> RegistryObject<T> registerBlockWithoutBlockItem(String name, Supplier<T> block) {
-        return SPETIAL_BLOCKS.register(name, block);
-    }
 
     protected static class DefaultBlockMaterial {
         protected static BlockBehaviour.Properties STONE = BlockBehaviour.Properties.of(Material.STONE).noOcclusion();

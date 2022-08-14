@@ -33,10 +33,7 @@ public class BlockBuilder extends DoubleDeferredRegister<Block, Item> {
         return register(name, blockSupplier, block -> itemCreator.apply(block, SatisCraftory.geBaseProperties()));
     }
 
-    public <BLOCK extends Block, ITEM extends BlockItem> BlockRegistryObject<BLOCK, ITEM> register(String name, Supplier<? extends BLOCK> blockSupplier,
-                                                                                                   Function<BLOCK, ITEM> itemCreator) {
-        BlockRegistryObject<BLOCK, ITEM> registeredBlock = register(name, blockSupplier, itemCreator, BlockRegistryObject::new);
-        return registeredBlock;
+    public <BLOCK extends Block, ITEM extends BlockItem> BlockRegistryObject<BLOCK, ITEM> register(String name, Supplier<? extends BLOCK> blockSupplier, Function<BLOCK, ITEM> itemCreator) {
+        return register(name, blockSupplier, itemCreator, BlockRegistryObject::new);
     }
-
 }

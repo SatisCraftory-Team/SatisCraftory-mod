@@ -32,10 +32,4 @@ public final class ItemInit {
 
     public static final RegistryObject<Item> POWER_SHARD = ITEMS.register("power_shard",
             ()-> new Item(new Item.Properties().tab(SatisCraftory.TAB).fireResistant().stacksTo(16)));
-
-    public static final RegistryObject<Item> ELIOCUBE_ITEM = ITEMS.register("eliocube",
-            () -> new EliocubeItem(BlockInit.ELIOCUBE.get(), new Item.Properties().tab(SatisCraftory.TAB)));
-
-    public static final RegistryObject<Item> LOGO_ITEM = ITEMS.register("logo",
-            () -> new LogoItem(BlockInit.LOGO.get(), new Item.Properties().tab(SatisCraftory.TAB)));
 }
