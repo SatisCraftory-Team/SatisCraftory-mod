@@ -65,7 +65,7 @@ public class SatisCraftory {
     public static final CreativeModeTab TAB = new CreativeModeTab("satiscraftoryTAB") {
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(ItemInit.LOGO_ITEM.get());
+            return new ItemStack(BlockInit.LOGO.asItem());
         }
     };
 }
