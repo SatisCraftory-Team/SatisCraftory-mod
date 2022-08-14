@@ -5,15 +5,18 @@ import fr.satiscraftoryteam.satiscraftory.common.item.EliocubeItem;
 import fr.satiscraftoryteam.satiscraftory.common.item.LogoItem;
 import fr.satiscraftoryteam.satiscraftory.common.item.XenoZapperItem;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public final class ItemInit {
-    private ItemInit(){
-    }
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SatisCraftory.MODID);
+
+    public static void register(IEventBus bus){
+        ITEMS.register(bus);
+    }
 
     public static final RegistryObject<Item> IRON_RESIDUE = ITEMS.register("iron_residue",
             ()-> new Item(new Item.Properties().tab(SatisCraftory.TAB)));
@@ -35,8 +38,4 @@ public final class ItemInit {
 
     public static final RegistryObject<Item> LOGO_ITEM = ITEMS.register("logo",
             () -> new LogoItem(BlockInit.LOGO.get(), new Item.Properties().tab(SatisCraftory.TAB)));
-
-//    public static final RegistryObject<Item> MINER_MK1_ITEM = ITEMS.register("miner_mk1",
-//            () -> new MinerMk1Item(BlockInit.MINER_MK1.get(), new Item.Properties().tab(SatisCraftory.TAB)));
-
 }

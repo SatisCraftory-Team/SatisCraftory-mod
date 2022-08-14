@@ -42,9 +42,8 @@ public class SatisCraftory {
         packetHandler.register();
 
         BlockInit.register(bus);
+        ItemInit.register(bus);
         TileEntityInit.TILE_ENTITY_TYPES.register(bus);
-
-        ItemInit.ITEMS.register(bus);
         TileEntityInit.BLOCK_ENTITIES.register(bus);
         MenuTypesInit.MENUS.register(bus);
 
