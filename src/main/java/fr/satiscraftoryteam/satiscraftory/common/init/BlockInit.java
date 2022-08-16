@@ -38,10 +38,7 @@ public class BlockInit {
     */
     public static final BlockBuilder BLOCKS = new BlockBuilder(SatisCraftory.MODID);
 
-    public static final DeferredRegister<Block> SPETIAL_BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SatisCraftory.MODID);
-
     public static void register(IEventBus bus)  {
-        SPETIAL_BLOCKS.register(bus);
         BLOCKS.register(bus);
     }
 
