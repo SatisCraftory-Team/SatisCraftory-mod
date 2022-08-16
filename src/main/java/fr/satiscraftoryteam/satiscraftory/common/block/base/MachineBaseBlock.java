@@ -16,6 +16,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
@@ -24,13 +25,18 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-public abstract class MachineBaseBlock extends BaseEntityBlock {
+public abstract class MachineBaseBlock extends BaseEntityBlock implements IPropsGetter {
+
+    protected final BlockProps blockProps = new BlockProps();
+
 
     public static final BooleanProperty HAS_BOUNDING_BLOCKS = BooleanProperty.create("hasboundingblocks");
     public static final BooleanProperty HAS_CONVEYOR_INPUT = BooleanProperty.create("hasconveyorinput");
@@ -52,6 +58,19 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
         }
         return super.getPistonPushReaction(state);
     }
+
+    @NotNull
+    @Override
+    @Deprecated
+    public VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+        if (blockProps.has(ShapeAttribute.class)) {
+           // AttributeStateFacing attr = blockProps.get(AttributeStateFacing.class);
+           // int index = attr == null ? 0 : (attr.getDirection(state).ordinal() - (attr.getFacingProperty() == BlockStateProperties.FACING ? 0 : 2));
+            return blockProps.get(ShapeAttribute.class).bounds()[0];
+        }
+        return super.getShape(state, world, pos, context);
+    }
+
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -75,14 +94,16 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
     @Override
     @Deprecated
     public void onRemove(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull BlockState newState, boolean isMoving) {
-        MachineBaseTileEntity tile = WorldUtils.getTileEntity(MachineBaseTileEntity.class, world, pos);
 
         if (!state.is(newState.getBlock())) {
-            removeBoundingBlocks(world, pos, state);
+            BoudingAttribute hasBounding = Attribute.get(state, BoudingAttribute.class);
+            if (hasBounding != null) {
+                hasBounding.removeBoundingBlocks(world, pos, state);
+            }
         }
 
         if (state.hasBlockEntity() && (!state.is(newState.getBlock()) || !newState.hasBlockEntity())) {
-            //TileEntityUpdateable tile = WorldUtils.getTileEntity(TileEntityUpdateable.class, world, pos);
+            MachineBaseTileEntity tile = WorldUtils.getTileEntity(MachineBaseTileEntity.class, world, pos);
             if (tile != null) {
                 tile.blockRemoved();
             }
@@ -93,84 +114,11 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
     @Override
     public void setPlacedBy(@NotNull Level world, @NotNull BlockPos pos, @NotNull BlockState state, @Nullable LivingEntity placer, @NotNull ItemStack stack) {
         super.setPlacedBy(world, pos, state, placer, stack);
-        if (state.getValue(this.HAS_BOUNDING_BLOCKS)) {
-            placeBoundingBlocks(world, pos, state);
-        }
-        if(state.getValue(this.HAS_CONVEYOR_OUTPUT)) {
-            placeConveyorOutput(world, pos, state);
-        }
-        if(state.getValue(this.HAS_CONVEYOR_INPUT)) {
-            placeConveyorInput(world, pos, state);
-        }
 
-
-//
-//
-//        TileEntityMekanism tile = WorldUtils.getTileEntity(TileEntityMekanism.class, world, pos);
-//        if (tile == null) {
-//            return;
-//        }
-//        if (tile.supportsRedstone()) {
-//            tile.redstone = world.hasNeighborSignal(pos);
-//        }
-//        // Check if the stack has a custom name, and if the tile supports naming, name it
-//        if (tile.isNameable() && stack.hasCustomHoverName()) {
-//            tile.setCustomName(stack.getHoverName());
-//        }
-//
-//        //Handle item
-//        Item item = stack.getItem();
-//        CompoundTag dataMap = ItemDataUtils.getDataMapIfPresent(stack);
-//        if (dataMap == null) {
-//            //Don't bother modifying the stack even though it doesn't matter as it is going away but return an empty compound
-//            // the same as we would normally do if we had to add the data map
-//            dataMap = new CompoundTag();
-//        }
-//        setTileData(world, pos, state, placer, stack, tile);
-//
-//        //TODO - 1.18: Re-evaluate the entirety of this method and see what parts potentially should not be getting called at all when on the client side.
-//        // We previously had issues in readSustainedData regarding frequencies when on the client side so that is why the frequency data has this check
-//        // but there is a good chance a lot of this stuff has no real reason to need to be set on the client side at all
-//        if (!world.isClientSide && tile.getFrequencyComponent().hasCustomFrequencies()) {
-//            tile.getFrequencyComponent().read(dataMap);
-//        }
-//        if (tile.hasSecurity()) {
-//            stack.getCapability(Capabilities.SECURITY_OBJECT).ifPresent(security -> tile.setSecurityMode(security.getSecurityMode()));
-//            UUID ownerUUID = MekanismAPI.getSecurityUtils().getOwnerUUID(stack);
-//            if (ownerUUID != null) {
-//                tile.setOwnerUUID(ownerUUID);
-//            } else if (placer != null) {
-//                tile.setOwnerUUID(placer.getUUID());
-//                if (!world.isClientSide) {
-//                    //If the machine doesn't already have an owner, make sure we portray this
-//                    Mekanism.packetHandler().sendToAll(new PacketSecurityUpdate(placer.getUUID()));
-//                }
-//            }
-//        }
-//        if (tile.supportsUpgrades()) {
-//            //The read method validates that data is stored
-//            tile.getComponent().read(dataMap);
-//        }
-//        if (tile instanceof ISideConfiguration config) {
-//            //The read methods validate that data is stored
-//            config.getConfig().read(dataMap);
-//            config.getEjector().read(dataMap);
-//        }
-//        for (SubstanceType type : EnumUtils.SUBSTANCES) {
-//            if (type.canHandle(tile)) {
-//                DataHandlerUtils.readContainers(type.getContainers(tile), dataMap.getList(type.getContainerTag(), Tag.TAG_COMPOUND));
-//            }
-//        }
-//        if (tile instanceof ISustainedData sustainedData && stack.hasTag()) {
-//            //TODO - 1.18: do we want to be checking it has a tag or not so that we can set things to stuff
-//            sustainedData.readSustainedData(dataMap);
-//        }
-//        if (tile.supportsRedstone()) {
-//            NBTUtils.setEnumIfPresent(dataMap, NBTConstants.CONTROL_TYPE, RedstoneControl::byIndexStatic, tile::setControlType);
-//        }
-//        if (item instanceof ISustainedInventory sustainedInventory && tile.persistInventory()) {
-//            tile.setInventory(sustainedInventory.getInventory(stack));
-//        }
+        BoudingAttribute hasBounding = Attribute.get(state, BoudingAttribute.class);
+        if (hasBounding != null) {
+            hasBounding.placeBoundingBlocks(world, pos, state);
+        }
     }
 
     //Method to override for setting some simple tile specific stuff
@@ -241,9 +189,6 @@ public abstract class MachineBaseBlock extends BaseEntityBlock {
     public Stream<Vec3i> getBoundingPositions(Level level, BlockPos pos, BlockState state) {
         MachineBaseTileEntity tile = WorldUtils.getTileEntity(MachineBaseTileEntity.class, level, pos);
         if (tile != null) {
-            for (Vec3i bounding_blocks_pos : tile.BOUNDING_BLOCKS_POS) {
-                //System.out.println(bounding_blocks_pos);
-            }
             return tile.BOUNDING_BLOCKS_POS.stream();
         }
         return Stream.empty();

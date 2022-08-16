@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.miners;
 
+import fr.satiscraftoryteam.satiscraftory.common.block.base.BlockProps;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.MachineBaseBlock;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTickableTileEntity;
@@ -190,6 +191,11 @@ public class MinerMK1Block extends MachineBaseBlock implements IHasTickableTileE
         }
 
         super.animateTick(blockState, level, blockPos, randomSource);
+    }
+
+    @Override
+    public BlockProps getType() {
+        return super.blockProps;
     }
     //----------------------------------------------------------------------------------------------------------------//
 

@@ -30,7 +30,7 @@ public class SmelterMenu extends AbstractContainerMenu {
 
     public SmelterMenu(int pContainerId, Inventory inv, BlockEntity entity) {
         super(MenuTypesInit.SMELTER_MENU.get(), pContainerId);
-        checkContainerSize(inv, 5);
+        //checkContainerSize(inv, 5);
         blockEntity = ((SmelterBlockEntity) entity);
         this.level = inv.player.level;
 

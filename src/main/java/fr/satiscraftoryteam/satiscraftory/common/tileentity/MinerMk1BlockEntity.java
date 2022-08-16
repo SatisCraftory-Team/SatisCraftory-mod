@@ -84,10 +84,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
                 }
             }
         }
-
     }
-
-
 
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 

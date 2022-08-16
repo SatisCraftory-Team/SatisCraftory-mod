@@ -72,7 +72,7 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
                 }
             }
         }
-        /*
+
         this.CONVEYOR_INPUT_POS_ORIENTATION.add(new Tuple<>(new Vec3i(0,0,-1), RelativeOrientationUtils.RelativeOrientation.BACK));
         for (int x = -1; x <= 1; x++) {
             for (int y = 0; y <= 6; y++) {
@@ -100,7 +100,7 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
                     this.BOUNDING_BLOCKS_POS.add(pos);
                 }
             }
-        }*/
+        }
 
     }
 
@@ -226,7 +226,7 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
 
     @Override
     public ItemStackHandler getInputInventory() {
-        return null;
+        return itemHandler;
     }
 
 
