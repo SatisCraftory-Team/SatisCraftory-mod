@@ -3,10 +3,7 @@ package fr.satiscraftoryteam.satiscraftory;
 import fr.satiscraftoryteam.satiscraftory.client.renderer.blocks.ConveyorRenderer;
 import fr.satiscraftoryteam.satiscraftory.client.screen.MinerMk1Screen;
 import fr.satiscraftoryteam.satiscraftory.client.screen.SmelterScreen;
-import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
-import fr.satiscraftoryteam.satiscraftory.common.init.ItemInit;
-import fr.satiscraftoryteam.satiscraftory.common.init.MenuTypesInit;
-import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
+import fr.satiscraftoryteam.satiscraftory.common.init.*;
 import fr.satiscraftoryteam.satiscraftory.common.network.ModPackets;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTab;
@@ -46,6 +43,8 @@ public class SatisCraftory {
         TileEntityInit.TILE_ENTITY_TYPES.register(bus);
         TileEntityInit.BLOCK_ENTITIES.register(bus);
         MenuTypesInit.MENUS.register(bus);
+
+        StructuresInit.DEFERRED_REGISTRY_STRUCTURE.register(bus);
 
         GeckoLib.initialize();
 
