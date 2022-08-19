@@ -1,4 +1,4 @@
-package fr.satiscraftoryteam.satiscraftory.common.block;
+package fr.satiscraftoryteam.satiscraftory.common.block.buildings;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;

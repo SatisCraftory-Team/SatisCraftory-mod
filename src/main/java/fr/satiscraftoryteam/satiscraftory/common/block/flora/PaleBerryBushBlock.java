@@ -1,4 +1,4 @@
-package fr.satiscraftoryteam.satiscraftory.common.block;
+package fr.satiscraftoryteam.satiscraftory.common.block.flora;
 
 import fr.satiscraftoryteam.satiscraftory.common.init.ItemInit;
 import net.minecraft.core.BlockPos;

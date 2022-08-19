@@ -1,4 +1,4 @@
-package fr.satiscraftoryteam.satiscraftory.common.block;
+package fr.satiscraftoryteam.satiscraftory.common.block.buildings.specials;
 
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import net.minecraft.core.BlockPos;

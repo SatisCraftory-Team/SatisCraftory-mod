@@ -1,14 +1,14 @@
 package fr.satiscraftoryteam.satiscraftory.common.init;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
-import fr.satiscraftoryteam.satiscraftory.common.block.*;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.BlockBounding;
+import fr.satiscraftoryteam.satiscraftory.common.block.buildings.Foundations;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
-import fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.miners.MinerMK1Block;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.miners.NewMinerMk1Block;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.smelters.SmelterBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.examplesTest.EliocubeBlock;
+import fr.satiscraftoryteam.satiscraftory.common.block.flora.PaleBerryBushBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.logistics.sorting.ConveyorMerger;
 import fr.satiscraftoryteam.satiscraftory.common.builder.BlockBuilder;
 import fr.satiscraftoryteam.satiscraftory.common.item.EliocubeItem;
@@ -26,11 +26,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-
-import java.util.function.Supplier;
 
 public class BlockInit {
     /**
