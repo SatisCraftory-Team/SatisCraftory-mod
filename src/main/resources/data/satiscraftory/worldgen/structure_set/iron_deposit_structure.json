@@ -12,19 +12,13 @@
     "type": "minecraft:random_spread",
 
       // Make sure this is unique and does not match any other structure set's salt
-    "salt": 1224466880,
+    "salt": 1867554250,
 
       // The average distance apart in chunks for spawn attempts
-    "spacing": 16,
+    "spacing": 10,
 
       // Minimum distance apart in chunks for spawn attempts
       // MUST ALWAYS BE SMALLER THAN spacing ABOVE
-    "separation": 6,
-
-      // Prevent spawning near Ocean Monuments
-    "exclusion_zone": {
-      "chunk_count": 10,
-      "other_set": "minecraft:ocean_monuments"
-    }
+    "separation": 5
   }
 }
