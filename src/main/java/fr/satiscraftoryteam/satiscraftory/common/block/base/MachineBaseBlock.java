@@ -2,12 +2,12 @@ package fr.satiscraftoryteam.satiscraftory.common.block.base;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
-import fr.satiscraftoryteam.satiscraftory.utils.MultiBlockUtil;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
+import fr.satiscraftoryteam.satiscraftory.utils.MultiBlockUtil;
 import fr.satiscraftoryteam.satiscraftory.utils.RelativeOrientationUtils;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
@@ -36,6 +36,10 @@ import java.util.stream.Stream;
 public abstract class MachineBaseBlock extends BaseEntityBlock implements IPropsGetter {
 
     protected final BlockProps blockProps = new BlockProps();
+
+    public final BlockProps getBlockProps() {
+        return blockProps;
+    }
 
 
     public static final BooleanProperty HAS_BOUNDING_BLOCKS = BooleanProperty.create("hasboundingblocks");
