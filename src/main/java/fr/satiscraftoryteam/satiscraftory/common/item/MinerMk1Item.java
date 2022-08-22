@@ -1,9 +1,14 @@
 package fr.satiscraftoryteam.satiscraftory.common.item;
 
 import fr.satiscraftoryteam.satiscraftory.client.renderer.items.MinerMk1ItemRenderer;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.RestrictedPlacementAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.miners.NewMinerMk1Block;
+import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -12,9 +17,10 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
-public class MinerMk1Item extends BlockItem implements IAnimatable {
+public class MinerMk1Item extends MachineItem implements IAnimatable {
     public AnimationFactory factory = new AnimationFactory(this);
 
     public MinerMk1Item(Block block, Properties settings) {

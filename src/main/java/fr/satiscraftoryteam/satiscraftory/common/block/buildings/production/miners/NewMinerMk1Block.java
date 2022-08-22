@@ -1,17 +1,14 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.miners;
 
-import fr.satiscraftoryteam.satiscraftory.common.block.base.BlockProps;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.BoudingAttribute;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.MachineBaseBlock;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.ShapeAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.*;
+import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTickableTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.interfaces.IRestriedPlacement;
 import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.common.shapes.ShapesList;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.BlockEntityutils;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,7 +17,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
@@ -34,16 +30,11 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.EnumMap;
-import java.util.Map;
-
-public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTileEntity {
+public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTileEntity, IRestriedPlacement {
 
     private static final Vec3i P2OFFSET = new Vec3i(0, 0, 3);
 
@@ -51,6 +42,7 @@ public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTi
         super(BlockBehaviour.Properties.of(Material.METAL));
         //registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
 
+        blockProps.add(new RestrictedPlacementAttribute(BlockInit.IRON_DEPOSIT.getBlock(), BlockInit.COPPER_DEPOSIT.getBlock()));
         blockProps.add(new ShapeAttribute(ShapesList.MINER_MK1));
         blockProps.add(new BoudingAttribute((pos, state, builder) -> {
             for (int x = -1; x <= 1; x++) {
