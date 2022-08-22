@@ -48,7 +48,7 @@ public class SatisCraftory {
 
         GeckoLib.initialize();
 
-        System.out.println("ici, c'est le goulag, préparez vous au combat.");
+        LOGGER.info("ici, c'est le goulag, préparez vous au combat");
     }
 
     public void clientSetup(FMLClientSetupEvent e) {
@@ -61,7 +61,7 @@ public class SatisCraftory {
         event.registerBlockEntityRenderer(TileEntityInit.CONVEYOR_FULL.get(), ConveyorRenderer::new);
     }
 
-    public static final CreativeModeTab TAB = new CreativeModeTab("satiscraftoryTAB") {
+    public static final CreativeModeTab TAB = new CreativeModeTab("satiscraftory_tab") {
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(BlockInit.LOGO.asItem());

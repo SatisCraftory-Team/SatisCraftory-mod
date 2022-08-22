@@ -314,7 +314,6 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
             }
         }
         VoxelShape shape = proxy.getShape(mainState, world, mainPos, context);
-        System.out.println("Block pos: " + mainPos + " is empty " + shape.isEmpty());
         BlockPos offset = pos.subtract(mainPos);
         return shape.move(-offset.getX(), -offset.getY(), -offset.getZ());
     }
