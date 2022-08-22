@@ -4,7 +4,6 @@ import fr.satiscraftoryteam.satiscraftory.common.block.base.*;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTickableTileEntity;
-import fr.satiscraftoryteam.satiscraftory.common.interfaces.IRestriedPlacement;
 import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.common.shapes.ShapesList;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
@@ -31,10 +30,9 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTileEntity, IRestriedPlacement {
+public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTileEntity {
 
     private static final Vec3i P2OFFSET = new Vec3i(0, 0, 3);
 

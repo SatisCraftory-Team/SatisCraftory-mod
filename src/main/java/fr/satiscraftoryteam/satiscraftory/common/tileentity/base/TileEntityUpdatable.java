@@ -1,6 +1,5 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity.base;
 
-import fr.satiscraftoryteam.satiscraftory.common.interfaces.ITileWrapper;
 import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -15,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public abstract class TileEntityUpdatable extends BlockEntity implements ITileWrapper {
+public abstract class TileEntityUpdatable extends BlockEntity {
 
 
     public TileEntityUpdatable(TileEntityRegistryObject<?> type, BlockPos pos, BlockState state) {
@@ -32,18 +31,6 @@ public abstract class TileEntityUpdatable extends BlockEntity implements ITileWr
         //Add the base update tag information
         return super.getUpdateTag();
     }
-
-
-    @Override
-    public Level getTileWorld() {
-        return level;
-    }
-
-    @Override
-    public BlockPos getTilePos() {
-        return worldPosition;
-    }
-
 
     public void blockRemoved() {
     }
