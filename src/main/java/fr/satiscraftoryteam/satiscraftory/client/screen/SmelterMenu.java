@@ -101,7 +101,7 @@ public class SmelterMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                pPlayer, BlockInit.MINER_MK1.getBlock());
+                pPlayer, BlockInit.SMELTER.getBlock());
     }
 
     private void addPlayerInventory(Inventory playerInventory) {
