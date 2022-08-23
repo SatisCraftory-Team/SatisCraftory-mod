@@ -1,8 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.init;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
-import fr.satiscraftoryteam.satiscraftory.common.item.EliocubeItem;
-import fr.satiscraftoryteam.satiscraftory.common.item.LogoItem;
 import fr.satiscraftoryteam.satiscraftory.common.item.XenoZapperItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -17,6 +15,9 @@ public final class ItemInit {
     public static void register(IEventBus bus){
         ITEMS.register(bus);
     }
+
+    public static final RegistryObject<Item> REGLE_HELP_DEV = ITEMS.register("regle_help_dev",
+            ()-> new Item(new Item.Properties().tab(SatisCraftory.TAB)));
 
     public static final RegistryObject<Item> IRON_RESIDUE = ITEMS.register("iron_residue",
             ()-> new Item(new Item.Properties().tab(SatisCraftory.TAB)));

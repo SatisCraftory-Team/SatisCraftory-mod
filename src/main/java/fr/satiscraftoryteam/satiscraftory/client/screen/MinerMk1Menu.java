@@ -15,7 +15,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.ItemStackHandler;
 
 import static fr.satiscraftoryteam.satiscraftory.common.init.ItemInit.POWER_SHARD;
 
@@ -37,10 +36,10 @@ public class MinerMk1Menu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
         InventoryPartition outputPartition = this.blockEntity.outputPartition;
         InventoryPartition overclockPartition = this.blockEntity.overclockPartition;
-        this.addSlot(new ResultSlotInit(outputPartition, 0, 17, 45));
-        this.addSlot(new RestrictedSlot(overclockPartition, 0, 107, 45, POWER_SHARD.get()));
-        this.addSlot(new RestrictedSlot(overclockPartition, 1, 125, 45, POWER_SHARD.get()));
-        this.addSlot(new RestrictedSlot(overclockPartition, 2, 143, 45, POWER_SHARD.get()));
+        this.addSlot(new ResultSlotInit(outputPartition, 0, 50, 29));
+        this.addSlot(new RestrictedSlot(overclockPartition, 0, 184, 44, POWER_SHARD.get()));
+        this.addSlot(new RestrictedSlot(overclockPartition, 1, 202, 44, POWER_SHARD.get()));
+        this.addSlot(new RestrictedSlot(overclockPartition, 2, 220, 44, POWER_SHARD.get()));
 
         /*this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             this.addSlot(new ResultSlotInit(handler, 0, 17, 45));
@@ -108,17 +107,19 @@ public class MinerMk1Menu extends AbstractContainerMenu {
                 pPlayer, BlockInit.MINER_MK1.getBlock());
     }
 
+    private int ySlot = 32;
+
     private void addPlayerInventory(Inventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 86 + i * 18));
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 86 + i * 18 + ySlot));
             }
         }
     }
 
     private void addPlayerHotbar(Inventory playerInventory) {
         for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 144));
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 144 + ySlot));
         }
     }
 }
