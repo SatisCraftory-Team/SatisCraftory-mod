@@ -3,6 +3,7 @@ package fr.satiscraftoryteam.satiscraftory.common.block.base;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
+import fr.satiscraftoryteam.satiscraftory.common.interfaces.IBlockProperties;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
@@ -33,14 +34,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-public abstract class MachineBaseBlock extends BaseEntityBlock implements IPropsGetter {
-
-    protected final BlockProps blockProps = new BlockProps();
-
-    public final BlockProps getBlockProps() {
-        return blockProps;
-    }
-
+public abstract class MachineBaseBlock extends BaseEntityBlock implements IBlockProperties {
 
     public static final BooleanProperty HAS_BOUNDING_BLOCKS = BooleanProperty.create("hasboundingblocks");
     public static final BooleanProperty HAS_CONVEYOR_INPUT = BooleanProperty.create("hasconveyorinput");
@@ -67,10 +61,10 @@ public abstract class MachineBaseBlock extends BaseEntityBlock implements IProps
     @Override
     @Deprecated
     public VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-        if (blockProps.has(ShapeAttribute.class)) {
+        if (this.has(ShapeAttribute.class)) {
            // AttributeStateFacing attr = blockProps.get(AttributeStateFacing.class);
            // int index = attr == null ? 0 : (attr.getDirection(state).ordinal() - (attr.getFacingProperty() == BlockStateProperties.FACING ? 0 : 2));
-            return blockProps.get(ShapeAttribute.class).bounds()[0];
+            return this.get(ShapeAttribute.class).bounds()[0];
         }
         return super.getShape(state, world, pos, context);
     }

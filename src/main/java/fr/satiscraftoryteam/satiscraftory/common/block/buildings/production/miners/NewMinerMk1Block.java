@@ -40,9 +40,9 @@ public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTi
         super(BlockBehaviour.Properties.of(Material.METAL));
         //registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
 
-        blockProps.add(new RestrictedPlacementAttribute(BlockInit.IRON_DEPOSIT.getBlock(), BlockInit.COPPER_DEPOSIT.getBlock()));
-        blockProps.add(new ShapeAttribute(ShapesList.MINER_MK1));
-        blockProps.add(new BoudingAttribute((pos, state, builder) -> {
+        this.addProperties(new RestrictedPlacementAttribute(BlockInit.IRON_DEPOSIT.getBlock(), BlockInit.COPPER_DEPOSIT.getBlock()));
+        this.addProperties(new ShapeAttribute(ShapesList.MINER_MK1));
+        this.addProperties(new BoudingAttribute((pos, state, builder) -> {
             for (int x = -1; x <= 1; x++) {
                 for (int y = 0; y <= 5; y++) {
                     for (int z = -1; z <= 3; z++) {
@@ -83,11 +83,6 @@ public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTi
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new MinerMk1BlockEntity(blockPos, blockState);
-    }
-
-    @Override
-    public BlockProps getType() {
-        return super.blockProps;
     }
     //----------------------------------------------------------------------------------------------------------------//
 

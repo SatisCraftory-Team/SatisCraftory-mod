@@ -1,6 +1,5 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.smelters;
 
-import fr.satiscraftoryteam.satiscraftory.common.block.base.BlockProps;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.MachineBaseBlock;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
@@ -234,11 +233,6 @@ public class SmelterBlock extends MachineBaseBlock implements IHasTileEntity<Sme
         }
 
         super.animateTick(blockState, level, blockPos, randomSource);
-    }
-
-    @Override
-    public BlockProps getType() {
-        return super.blockProps;
     }
     //----------------------------------------------------------------------------------------------------------------//
 

@@ -1,9 +1,7 @@
 package fr.satiscraftoryteam.satiscraftory.common.item;
 
-import fr.satiscraftoryteam.satiscraftory.common.block.base.BlockProps;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.MachineBaseBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.RestrictedPlacementAttribute;
-import fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.miners.NewMinerMk1Block;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
@@ -20,10 +18,9 @@ public class MachineItem extends BlockItem {
     @Override
     protected boolean canPlace(BlockPlaceContext blockPlaceContext, BlockState blockState) {
         MachineBaseBlock block = (MachineBaseBlock) blockState.getBlock();
-        BlockProps blockProps = block.getBlockProps();
 
-        if (blockProps.has(RestrictedPlacementAttribute.class)) {
-            if (!Arrays.asList(blockProps.get(RestrictedPlacementAttribute.class).blocks()).contains(blockPlaceContext.getLevel().getBlockState(blockPlaceContext.getClickedPos().below()).getBlock())) {
+        if (block.has(RestrictedPlacementAttribute.class)) {
+            if (!Arrays.asList(block.get(RestrictedPlacementAttribute.class).blocks()).contains(blockPlaceContext.getLevel().getBlockState(blockPlaceContext.getClickedPos().below()).getBlock())) {
                 return false;
             }
         }
