@@ -1,13 +1,11 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.base;
 
-import com.google.common.collect.Lists;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IBlockProperties;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.Collection;
-import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public interface Attribute {
 
@@ -33,16 +31,23 @@ public interface Attribute {
         return has(block1, type) && has(block2, type);
     }
 
-    static <T extends Attribute> void ifHas(BlockState blockState, Class<T> type, Consumer<T> run) {
-        ifHas(blockState.getBlock(), type, run);
+    static <T extends Attribute> boolean ifHas(BlockState blockState, Class<T> type, Predicate<T> run, boolean defaultReturn) {
+        return ifHas(blockState.getBlock(), type, run, defaultReturn);
     }
 
-    static <T extends Attribute> void ifHas(Block block, Class<T> type, Consumer<T> run) {
+    /**
+     * @param block Block where you want to retrieve Attribute.
+     * @param type Class of the Attribute you are looking for.
+     * @param run Code that you want to execute if an Attribute has been found. Must return a boolean.
+     * @param defaultReturn Default return value if an Attribute can't be found.
+     */
+    static <T extends Attribute> boolean ifHas(Block block, Class<T> type, Predicate<T> run, boolean defaultReturn) {
         if (block instanceof IBlockProperties typeBlock) {
             T attribute = typeBlock.get(type);
             if (attribute != null) {
-                run.accept(attribute);
+                return run.test(attribute);
             }
         }
+        return defaultReturn;
     }
 }
