@@ -33,6 +33,10 @@ public interface Attribute {
         return has(block1, type) && has(block2, type);
     }
 
+    static <T extends Attribute> void ifHas(BlockState blockState, Class<T> type, Consumer<T> run) {
+        ifHas(blockState.getBlock(), type, run);
+    }
+
     static <T extends Attribute> void ifHas(Block block, Class<T> type, Consumer<T> run) {
         if (block instanceof IBlockProperties typeBlock) {
             T attribute = typeBlock.get(type);
