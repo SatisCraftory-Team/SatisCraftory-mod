@@ -1,13 +1,15 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.base;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.BlockProps;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
-import fr.satiscraftoryteam.satiscraftory.common.interfaces.IBlockProperties;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.interfaces.IPropsGetter;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
+import fr.satiscraftoryteam.satiscraftory.utils.BlockstateUtils;
 import fr.satiscraftoryteam.satiscraftory.utils.MultiBlockUtil;
 import fr.satiscraftoryteam.satiscraftory.utils.RelativeOrientationUtils;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
@@ -17,14 +19,18 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -34,7 +40,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-public abstract class MachineBaseBlock extends BaseEntityBlock implements IBlockProperties {
+public abstract class MachineBaseBlock extends Block implements IPropsGetter {
+
+    protected BlockProps blockProps;
 
     public static final BooleanProperty HAS_BOUNDING_BLOCKS = BooleanProperty.create("hasboundingblocks");
     public static final BooleanProperty HAS_CONVEYOR_INPUT = BooleanProperty.create("hasconveyorinput");
@@ -42,6 +50,14 @@ public abstract class MachineBaseBlock extends BaseEntityBlock implements IBlock
 
     public MachineBaseBlock(Properties properties) {
         super(properties);
+        registerDefaultState(stateDefinition.any());
+    }
+
+    protected void initProperties() {}
+
+    @Override
+    public BlockProps getProps() {
+        return blockProps == null ? blockProps = new BlockProps() : blockProps;
     }
 
     @NotNull
@@ -61,22 +77,49 @@ public abstract class MachineBaseBlock extends BaseEntityBlock implements IBlock
     @Override
     @Deprecated
     public VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-        if (this.has(ShapeAttribute.class)) {
-           // AttributeStateFacing attr = blockProps.get(AttributeStateFacing.class);
-           // int index = attr == null ? 0 : (attr.getDirection(state).ordinal() - (attr.getFacingProperty() == BlockStateProperties.FACING ? 0 : 2));
-            return this.get(ShapeAttribute.class).bounds()[0];
+        if (this.getProps().has(ShapeAttribute.class)) {
+           FacingAttribute attr = this.getProps().get(FacingAttribute.class);
+           int index = attr == null ? 0 : (attr.getDirection(state).ordinal() - (attr.getFacingProperty() == BlockStateProperties.FACING ? 0 : 2));
+            return this.getProps().get(ShapeAttribute.class).bounds()[index];
         }
         return super.getShape(state, world, pos, context);
     }
 
-
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
+        initProperties();
+        BlockstateUtils.fillBlockStateContainer(this, builder);
+
+        //TODO: rework this
         builder.add(HAS_BOUNDING_BLOCKS);
         builder.add(HAS_CONVEYOR_OUTPUT);
         builder.add(HAS_CONVEYOR_INPUT);
     }
+
+    @Override
+    public BlockState rotate(BlockState state, LevelAccessor world, BlockPos pos, Rotation rotation) {
+        return FacingAttribute.rotate(state, world, pos, rotation);
+    }
+
+    @NotNull
+    @Override
+    @Deprecated
+    public BlockState rotate(@NotNull BlockState state, @NotNull Rotation rotation) {
+        return FacingAttribute.rotate(state, rotation);
+    }
+
+    @NotNull
+    @Override
+    @Deprecated
+    public BlockState mirror(@NotNull BlockState state, @NotNull Mirror mirror) {
+        return FacingAttribute.mirror(state, mirror);
+    }
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return BlockstateUtils.getStateForPlacement(this, super.getStateForPlacement(context), context);
+    }
+
 
     @Override
     @Deprecated

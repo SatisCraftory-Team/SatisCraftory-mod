@@ -1,25 +1,33 @@
-package fr.satiscraftoryteam.satiscraftory.common.interfaces;
+package fr.satiscraftoryteam.satiscraftory.common.block.base.properties;
 
 import fr.satiscraftoryteam.satiscraftory.common.block.base.Attribute;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface IBlockProperties {
+public class BlockProps {
+
     final Map<Class<? extends Attribute>, Attribute> attributeMap = new HashMap<>();
 
-    default boolean has(Class<? extends Attribute> type) {
+    public boolean has(Class<? extends Attribute> type) {
         return attributeMap.containsKey(type);
     }
 
     @SuppressWarnings("unchecked")
-    default <T extends Attribute> T get(Class<T> type) {
+    public <T extends Attribute> T get(Class<T> type) {
         return (T) attributeMap.get(type);
     }
 
-    default void addProperties(Attribute... attrs) {
+    public void addProperties(Attribute... attrs) {
         for (Attribute attr : attrs) {
             attributeMap.put(attr.getClass(), attr);
         }
     }
+
+    public Collection<Attribute> getAll() {
+        return attributeMap.values();
+    }
+
+
 }
