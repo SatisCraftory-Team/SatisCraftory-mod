@@ -1,14 +1,13 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.miners;
 
 import fr.satiscraftoryteam.satiscraftory.common.block.base.*;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.BlockProps;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.*;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTickableTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.common.shapes.ShapesList;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
-import fr.satiscraftoryteam.satiscraftory.utils.BlockstateUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,12 +17,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
@@ -44,6 +41,9 @@ public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTi
         this.getProps().addProperties(new RestrictedPlacementAttribute(BlockInit.IRON_DEPOSIT.getBlock(), BlockInit.COPPER_DEPOSIT.getBlock()));
         this.getProps().addProperties(new ShapeAttribute(ShapesList.MINER_MK1));
         this.getProps().addProperties(new FacingAttribute(BlockStateProperties.HORIZONTAL_FACING, FacingAttribute.FacePlacementType.PLAYER_LOCATION));
+        this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.OUTPUT_ONLY, (pos, state, builder) -> {
+            builder.add(pos.north(2));
+        }));
         this.getProps().addProperties(new BoudingAttribute((pos, state, builder) -> {
             for (int x = -1; x <= 1; x++) {
                 for (int y = 0; y <= 5; y++) {

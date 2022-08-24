@@ -1,7 +1,5 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.base.properties;
 
-import fr.satiscraftoryteam.satiscraftory.common.block.base.Attribute;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;

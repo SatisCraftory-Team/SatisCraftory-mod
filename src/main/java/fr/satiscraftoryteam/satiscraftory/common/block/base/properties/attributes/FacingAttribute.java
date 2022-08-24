@@ -1,5 +1,7 @@
-package fr.satiscraftoryteam.satiscraftory.common.block.base;
+package fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes;
 
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.Attribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.StateAttribute;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -19,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
 
-public class FacingAttribute implements Attribute {
+public class FacingAttribute implements StateAttribute {
 
     private final DirectionProperty facingProperty;
     private final FacePlacementType placementType;
@@ -77,6 +79,7 @@ public class FacingAttribute implements Attribute {
         return getFacingProperty().getPossibleValues();
     }
 
+    @Override
     public void fillBlockStateContainer(Block block, List<Property<?>> properties) {
         properties.add(getFacingProperty());
     }

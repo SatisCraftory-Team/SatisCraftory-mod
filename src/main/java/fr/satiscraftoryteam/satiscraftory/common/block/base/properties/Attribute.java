@@ -1,4 +1,4 @@
-package fr.satiscraftoryteam.satiscraftory.common.block.base;
+package fr.satiscraftoryteam.satiscraftory.common.block.base.properties;
 
 import com.google.common.collect.Lists;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IPropsGetter;
@@ -6,7 +6,9 @@ import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTile
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.lang.constant.Constable;
 import java.util.Collection;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public interface Attribute {
@@ -55,5 +57,23 @@ public interface Attribute {
             }
         }
         return defaultReturn;
+    }
+
+    static <T extends Attribute> void ifHas(BlockState blockState, Class<T> type, Consumer<T> run) {
+        ifHas(blockState.getBlock(), type, run);
+    }
+
+    /**
+     * @param block Block where you want to retrieve Attribute.
+     * @param type Class of the Attribute you are looking for.
+     * @param run Code that you want to execute if an Attribute has been found.
+     */
+    static <T extends Attribute> void ifHas(Block block, Class<T> type, Consumer<T> run) {
+        if (block instanceof IPropsGetter typeBlock) {
+            T attribute = typeBlock.getProps().get(type);
+            if (attribute != null) {
+                run.accept(attribute);
+            }
+        }
     }
 }

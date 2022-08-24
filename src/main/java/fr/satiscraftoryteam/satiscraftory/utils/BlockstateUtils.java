@@ -1,7 +1,8 @@
 package fr.satiscraftoryteam.satiscraftory.utils;
 
-import fr.satiscraftoryteam.satiscraftory.common.block.base.Attribute;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.FacingAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.Attribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.FacingAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.StateAttribute;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
@@ -11,13 +12,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraft.world.level.material.FluidState;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class BlockstateUtils {
@@ -42,7 +40,7 @@ public class BlockstateUtils {
     public static void fillBlockStateContainer(Block block, StateDefinition.Builder<Block, BlockState> builder) {
         List<Property<?>> properties = new ArrayList<>();
         for (Attribute attr : Attribute.getAll(block)) {
-            if (attr instanceof FacingAttribute atr) {
+            if (attr instanceof StateAttribute atr) {
                 atr.fillBlockStateContainer(block, properties);
             }
         }

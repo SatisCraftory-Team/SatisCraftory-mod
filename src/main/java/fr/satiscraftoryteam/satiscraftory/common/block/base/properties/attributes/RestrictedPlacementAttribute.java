@@ -1,5 +1,6 @@
-package fr.satiscraftoryteam.satiscraftory.common.block.base;
+package fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes;
 
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.Attribute;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
