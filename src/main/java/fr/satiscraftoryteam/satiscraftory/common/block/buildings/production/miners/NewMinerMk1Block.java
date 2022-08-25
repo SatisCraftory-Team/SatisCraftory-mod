@@ -1,6 +1,7 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.miners;
 
 import fr.satiscraftoryteam.satiscraftory.common.block.base.*;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.*;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTickableTileEntity;
@@ -15,18 +16,12 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
@@ -39,10 +34,17 @@ public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTi
     public NewMinerMk1Block() {
         super(BlockBehaviour.Properties.of(Material.METAL));
         //registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
+    }
 
-        this.addProperties(new RestrictedPlacementAttribute(BlockInit.IRON_DEPOSIT.getBlock(), BlockInit.COPPER_DEPOSIT.getBlock()));
-        this.addProperties(new ShapeAttribute(ShapesList.MINER_MK1));
-        this.addProperties(new BoudingAttribute((pos, state, builder) -> {
+    @Override
+    protected void initProperties() {
+        this.getProps().addProperties(new RestrictedPlacementAttribute(BlockInit.IRON_DEPOSIT.getBlock(), BlockInit.COPPER_DEPOSIT.getBlock()));
+        this.getProps().addProperties(new ShapeAttribute(ShapesList.MINER_MK1));
+        this.getProps().addProperties(new FacingAttribute(BlockStateProperties.HORIZONTAL_FACING, FacingAttribute.FacePlacementType.PLAYER_LOCATION));
+        this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.OUTPUT_ONLY, (pos, state, builder) -> {
+            builder.add(pos.north(2));
+        }));
+        this.getProps().addProperties(new BoudingAttribute((pos, state, builder) -> {
             for (int x = -1; x <= 1; x++) {
                 for (int y = 0; y <= 5; y++) {
                     for (int z = -1; z <= 3; z++) {
@@ -88,29 +90,7 @@ public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTi
 
     //---------------------------------------------DirectionFace------------------------------------------------------//
 
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
-        builder.add(FACING);
-    }
-
-    @Override
-    public BlockState rotate(BlockState blockState, Rotation rotation) {
-        return blockState.setValue(FACING, rotation.rotate(blockState.getValue(FACING)));
-    }
-
-    @Override
-    public BlockState mirror(BlockState blockState, Mirror mirror) {
-        return blockState.rotate(mirror.getRotation(blockState.getValue(FACING)));
-    }
-
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
-    }
 
     //----------------------------------------------------------------------------------------------------------------//
 

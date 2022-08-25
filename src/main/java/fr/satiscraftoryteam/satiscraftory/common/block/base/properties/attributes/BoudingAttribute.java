@@ -1,23 +1,34 @@
-package fr.satiscraftoryteam.satiscraftory.common.block.base;
+package fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes;
 
+import fr.satiscraftoryteam.satiscraftory.common.block.base.BlockBounding;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.StateAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 import org.apache.logging.log4j.util.TriConsumer;
 
+import java.util.List;
 import java.util.stream.Stream;
 
-public class BoudingAttribute implements Attribute {
+public class BoudingAttribute implements StateAttribute {
+
+    public static final BooleanProperty HAS_BOUNDING_BLOCKS = BooleanProperty.create("hasboundingblocks");
 
     private final TriConsumer<BlockPos, BlockState, Stream.Builder<BlockPos>> boundingPositions;
 
     public BoudingAttribute(TriConsumer<BlockPos, BlockState, Stream.Builder<BlockPos>> boundingPositions) {
         this.boundingPositions = boundingPositions;
+    }
+
+    @Override
+    public void fillBlockStateContainer(Block block, List<Property<?>> properties) {
+        properties.add(HAS_BOUNDING_BLOCKS);
     }
 
     public void removeBoundingBlocks(Level level, BlockPos pos, BlockState state) {
