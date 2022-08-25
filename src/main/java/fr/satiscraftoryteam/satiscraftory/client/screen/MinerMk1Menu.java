@@ -1,7 +1,7 @@
 package fr.satiscraftoryteam.satiscraftory.client.screen;
 
-import fr.satiscraftoryteam.satiscraftory.client.screen.slot.RestrictedSlot;
-import fr.satiscraftoryteam.satiscraftory.client.screen.slot.ResultSlotInit;
+import fr.satiscraftoryteam.satiscraftory.client.screen.element.slot.RestrictedSlot;
+import fr.satiscraftoryteam.satiscraftory.client.screen.element.slot.ResultSlotInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.MenuTypesInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;

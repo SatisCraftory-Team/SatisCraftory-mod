@@ -3,6 +3,7 @@ package fr.satiscraftoryteam.satiscraftory.client.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
+import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -12,10 +13,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.client.gui.widget.ForgeSlider;
 
-public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
+public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu>{
     private static final ResourceLocation GUI =
             new ResourceLocation(SatisCraftory.MODID, "textures/gui/miner_mk1_gui.png");
-
     private static final ResourceLocation INVENTORY =
             new ResourceLocation(SatisCraftory.MODID, "textures/gui/inventory.png");
     private static final ResourceLocation CONFIG_BAR =
@@ -24,15 +24,12 @@ public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
     private Inventory playerInventory;
 
     private static boolean OnOff = false;
-
     private ForgeSlider sliderOverclock;
-
     private CheckBox checkBoxOnOff;
     private int overclock_percentage = 100;
-    private int overclock_percentage_inner;
     private float default_energy_use = 5;
 
-    //level miner_mk1
+    //level miner_mk1 (default = 60)
     private float default_mining_speed = 60;
 
     //info gisement
@@ -109,9 +106,12 @@ public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
         //int y = this.topPos;
         this.blit(pPoseStack, x, y, 0, 0, imageWidth, imageHeight);
 
+
+
         RenderSystem.setShaderTexture(0, CONFIG_BAR);
         this.blit(pPoseStack, x-100, y+10, 0, 0, 100, 60);
-        this.blit(pPoseStack, x+imageWidth, y+10, 106, 60, 177, 120);
+        this.blit(pPoseStack, x+imageWidth, y+10, 106, 60, 176, 120);
+
 
         RenderSystem.setShaderTexture(0, INVENTORY);
         this.blit(pPoseStack, x, y + 100, 0, 0, 176, 100);

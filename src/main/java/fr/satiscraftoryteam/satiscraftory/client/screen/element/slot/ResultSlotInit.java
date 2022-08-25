@@ -1,4 +1,4 @@
-package fr.satiscraftoryteam.satiscraftory.client.screen.slot;
+package fr.satiscraftoryteam.satiscraftory.client.screen.element.slot;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
