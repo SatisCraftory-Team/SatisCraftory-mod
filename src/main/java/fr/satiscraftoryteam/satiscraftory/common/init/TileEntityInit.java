@@ -5,6 +5,8 @@ import fr.satiscraftoryteam.satiscraftory.common.builder.TileEntityBuilder;
 import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.*;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorOutputPartBlockEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorTileEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

@@ -1,7 +1,7 @@
 package fr.satiscraftoryteam.satiscraftory.common.network.packets;
 
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IPacket;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorTileEntity;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -17,13 +17,13 @@ public class PacketUpdateConveyor implements IPacket {
 
     private final BlockPos pos;
     private final CompoundTag updateTag;
-    private final Item[] items;
+    private final ItemStack[] items;
 
     public PacketUpdateConveyor(ConveyorTileEntity tile) {
         this(tile.getBlockPos(), tile.getReducedUpdateTag(), tile.getItems());
     }
 
-    public PacketUpdateConveyor(BlockPos pos, CompoundTag updateTag, Item[] items) {
+    public PacketUpdateConveyor(BlockPos pos, CompoundTag updateTag, ItemStack[] items) {
         this.pos = pos;
         this.updateTag = updateTag;
         this.items = items;
@@ -45,9 +45,9 @@ public class PacketUpdateConveyor implements IPacket {
         buffer.writeBlockPos(pos);
         buffer.writeNbt(updateTag);
         buffer.writeInt(items.length);
-        for(Item item : items){
+        for(ItemStack item : items){
             if(item != null){
-                buffer.writeItem(item.getDefaultInstance());
+                buffer.writeItem(item);
             }else {
                 buffer.writeItem(ItemStack.EMPTY);
             }
@@ -58,20 +58,20 @@ public class PacketUpdateConveyor implements IPacket {
         BlockPos pos = buffer.readBlockPos();
         CompoundTag updateTag = buffer.readNbt();
         int size = buffer.readInt();
-        Item[] items = new Item[size];
+        ItemStack[] items = new ItemStack[size];
         for(int i = 0; i < size; i++){
             ItemStack stack = buffer.readItem();
-            if(stack == ItemStack.EMPTY || stack.getItem() == Items.AIR){
+            if(stack == ItemStack.EMPTY){
                 items[i] = null;
             }
             else {
-                items[i] = stack.getItem();
+                items[i] = stack;
             }
         }
         return new PacketUpdateConveyor(pos, updateTag, items);
     }
 
-    public Item[] getItems() {
+    public ItemStack[] getItems() {
         return items;
     }
 }

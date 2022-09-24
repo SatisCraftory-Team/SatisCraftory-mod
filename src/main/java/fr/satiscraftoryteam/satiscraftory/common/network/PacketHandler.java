@@ -3,6 +3,7 @@ package fr.satiscraftoryteam.satiscraftory.common.network;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IPacket;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketUpdateConveyor;
+import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketUpdateMasterConveyorLinker;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketUpdateTile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -32,6 +33,7 @@ public class PacketHandler  {
 
         netHandler.registerMessage(1, PacketUpdateTile.class, IPacket::encode, PacketUpdateTile::decode, IPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         netHandler.registerMessage(2, PacketUpdateConveyor.class, IPacket::encode, PacketUpdateConveyor::decode, IPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        netHandler.registerMessage(3, PacketUpdateMasterConveyorLinker.class, IPacket::encode, PacketUpdateMasterConveyorLinker::decode, IPacket::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
     public <MSG> void sendToAllTracking(MSG message, Entity entity) {

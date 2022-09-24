@@ -11,9 +11,9 @@ import fr.satiscraftoryteam.satiscraftory.common.block.examplesTest.EliocubeBloc
 import fr.satiscraftoryteam.satiscraftory.common.block.logistics.sorting.ConveyorMerger;
 import fr.satiscraftoryteam.satiscraftory.common.builder.BlockBuilder;
 import fr.satiscraftoryteam.satiscraftory.common.registry.BlockRegistryObject;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorInputPartBlockEntity;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorInputPartBlockEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorOutputPartBlockEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorTileEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;

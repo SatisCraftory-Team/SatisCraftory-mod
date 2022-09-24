@@ -5,7 +5,7 @@ import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conve
 import fr.satiscraftoryteam.satiscraftory.utils.MultiBlockUtil;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorOutputPartBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
 import fr.satiscraftoryteam.satiscraftory.utils.RelativeOrientationUtils;

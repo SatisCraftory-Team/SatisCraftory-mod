@@ -1,6 +1,7 @@
-package fr.satiscraftoryteam.satiscraftory.common.tileentity;
+package fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
+import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketUpdateMasterConveyorLinker;
 import fr.satiscraftoryteam.satiscraftory.utils.MultiBlockUtil;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorBlock;
 import fr.satiscraftoryteam.satiscraftory.common.init.ItemInit;
@@ -10,29 +11,38 @@ import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEnt
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ConveyorTileEntity extends TickableTileEntity implements IItemStreamable {
 
     public static final int itemPerConveyor = 2;
 
-    public Item[] items = new Item[itemPerConveyor];
+    public ItemStack[] items = new ItemStack[itemPerConveyor];
     private IItemInputable output;
+    public MasterConveyorLinker master;
+    public boolean isMaster;
     private int itemPerMin = 60;
 
     public ConveyorTileEntity(BlockPos blockPos, BlockState blockState, boolean full) {
         super(TileEntityInit.CONVEYOR_FULL, blockPos, blockState);
+        master = new MasterConveyorLinker(itemPerMin, this);
 
-        items[0] = (ItemInit.IRON_RESIDUE.get());
-        items[1] = (ItemInit.IRON_RESIDUE.get());
+        master.itemsChain.add(ItemInit.IRON_RESIDUE.get().getDefaultInstance());
+        master.itemsChain.add(ItemInit.IRON_RESIDUE.get().getDefaultInstance());
     }
 
     public ConveyorTileEntity(BlockPos blockPos, BlockState blockState) {
         super(TileEntityInit.CONVEYOR, blockPos, blockState);
+        master = new MasterConveyorLinker(itemPerMin, this);
+        master.itemsChain.add(null);
+        master.itemsChain.add(null);
     }
 
 
@@ -44,8 +54,8 @@ public class ConveyorTileEntity extends TickableTileEntity implements IItemStrea
         return itemPerMin;
     }
 
-    public Item[] getItems() {
-        return items;
+    public ItemStack[] getItems() {
+        return master.getItemsForConveyor(this);
     }
 
 
@@ -54,7 +64,11 @@ public class ConveyorTileEntity extends TickableTileEntity implements IItemStrea
 
     @Override
     public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
-        tickCounter++;
+        if(isMaster) {
+            if(!master.isActivated()) master.activate(level);
+            master.masterServerTick();
+        }
+        /*tickCounter++;
         if(tickCounter >= 20f * (itemPerMin/60)){
             tickCounter = 0;
             if(items[items.length - 1] != null){
@@ -66,12 +80,13 @@ public class ConveyorTileEntity extends TickableTileEntity implements IItemStrea
                     items[i] = null;
                 }
             }
-        }
+        }*/
     }
 
     @Override
     public void onClientTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
-        tickCounter++;
+        if(isMaster) master.masterClientTick();
+        /*tickCounter++;
         if(tickCounter >= 20f * (itemPerMin/60)) {
             tickCounter = 0;
             for(int i = items.length - 2; i >= 0; i--){
@@ -80,12 +95,26 @@ public class ConveyorTileEntity extends TickableTileEntity implements IItemStrea
                     items[i] = null;
                 }
             }
+        }*/
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag compoundTag) {
+        super.saveAdditional(compoundTag);
+        compoundTag.putBoolean("master", isMaster);
+        if(isMaster){
+
+            master.save(compoundTag);
         }
     }
 
     @Override
-    public CompoundTag getReducedUpdateTag() {
-        return super.getReducedUpdateTag();
+    public void load(CompoundTag compoundTag) {
+        super.load(compoundTag);
+        isMaster = compoundTag.getBoolean("master");
+        if(isMaster){
+            master.load(compoundTag);
+        }
     }
 
     @Override
@@ -94,17 +123,17 @@ public class ConveyorTileEntity extends TickableTileEntity implements IItemStrea
     }
 
     @Override
-    public boolean canInputItem(Item item) {
+    public boolean canInputItem(ItemStack item) {
         return items[0] == null;
     }
 
     @Override
-    public void inputItem(Item item) {
+    public void inputItem(ItemStack item) {
         items[0] = item;
         sendUpdateConveyorPacket();
     }
 
-    public boolean tryOutputItem(Item item) {
+    public boolean tryOutputItem(ItemStack item) {
         if(output != null && output.canInputItem(item)){
             output.inputItem(item);
             items[items.length - 1] = null;
@@ -115,7 +144,8 @@ public class ConveyorTileEntity extends TickableTileEntity implements IItemStrea
     }
 
     public float getProgress() {
-        return  tickCounter / (20f * (itemPerMin/60));
+        /*return  tickCounter / (20f * (itemPerMin/60));*/
+        return master.progress;
     }
 
     public void handleUpdateConveyorPacket(PacketUpdateConveyor packetUpdateConveyor) {
@@ -126,6 +156,15 @@ public class ConveyorTileEntity extends TickableTileEntity implements IItemStrea
         SatisCraftory.packetHandler.sendToAllTracking(new PacketUpdateConveyor(this), this);
     }
 
+    //todo: create packet
+    public void handleUpdateMasterConveyorLinkerPacket(PacketUpdateMasterConveyorLinker updatePacket){
+        master.handleUpdateMasterConveyorLinkerPacket(updatePacket);
+    }
+
+    public void sendUpdateMasterConveyorLinkerPacket(PacketUpdateMasterConveyorLinker packet){
+        SatisCraftory.packetHandler.sendToAllTracking(packet, this);
+    }
+
     public void onPlaced(Level level, BlockPos blockPos, BlockState blockState) {
         Direction direction = blockState.getValue(ConveyorBlock.FACING);
         Vec3i inputConnectionPos = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(new Vec3i(0,0,-1),direction);
@@ -133,12 +172,24 @@ public class ConveyorTileEntity extends TickableTileEntity implements IItemStrea
         BlockPos posForInputConnection = blockPos.offset(inputConnectionPos);
         BlockPos posForOutputConnection = blockPos.offset(outputConnectionPos);
 
-        if(WorldUtils.getTileEntity(level, posForInputConnection) instanceof IItemOutputable){
-            ((IItemOutputable) WorldUtils.getTileEntity(level, posForInputConnection)).setOutput(this);
+        BlockEntity inputConnection = WorldUtils.getTileEntity(level, posForInputConnection);
+        if(inputConnection instanceof IItemOutputable tileOutputable){
+            if(inputConnection instanceof ConveyorTileEntity conveyorTile){
+                conveyorTile.master.merge(master);
+            }
+            else {
+                tileOutputable.setOutput(master);
+            }
         }
 
-        if(WorldUtils.getTileEntity(level, posForOutputConnection) instanceof IItemInputable){
-            setOutput((IItemInputable) WorldUtils.getTileEntity(level, posForOutputConnection));
+        BlockEntity outputConnection = WorldUtils.getTileEntity(level, posForOutputConnection);
+        if (outputConnection instanceof IItemInputable tileInputable){
+            if(outputConnection instanceof ConveyorTileEntity conveyorTile){
+                master.merge(conveyorTile.master);
+            }
+            else {
+                master.trySetOutput(tileInputable,this);
+            }
         }
     }
 
