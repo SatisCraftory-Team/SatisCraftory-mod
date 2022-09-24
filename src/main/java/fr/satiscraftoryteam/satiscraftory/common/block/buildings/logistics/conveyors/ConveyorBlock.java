@@ -4,7 +4,7 @@ import fr.satiscraftoryteam.satiscraftory.common.block.BlockDelayedBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasMultipleTickableTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

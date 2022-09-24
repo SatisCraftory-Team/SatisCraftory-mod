@@ -1,5 +1,6 @@
-package fr.satiscraftoryteam.satiscraftory.common.tileentity;
+package fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor;
 
+import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
@@ -25,7 +26,7 @@ public class ConveyorOutputPartBlockEntity extends ConveyorStreamPartBlockEntity
         for (int i = outputInv.getSlots() - 1; i >= 0; i--){
             ItemStack stack = outputInv.getStackInSlot(i);
             if(!stack.isEmpty()){
-                if(tryOutputItem(stack.getItem())){
+                if(tryOutputItem(stack)){
                     stack.setCount(stack.getCount()-1);
                     return;
                 }
@@ -33,7 +34,8 @@ public class ConveyorOutputPartBlockEntity extends ConveyorStreamPartBlockEntity
         }
     }
 
-    public boolean tryOutputItem(Item item) {
+    public boolean tryOutputItem(ItemStack item) {
+        SatisCraftory.LOGGER.info("tryOutputItem");
         if(output != null && output.canInputItem(item)){
             output.inputItem(item);
             return true;

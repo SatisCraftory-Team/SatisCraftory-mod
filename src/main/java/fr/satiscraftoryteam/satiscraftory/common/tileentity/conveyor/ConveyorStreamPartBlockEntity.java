@@ -1,4 +1,4 @@
-package fr.satiscraftoryteam.satiscraftory.common.tileentity;
+package fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor;
 
 import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
