@@ -141,4 +141,6 @@ public class ConveyorTileEntity extends TickableTileEntity implements IItemStrea
             setOutput((IItemInputable) WorldUtils.getTileEntity(level, posForOutputConnection));
         }
     }
+
+
 }
