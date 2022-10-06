@@ -2,7 +2,10 @@ package fr.satiscraftoryteam.satiscraftory.common.block.base;
 
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.Attribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.BlockProps;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.*;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.BoudingAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.FacingAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.IOAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.ShapeAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
@@ -151,6 +154,10 @@ public abstract class MachineBaseBlock extends Block implements IPropsGetter {
 
         Attribute.ifHas(state, IOAttribute.class, (attribute) -> {
             attribute.placeInput(world, pos, state);
+        });
+
+        Attribute.ifHas(state, IOAttribute.class, (attribute) -> {
+            attribute.placeOutput(world, pos, state);
         });
 
     }
