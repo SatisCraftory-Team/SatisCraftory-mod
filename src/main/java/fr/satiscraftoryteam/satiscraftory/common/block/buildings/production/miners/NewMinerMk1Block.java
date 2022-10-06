@@ -1,6 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.miners;
 
-import fr.satiscraftoryteam.satiscraftory.common.block.base.*;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.MachineBaseBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.*;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
@@ -42,7 +42,7 @@ public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTi
         this.getProps().addProperties(new ShapeAttribute(ShapesList.MINER_MK1));
         this.getProps().addProperties(new FacingAttribute(BlockStateProperties.HORIZONTAL_FACING, FacingAttribute.FacePlacementType.PLAYER_LOCATION));
         this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.OUTPUT_ONLY, (pos, state, builder) -> {
-            builder.add(pos.north(2));
+            builder.add(pos.north(3));
         }));
         this.getProps().addProperties(new BoudingAttribute((pos, state, builder) -> {
             for (int x = -1; x <= 1; x++) {
