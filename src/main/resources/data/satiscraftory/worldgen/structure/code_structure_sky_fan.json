@@ -16,7 +16,8 @@
   "max_distance_from_center": 80,
 
     // The biome tag to use for what biomes that this structure can spawn in
-  "biomes": "#satiscraftory:has_structure/code_structure_sky_fan_biomes",
+  //"biomes": "#satiscraftory:has_structure/code_structure_sky_fan_biomes",
+  "biomes": "#satiscraftory:has_structure/iron_deposit_structure_biomes",
 
     // The generation step for when to generate the structure. there are 10 stages you can pick from!
     // This surface structure stage places the structure before plants and ores are generated
@@ -28,7 +29,7 @@
     // If project_start_to_heightmap is present, the y value chosen in start_height will be added to the terrain's y value.
     // So a start height that gives -5 will sink the structure 5 blocks into the terrain. Here, we will spawn this structure 60 blocks above the terrain.
   "start_height": {
-    "absolute": 60
+    "absolute": 0
   },
 
     // Makes our sky fan structure take the terrain's top y value and add it to the start_height y value above.
