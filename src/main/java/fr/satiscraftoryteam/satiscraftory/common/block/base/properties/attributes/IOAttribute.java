@@ -1,22 +1,16 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes;
 
-import fr.satiscraftoryteam.satiscraftory.common.block.base.BlockBounding;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.StateAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorInputPartBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorStreamPartBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
-import fr.satiscraftoryteam.satiscraftory.utils.MultiBlockUtil;
-import fr.satiscraftoryteam.satiscraftory.utils.RelativeOrientationUtils;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import org.apache.logging.log4j.util.TriConsumer;
@@ -45,6 +39,23 @@ public record IOAttribute(IOType type, TriConsumer<BlockPos, BlockState, Stream.
         MachineBaseTileEntity machine = WorldUtils.getTileEntity(MachineBaseTileEntity.class, level, orig);
         getPositions(orig, state).forEach(boundingLocation -> {
             ConveyorStreamPartBlock boundingBlock = (ConveyorStreamPartBlock) BlockInit.CONVEYOR_INPUT_PART.getBlock();
+            BlockState newState = boundingBlock.defaultBlockState();
+            level.setBlock(boundingLocation, newState, Block.UPDATE_ALL);
+            if (!level.isClientSide()) {
+                ConveyorInputPartBlockEntity tile = WorldUtils.getTileEntity(ConveyorInputPartBlockEntity.class, level, boundingLocation);
+                if (tile != null) {
+                    tile.setMaster(machine);
+                } else {
+                    // Mekanism.logger.warn("Unable to find Bounding Block Tile at: {}", boundingLocation);
+                }
+            }
+        });
+    }
+
+    public void placeOutput(Level level, BlockPos orig, BlockState state) {
+        MachineBaseTileEntity machine = WorldUtils.getTileEntity(MachineBaseTileEntity.class, level, orig);
+        getPositions(orig, state).forEach(boundingLocation -> {
+            ConveyorStreamPartBlock boundingBlock = (ConveyorStreamPartBlock) BlockInit.CONVEYOR_OUTPUT_PART.getBlock();
             BlockState newState = boundingBlock.defaultBlockState();
             level.setBlock(boundingLocation, newState, Block.UPDATE_ALL);
             if (!level.isClientSide()) {
