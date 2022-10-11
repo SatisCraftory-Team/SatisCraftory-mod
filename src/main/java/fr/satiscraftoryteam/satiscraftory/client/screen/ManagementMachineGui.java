@@ -28,11 +28,11 @@ public abstract class ManagementMachineGui<T extends AbstractContainerMenu> exte
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
-        this.blit(poseStack, x, y, 0, 0, imageWidth, imageHeight);
+        //this.blit(poseStack, x, y, 0, 0, imageWidth, imageHeight);
 
         RenderSystem.setShaderTexture(0, CONFIG_BAR);
-//        this.blit(poseStack, x-9, y+10, 0, 0, 256, 60);
-//        this.blit(poseStack, x+imageWidth+3, y+40, 0, 61, 62, 86);
+        this.blit(poseStack, x-9, y+10, 0, 0, 256, 60);
+        this.blit(poseStack, x+imageWidth+3, y+40, 0, 61, 62, 86);
         this.blit(poseStack, x-100, y+10, 0, 0, 100, 60);
 
         RenderSystem.setShaderTexture(0, INVENTORY);
