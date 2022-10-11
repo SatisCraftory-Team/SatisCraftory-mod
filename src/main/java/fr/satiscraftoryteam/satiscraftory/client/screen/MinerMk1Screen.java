@@ -17,7 +17,7 @@ import net.minecraftforge.client.gui.widget.ForgeSlider;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
+public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
     private static final ResourceLocation GUI =
             new ResourceLocation(SatisCraftory.MODID, "textures/gui/miner_mk1_gui.png");
     private static final ResourceLocation INVENTORY =
@@ -109,9 +109,11 @@ public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
 
 
     @Override
-    protected void renderBg(PoseStack pPoseStack, float PartialTick, int pMouseX, int pMouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+    protected void renderBg(PoseStack pPoseStack, float partialTick, int pMouseX, int pMouseY) {
+        super.renderBg(pPoseStack, partialTick, pMouseX, pMouseY);
+
+        //RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        //RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
 
         int x = (width - imageWidth) / 2;
@@ -120,18 +122,18 @@ public class MinerMk1Screen extends AbstractContainerScreen<MinerMk1Menu> {
         //int x = this.leftPos;
         //int y = this.topPos;
 
-        RenderSystem.setShaderTexture(0, CONFIG_BAR);
-        //RIGHT part
-        this.blit(pPoseStack, x-9, y+10, 0, 0, 256, 60);
-        this.blit(pPoseStack, x+imageWidth+3, y+40, 0, 61, 62, 86);
-        //LEFT part
-        this.blit(pPoseStack, x-100, y+10, 0, 0, 100, 60);
+//        RenderSystem.setShaderTexture(0, CONFIG_BAR);
+//        //RIGHT part
+//        this.blit(pPoseStack, x-9, y+10, 0, 0, 256, 60);
+//        this.blit(pPoseStack, x+imageWidth+3, y+40, 0, 61, 62, 86);
+//        //LEFT part
+//        this.blit(pPoseStack, x-100, y+10, 0, 0, 100, 60);
 
         RenderSystem.setShaderTexture(0, GUI);
         this.blit(pPoseStack, x, y, 0, 0, imageWidth, imageHeight);
 
-        RenderSystem.setShaderTexture(0, INVENTORY);
-        this.blit(pPoseStack, x, y + 100, 0, 0, 176, 100);
+//        RenderSystem.setShaderTexture(0, INVENTORY);
+//        this.blit(pPoseStack, x, y + 100, 0, 0, 176, 100);
 
     }
 
