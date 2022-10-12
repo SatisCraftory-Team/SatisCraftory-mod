@@ -12,7 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class SmelterScreen extends AbstractContainerScreen<SmelterMenu> {
+public class SmelterScreen extends ManagementMachineGui<SmelterMenu> {
     private static final ResourceLocation GUI =
             new ResourceLocation(SatisCraftory.MODID, "textures/gui/miner_mk1_gui.png");
 
@@ -58,8 +58,8 @@ public class SmelterScreen extends AbstractContainerScreen<SmelterMenu> {
     @Override
     protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
         GuiComponent.drawString(poseStack, this.font, String.valueOf(overclock_percentage) + " %", 119, 26, 0xff8c00);
-        GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf((double) Math.round((default_energy_use * Math.pow( (double) overclock_percentage / 100, 1.6)) * 100.0) / 100.0) + " MW", 10, 15, 0xff8c00);
-        GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf((double) Math.round(((double) overclock_percentage / 100 * default_speed) * 100.0) / 100.0) + " items/min", 10, 26, 0xff8c00);
+        GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf((double) Math.round((default_energy_use * Math.pow( (double) overclock_percentage / 100, 1.6)) * 100.0) / 100.0) + " MW", -90, 26, 0xff8c00);
+        GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf((double) Math.round(((double) overclock_percentage / 100 * default_speed) * 100.0) / 100.0) + " items/min", -90, 48, 0xff8c00);
     }
 
     public SmelterScreen(SmelterMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
@@ -75,7 +75,8 @@ public class SmelterScreen extends AbstractContainerScreen<SmelterMenu> {
 
 
     @Override
-    protected void renderBg(PoseStack pPoseStack, float PartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(PoseStack pPoseStack, float partialTick, int pMouseX, int pMouseY) {
+        super.renderBg(pPoseStack, partialTick, pMouseX, pMouseY);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, GUI);
