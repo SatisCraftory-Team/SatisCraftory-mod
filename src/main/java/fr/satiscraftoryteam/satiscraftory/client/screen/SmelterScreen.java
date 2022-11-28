@@ -4,9 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -35,16 +32,17 @@ public class SmelterScreen extends ManagementMachineGui<SmelterMenu> {
         super.init();
         this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(this.leftPos + 180, this.topPos + 20, Component.translatable("gui.satiscraftory.machine.power")));
         this.checkBoxOnOff.setToggled(SmelterScreen.OnOff);
-        this.addRenderableWidget(new Button(this.leftPos + 107, this.topPos + 25, 10, 10, Component.literal("-"), button -> {
-            if (overclock_percentage > 0) {
-                overclock_percentage--;
-            }
-        }));
-        this.addRenderableWidget(new Button(this.leftPos + 149, this.topPos + 25, 10, 10, Component.literal("+"), button -> {
-            if (overclock_percentage < 250) {
-                overclock_percentage++;
-            }
-        }));/*
+//        this.addRenderableWidget(new Button(this.leftPos + 107, this.topPos + 25, 10, 10, Component.literal("-"), button -> {
+//            if (overclock_percentage > 0) {
+//                overclock_percentage--;
+//            }
+//        }));
+//        this.addRenderableWidget(new Button(this.leftPos + 149, this.topPos + 25, 10, 10, Component.literal("+"), button -> {
+//            if (overclock_percentage < 250) {
+//                overclock_percentage++;
+//            }
+//        }));
+        /*
         radiusLabel = new ScrollableLabel()
                 .hint(1, 1, 1, 1)
                 .name("radius")
@@ -55,12 +53,12 @@ public class SmelterScreen extends ManagementMachineGui<SmelterMenu> {
                 .horizontalAlignment(HorizontalAlignment.ALIGN_LEFT);*/
     }
 
-    @Override
-    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
-        GuiComponent.drawString(poseStack, this.font, String.valueOf(overclock_percentage) + " %", 119, 26, 0xff8c00);
-        GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf((double) Math.round((default_energy_use * Math.pow( (double) overclock_percentage / 100, 1.6)) * 100.0) / 100.0) + " MW", -90, 26, 0xff8c00);
-        GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf((double) Math.round(((double) overclock_percentage / 100 * default_speed) * 100.0) / 100.0) + " items/min", -90, 48, 0xff8c00);
-    }
+//    @Override
+//    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
+//        GuiComponent.drawString(poseStack, this.font, String.valueOf(overclock_percentage) + " %", 119, 26, 0xff8c00);
+//        GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf((double) Math.round((default_energy_use * Math.pow( (double) overclock_percentage / 100, 1.6)) * 100.0) / 100.0) + " MW", 10, 15, 0xff8c00);
+//        GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf((double) Math.round(((double) overclock_percentage / 100 * default_speed) * 100.0) / 100.0) + " items/min", 10, 26, 0xff8c00);
+//    }
 
     public SmelterScreen(SmelterMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -76,8 +74,8 @@ public class SmelterScreen extends ManagementMachineGui<SmelterMenu> {
 
     @Override
     protected void renderBg(PoseStack pPoseStack, float partialTick, int pMouseX, int pMouseY) {
-        super.renderBg(pPoseStack, partialTick, pMouseX, pMouseY);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        super.renderBg(pPoseStack, partialTick, pMouseX, pMouseY);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, GUI);
         int x = (width - imageWidth) / 2;

@@ -3,7 +3,6 @@ package fr.satiscraftoryteam.satiscraftory.client.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -28,8 +27,6 @@ public abstract class ManagementMachineGui<T extends AbstractContainerMenu> exte
 
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
-
-        //this.blit(poseStack, x, y, 0, 0, imageWidth, imageHeight);
 
         RenderSystem.setShaderTexture(0, CONFIG_BAR);
         this.blit(poseStack, x-9, y+10, 0, 0, 256, 60);
