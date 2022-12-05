@@ -19,7 +19,6 @@ public class PacketGetMachineInfos implements IPacket {
 
     @Override
     public void handle(NetworkEvent.Context context) {
-        System.out.println("PacketGetMachineInfos#handle");
         context.enqueueWork(() -> {
             final MachineBaseTileEntity blockEntity = (MachineBaseTileEntity) context.getSender().level.getBlockEntity(this.pos);
              SatisCraftory.packetHandler.getChannel().send(PacketDistributor.ALL.noArg(),

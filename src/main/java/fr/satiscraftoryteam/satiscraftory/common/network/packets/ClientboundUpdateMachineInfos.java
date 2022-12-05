@@ -13,7 +13,6 @@ public class ClientboundUpdateMachineInfos implements IPacket {
     public int overclockPercentage;
 
     public ClientboundUpdateMachineInfos(boolean isActive, int overclockPercentage) {
-        System.out.println("ClientboundUpdateMachineInfos#init");
         this.isActive = isActive;
         this.overclockPercentage = overclockPercentage;
     }
@@ -22,7 +21,6 @@ public class ClientboundUpdateMachineInfos implements IPacket {
     public void handle(NetworkEvent.Context context) {
         context.enqueueWork(
                 () -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-                    System.out.println("updateMachineScreen");
                     ClientAccessor.updateMachineScreen(this.isActive, this.overclockPercentage);
                 }));
     }
