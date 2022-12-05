@@ -148,7 +148,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
 
     @Override
     public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
-        if(hasRecipe() && hasNotReachedStackLimit()) {
+        if(hasPower() && hasNotReachedStackLimit()) {
             craftItem();
         }
     }
@@ -163,12 +163,13 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
                 
     }
 
-    private boolean hasRecipe() {
-        boolean hasItemInFirstSlot = overclockPartition.getStackInSlot(0).getItem() == ItemInit.POWER_SHARD.get();
-        boolean hasItemInSecondSlot = overclockPartition.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get();
-        boolean hasItemInThirdSlot = overclockPartition.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();
+    private boolean hasPower() {
+//        boolean hasItemInFirstSlot = overclockPartition.getStackInSlot(0).getItem() == ItemInit.POWER_SHARD.get();
+//        boolean hasItemInSecondSlot = overclockPartition.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get();
+//        boolean hasItemInThirdSlot = overclockPartition.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();
 
-        return hasItemInFirstSlot && hasItemInSecondSlot && hasItemInThirdSlot;
+//        return hasItemInFirstSlot && hasItemInSecondSlot && hasItemInThirdSlot;
+        return isActive;
     }
 
     private boolean hasNotReachedStackLimit() {
