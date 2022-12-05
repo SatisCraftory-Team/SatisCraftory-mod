@@ -4,6 +4,7 @@ import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObje
 import fr.satiscraftoryteam.satiscraftory.utils.RelativeOrientationUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
@@ -23,6 +24,28 @@ public abstract class MachineBaseTileEntity extends TickableTileEntity {
     public final ArrayList<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> CONVEYOR_OUTPUT_POS_ORIENTATION = Lists.newArrayList();
 
     public void onAdded() {
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag compoundTag) {
+        super.saveAdditional(compoundTag);
+        compoundTag.putInt("overclockPercentage", overclockPercentage);
+        compoundTag.putBoolean("isActive", isActive);
+    }
+
+    @Override
+    public void load(CompoundTag compoundTag) {
+        super.load(compoundTag);
+        isActive = compoundTag.getBoolean("isActive");
+        overclockPercentage = compoundTag.getInt("overclockPercentage");
+    }
+
+    @Override
+    public CompoundTag getReducedUpdateTag() {
+        CompoundTag updateTag = super.getReducedUpdateTag();
+        updateTag.putInt("overclockPercentage", overclockPercentage);
+        updateTag.putBoolean("isActive", isActive);
+        return updateTag;
     }
 
 
