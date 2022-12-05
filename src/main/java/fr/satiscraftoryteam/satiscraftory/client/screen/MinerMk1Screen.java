@@ -7,18 +7,12 @@ import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketGetMachineInfos;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.ServerboundUpdatePacketInfos;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
-import it.unimi.dsi.fastutil.ints.IntConsumer;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.widget.ForgeSlider;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
     private static final ResourceLocation GUI =
@@ -105,7 +99,9 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
 
     @Override
     public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
-        sliderOverclockInner.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+        if (sliderOverclockInner.isMouseOver(pMouseX, pMouseY)) {
+            sliderOverclockInner.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+        }
         SatisCraftory.packetHandler.getChannel().sendToServer(new ServerboundUpdatePacketInfos(this.tileEntity.getBlockPos(), isActive, overclockPercentage));
         return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
     }
