@@ -23,31 +23,23 @@ import software.bernie.geckolib3.GeckoLib;
 public class SatisCraftory {
     public static final String MODID = "satiscraftory";
     public static final Logger LOGGER = LogManager.getLogger(MODID);
-
-    public static Item.Properties geBaseProperties() {
-        return new Item.Properties().tab(TAB);
-    }
-
     public static ModPackets packetHandler = new ModPackets();
+
     public SatisCraftory() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         bus.addListener(this::clientSetup);
         bus.addListener(this::registerRenderers);
 
-
         packetHandler.register();
-
         BlockInit.register(bus);
         ItemInit.register(bus);
         TileEntityInit.TILE_ENTITY_TYPES.register(bus);
         TileEntityInit.BLOCK_ENTITIES.register(bus);
         MenuTypesInit.MENUS.register(bus);
-
         StructuresInit.DEFERRED_REGISTRY_STRUCTURE.register(bus);
 
         GeckoLib.initialize();
-
         LOGGER.info("ici, c'est le goulag, préparez vous au combat");
     }
 
@@ -59,6 +51,10 @@ public class SatisCraftory {
     public void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(TileEntityInit.CONVEYOR.get(), ConveyorRenderer::new);
         event.registerBlockEntityRenderer(TileEntityInit.CONVEYOR_FULL.get(), ConveyorRenderer::new);
+    }
+
+    public static Item.Properties geBaseProperties() {
+        return new Item.Properties().tab(TAB);
     }
 
     public static final CreativeModeTab TAB = new CreativeModeTab("satiscraftory_tab") {

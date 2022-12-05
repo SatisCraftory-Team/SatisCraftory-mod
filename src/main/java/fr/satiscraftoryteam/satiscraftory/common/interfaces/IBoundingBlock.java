@@ -7,6 +7,4 @@ public interface IBoundingBlock {
     default boolean triggerBoundingEvent(Vec3i offset, int id, int param) {
         return false;
     }
-
-
 }

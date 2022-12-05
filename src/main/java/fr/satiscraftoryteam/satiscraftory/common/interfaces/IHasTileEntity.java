@@ -41,5 +41,4 @@ public interface IHasTileEntity<TILE extends BlockEntity> extends EntityBlock {
         BlockEntity blockEntity = WorldUtils.getTileEntity(level, pos);
         return blockEntity != null && blockEntity.triggerEvent(id, param);
     }
-
 }

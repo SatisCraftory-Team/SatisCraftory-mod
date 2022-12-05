@@ -20,7 +20,6 @@ import java.util.List;
 
 public class BlockstateUtils {
 
-
     public static BlockState getStateForPlacement(Block block, @Nullable BlockState state, BlockPlaceContext context) {
         return getStateForPlacement(block, state, context.getLevel(), context.getClickedPos(), context.getPlayer(), context.getClickedFace());
     }
