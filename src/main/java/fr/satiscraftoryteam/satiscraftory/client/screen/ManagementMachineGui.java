@@ -3,14 +3,22 @@ package fr.satiscraftoryteam.satiscraftory.client.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
+import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraftforge.client.gui.widget.ForgeSlider;
 
 public abstract class ManagementMachineGui<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> {
+
+    protected ForgeSlider sliderOverclockInner;
+    protected CheckBox checkBoxOnOff;
+    public boolean isActive = false;
+    public int overclockPercentage = 100;
+
     private static final ResourceLocation INVENTORY =
             new ResourceLocation(SatisCraftory.MODID, "textures/gui/inventory.png");
     private static final ResourceLocation CONFIG_BAR =
@@ -42,5 +50,13 @@ public abstract class ManagementMachineGui<T extends AbstractContainerMenu> exte
         //GuiComponent.drawString(poseStack, this.font, String.valueOf(overclock_percentage) + " %", 196, 26, 0xff8c00);
         //GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf((double) Math.round((default_energy_use * Math.pow( (double) overclock_percentage / 100, 1.6)) * 100.0) / 100.0) + " MW", -90, 26, 0xff8c00);
         //GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf((double) Math.round((purity_modifier * (double) overclock_percentage / 100 * default_mining_speed) * 100.0) / 100.0) + " items/min", -90, 48, 0xff8c00);
+    }
+
+    public void updateMachineInfos(boolean isActive, int overclockPercentage) {
+        this.isActive = isActive;
+        this.checkBoxOnOff.setToggled(isActive);
+
+        this.overclockPercentage = overclockPercentage;
+        this.sliderOverclockInner.setValue(overclockPercentage);
     }
 }

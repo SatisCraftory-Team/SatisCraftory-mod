@@ -15,6 +15,9 @@ import java.util.ArrayList;
 //TODO: implement here capabilities
 public abstract class MachineBaseTileEntity extends TickableTileEntity {
 
+    public boolean isActive = false;
+    public int overclockPercentage = 100;
+
     public final ArrayList<Vec3i> BOUNDING_BLOCKS_POS = Lists.newArrayList();
     public final ArrayList<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> CONVEYOR_INPUT_POS_ORIENTATION = Lists.newArrayList();
     public final ArrayList<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> CONVEYOR_OUTPUT_POS_ORIENTATION = Lists.newArrayList();

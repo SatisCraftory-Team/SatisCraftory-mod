@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import static fr.satiscraftoryteam.satiscraftory.common.init.ItemInit.POWER_SHARD;
 
 public class MinerMk1Menu extends AbstractContainerMenu {
-    private final MinerMk1BlockEntity blockEntity;
+    public final MinerMk1BlockEntity blockEntity;
     private final Level level;
 
     public MinerMk1Menu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {

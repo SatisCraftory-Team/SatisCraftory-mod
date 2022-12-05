@@ -67,4 +67,8 @@ public abstract class AbtractPacketHandler {
             netHandler.sendTo(message, player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
         }
     }
+
+    public SimpleChannel getChannel() {
+        return netHandler;
+    }
 }
