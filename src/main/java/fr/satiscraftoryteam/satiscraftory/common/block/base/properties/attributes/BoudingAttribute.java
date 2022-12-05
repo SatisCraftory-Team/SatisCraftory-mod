@@ -1,13 +1,18 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes;
 
+import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.BlockBounding;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.StateAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
+import fr.satiscraftoryteam.satiscraftory.utils.BlockstateUtils;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BarrierBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -49,14 +54,15 @@ public class BoudingAttribute implements StateAttribute {
     public void placeBoundingBlocks(Level level, BlockPos orig, BlockState state) {
         getPositions(orig, state).forEach(boundingLocation -> {
             BlockBounding boundingBlock = (BlockBounding) BlockInit.BOUNDING_BLOCK.getBlock();
-            BlockState newState = boundingBlock.defaultBlockState();
+            BlockState newState = BlockstateUtils.getStateForPlacement(boundingBlock, boundingBlock.defaultBlockState(), level, boundingLocation, null, Direction.NORTH);
+
             level.setBlock(boundingLocation, newState, Block.UPDATE_ALL);
             if (!level.isClientSide()) {
                 TileEntityBoundingBlock tile = WorldUtils.getTileEntity(TileEntityBoundingBlock.class, level, boundingLocation);
                 if (tile != null) {
                     tile.setMainLocation(orig);
                 } else {
-                   // Mekanism.logger.warn("Unable to find Bounding Block Tile at: {}", boundingLocation);
+                    SatisCraftory.LOGGER.warn("Unable to find Bounding Block Tile at: {}", boundingLocation);
                 }
             }
         });

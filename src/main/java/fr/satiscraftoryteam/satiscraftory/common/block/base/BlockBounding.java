@@ -53,8 +53,6 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
         return new TileEntityBoundingBlock(pos, state);
     }
 
-
-
     public BlockBounding() {
         //Note: We require setting variable opacity so that the block state does not cache the ability of if blocks can be placed on top of the bounding block
         // Torches cannot be placed on the sides due to vanilla checking the incorrect shape

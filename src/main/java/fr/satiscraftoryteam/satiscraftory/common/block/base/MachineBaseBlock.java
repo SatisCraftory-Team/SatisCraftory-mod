@@ -151,15 +151,6 @@ public abstract class MachineBaseBlock extends Block implements IPropsGetter {
         Attribute.ifHas(state, BoudingAttribute.class, (attribute) -> {
             attribute.placeBoundingBlocks(world, pos, state);
         });
-
-        Attribute.ifHas(state, IOAttribute.class, (attribute) -> {
-            attribute.placeInput(world, pos, state);
-        });
-
-        Attribute.ifHas(state, IOAttribute.class, (attribute) -> {
-            attribute.placeOutput(world, pos, state);
-        });
-
     }
 
     //Method to override for setting some simple tile specific stuff

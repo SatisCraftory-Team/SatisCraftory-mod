@@ -1,6 +1,7 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.miners;
 
 import fr.satiscraftoryteam.satiscraftory.common.block.base.MachineBaseBlock;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.Attribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.*;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
@@ -9,6 +10,7 @@ import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObje
 import fr.satiscraftoryteam.satiscraftory.common.shapes.ShapesList;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
@@ -41,15 +43,48 @@ public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTi
         this.getProps().addProperties(new RestrictedPlacementAttribute(BlockInit.IRON_DEPOSIT.getBlock(), BlockInit.COPPER_DEPOSIT.getBlock()));
         this.getProps().addProperties(new ShapeAttribute(ShapesList.MINER_MK1));
         this.getProps().addProperties(new FacingAttribute(BlockStateProperties.HORIZONTAL_FACING, FacingAttribute.FacePlacementType.PLAYER_LOCATION));
-        this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.OUTPUT_ONLY, (pos, state, builder) -> {
-            builder.add(pos.north(3));
-        }));
         this.getProps().addProperties(new BoudingAttribute((pos, state, builder) -> {
-            for (int x = -1; x <= 1; x++) {
-                for (int y = 0; y <= 5; y++) {
-                    for (int z = -1; z <= 3; z++) {
-                        if (x != 0 || y != 0 || z != 0) {
-                            builder.add(pos.offset(x, y, z));
+
+
+            //FIXME: PLEASE FIX THIS SHIT (it's working but we need to find a better way to do that)
+            Direction direction = Attribute.get(this, FacingAttribute.class).getDirection(state);
+            if (direction == Direction.SOUTH) {
+                for (int x = -1; x <= 1; x++) {
+                    for (int y = 0; y <= 5; y++) {
+                        for (int z = -1; z <= 3; z++) {
+                            if (x != 0 || y != 0 || z != 0) {
+                                builder.add(pos.offset(x, y, z));
+                            }
+                        }
+                    }
+                }
+            } else if (direction == Direction.NORTH) {
+                for (int x = -1; x <= 1; x++) {
+                    for (int y = 0; y <= 5; y++) {
+                        for (int z = 1; z >= -3; z--) {
+                            if (x != 0 || y != 0 || z != 0) {
+                                builder.add(pos.offset(x, y, z));
+                            }
+                        }
+                    }
+                }
+            } else if (direction == Direction.EAST) {
+                for (int x = -1; x <= 1; x++) {
+                    for (int y = 0; y <= 5; y++) {
+                        for (int z = -1; z <= 3; z++) {
+                            if (x != 0 || y != 0 || z != 0) {
+                                builder.add(pos.offset(z, y, x));
+                            }
+                        }
+                    }
+                }
+            } else if (direction == Direction.WEST) {
+                for (int x = -1; x <= 1; x++) {
+                    for (int y = 0; y <= 5; y++) {
+                        for (int z = 1; z >= -3; z--) {
+                            if (x != 0 || y != 0 || z != 0) {
+                                builder.add(pos.offset(z, y, x));
+                            }
                         }
                     }
                 }
