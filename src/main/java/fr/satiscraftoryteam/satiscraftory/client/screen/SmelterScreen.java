@@ -84,6 +84,16 @@ public class SmelterScreen extends ManagementMachineGui<SmelterMenu> {
         this.blit(pPoseStack, x, y, 0, 0, imageWidth, imageHeight);
     }
 
+    @Override
+    double getPowerUsage() {
+        return 0;
+    }
+
+    @Override
+    double getSpeed() {
+        return 0;
+    }
+
     public static boolean isMouseWithin(int mouseX, int mouseY, int x, int y, int width, int height)
     {
         return mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height;

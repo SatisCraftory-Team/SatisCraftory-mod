@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -50,4 +51,14 @@ public abstract class ManagementMachineGui<T extends AbstractContainerMenu> exte
         this.overclockPercentage = overclockPercentage;
         this.sliderOverclockInner.setValue(overclockPercentage);
     }
+
+    @Override
+    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
+        // Labels are machine specific, so keep it here
+        GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf(getPowerUsage()) + " MW", -90, 26, 0xff8c00);
+        GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf(getSpeed()) + " items/min", -90, 48, 0xff8c00);
+    }
+
+    abstract double getPowerUsage();
+    abstract double getSpeed();
 }

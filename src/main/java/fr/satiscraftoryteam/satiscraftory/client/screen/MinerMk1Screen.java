@@ -29,7 +29,7 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
     private final MinerMk1BlockEntity tileEntity;
 
     //items_per_minute = purity_modifier * overclock_percentage / 100 * default_mining_speed
-    
+
     public MinerMk1Screen(MinerMk1Menu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         tileEntity = pMenu.blockEntity;
@@ -52,11 +52,21 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
         addRenderableWidget(sliderOverclockInner);
     }
 
+//    @Override
+//    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
+//        // Labels are machine specific, so keep it here
+//        GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf((double) Math.round((default_energy_use * Math.pow( (double) overclockPercentage / 100, 1.6)) * 100.0) / 100.0) + " MW", -90, 26, 0xff8c00);
+//        GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf((double) Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0) + " items/min", -90, 48, 0xff8c00);
+//    }
+
     @Override
-    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
-        // Labels are machine specific, so keep it here
-        GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf((double) Math.round((default_energy_use * Math.pow( (double) overclockPercentage / 100, 1.6)) * 100.0) / 100.0) + " MW", -90, 26, 0xff8c00);
-        GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf((double) Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0) + " items/min", -90, 48, 0xff8c00);
+    double getPowerUsage() {
+        return (double) Math.round((default_energy_use * Math.pow( (double) overclockPercentage / 100, 1.6)) * 100.0) / 100.0;
+    }
+
+    @Override
+    double getSpeed() {
+        return (double) Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0;
     }
 
     @Override
@@ -84,7 +94,6 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
         }
         return super.mouseScrolled(mouseX, mouseY, delta);
     }
-
 
     @Override
     protected void renderBg(PoseStack pPoseStack, float partialTick, int pMouseX, int pMouseY) {
