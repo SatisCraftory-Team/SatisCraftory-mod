@@ -11,7 +11,6 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.gui.widget.ForgeSlider;
 
 public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
@@ -30,20 +29,17 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
     private final MinerMk1BlockEntity tileEntity;
 
     //items_per_minute = purity_modifier * overclock_percentage / 100 * default_mining_speed
-
-    //TODO: Abstract this class correctly with ManagementMachineGui
+    
     public MinerMk1Screen(MinerMk1Menu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         tileEntity = pMenu.blockEntity;
         SatisCraftory.packetHandler.getChannel().sendToServer(new PacketGetMachineInfos(this.tileEntity.getBlockPos()));
     }
 
-
     @Override
     public void init() {
         super.init();
         this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(this.leftPos + 6, this.topPos + 60, Component.translatable("gui.satiscraftory.machine.power")));
-        this.checkBoxOnOff.setToggled(isActive);
 
         int baseX = width / 2, baseY = height / 2;
         sliderOverclockInner = new ForgeSlider(this.leftPos + 184, this.topPos + 15, 52, 20, Component.empty(), Component.translatable(" %"), 1, 250, this.overclockPercentage, true){
@@ -66,8 +62,7 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
         this.sliderOverclockInner.mouseClicked(mouseX, mouseY, mouseButton);
-        isActive = this.checkBoxOnOff.isToggled();
-        SatisCraftory.packetHandler.getChannel().sendToServer(new ServerboundUpdatePacketInfos(this.tileEntity.getBlockPos(), isActive, overclockPercentage));
+        SatisCraftory.packetHandler.getChannel().sendToServer(new ServerboundUpdatePacketInfos(this.tileEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
         return super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
@@ -75,7 +70,7 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
     public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
         if (sliderOverclockInner.isMouseOver(pMouseX, pMouseY)) {
             sliderOverclockInner.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
-            SatisCraftory.packetHandler.getChannel().sendToServer(new ServerboundUpdatePacketInfos(this.tileEntity.getBlockPos(), isActive, overclockPercentage));
+            SatisCraftory.packetHandler.getChannel().sendToServer(new ServerboundUpdatePacketInfos(this.tileEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
         }
         return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
     }
@@ -85,7 +80,7 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
         if (sliderOverclockInner.isMouseOver(mouseX, mouseY)) {
             sliderOverclockInner.setValue(sliderOverclockInner.getValueInt() + (delta > 0 ? 1 : -1));
             overclockPercentage = sliderOverclockInner.getValueInt();
-            SatisCraftory.packetHandler.getChannel().sendToServer(new ServerboundUpdatePacketInfos(this.tileEntity.getBlockPos(), isActive, overclockPercentage));
+            SatisCraftory.packetHandler.getChannel().sendToServer(new ServerboundUpdatePacketInfos(this.tileEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
         }
         return super.mouseScrolled(mouseX, mouseY, delta);
     }

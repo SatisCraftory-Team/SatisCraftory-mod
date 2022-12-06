@@ -16,7 +16,6 @@ public abstract class ManagementMachineGui<T extends AbstractContainerMenu> exte
 
     protected ForgeSlider sliderOverclockInner;
     protected CheckBox checkBoxOnOff;
-    public boolean isActive = false;
     public int overclockPercentage = 100;
 
     private static final ResourceLocation INVENTORY =
@@ -45,15 +44,7 @@ public abstract class ManagementMachineGui<T extends AbstractContainerMenu> exte
         this.blit(poseStack, x, y + 100, 0, 0, 176, 100);
     }
 
-    @Override
-    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
-        //GuiComponent.drawString(poseStack, this.font, String.valueOf(overclock_percentage) + " %", 196, 26, 0xff8c00);
-        //GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf((double) Math.round((default_energy_use * Math.pow( (double) overclock_percentage / 100, 1.6)) * 100.0) / 100.0) + " MW", -90, 26, 0xff8c00);
-        //GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf((double) Math.round((purity_modifier * (double) overclock_percentage / 100 * default_mining_speed) * 100.0) / 100.0) + " items/min", -90, 48, 0xff8c00);
-    }
-
     public void updateMachineInfos(boolean isActive, int overclockPercentage) {
-        this.isActive = isActive;
         this.checkBoxOnOff.setToggled(isActive);
 
         this.overclockPercentage = overclockPercentage;
