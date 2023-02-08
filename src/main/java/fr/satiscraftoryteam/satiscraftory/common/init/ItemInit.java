@@ -1,6 +1,7 @@
 package fr.satiscraftoryteam.satiscraftory.common.init;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
+import fr.satiscraftoryteam.satiscraftory.common.item.BuilderToolItem;
 import fr.satiscraftoryteam.satiscraftory.common.item.XenoZapperItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -30,6 +31,9 @@ public final class ItemInit {
 
     public static final RegistryObject<Item> XENO_ZAPPER = ITEMS.register("xeno_zapper",
             ()-> new XenoZapperItem(new Item.Properties().tab(SatisCraftory.TAB).fireResistant().stacksTo(1)));
+
+    public static final RegistryObject<Item> BUILDER_TOOL = ITEMS.register("builder_tool",
+            ()-> new BuilderToolItem(new Item.Properties().tab(SatisCraftory.TAB).fireResistant().stacksTo(1)));
 
     public static final RegistryObject<Item> POWER_SHARD = ITEMS.register("power_shard",
             ()-> new Item(new Item.Properties().tab(SatisCraftory.TAB).fireResistant().stacksTo(16)));
