@@ -38,6 +38,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
 
@@ -163,14 +164,6 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
                 
     }
 
-    private boolean hasPower() {
-//        boolean hasItemInFirstSlot = overclockPartition.getStackInSlot(0).getItem() == ItemInit.POWER_SHARD.get();
-//        boolean hasItemInSecondSlot = overclockPartition.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get();
-//        boolean hasItemInThirdSlot = overclockPartition.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();
-
-//        return hasItemInFirstSlot && hasItemInSecondSlot && hasItemInThirdSlot;
-        return isActive;
-    }
 
     private boolean hasNotReachedStackLimit() {
         return outputPartition.getStackInSlot(0).getCount() < outputPartition.getStackInSlot(0).getMaxStackSize();
@@ -178,9 +171,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
 
 
     //-------------------------------------------------Animation------------------------------------------------------//
-
-    private AnimationFactory factory = new AnimationFactory(this);
-
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
     @Override
     public void registerControllers(AnimationData data) {
         data.addAnimationController(new AnimationController<MinerMk1BlockEntity>

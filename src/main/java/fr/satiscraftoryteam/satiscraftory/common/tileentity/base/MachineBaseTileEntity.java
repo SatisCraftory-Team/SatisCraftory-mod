@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public abstract class MachineBaseTileEntity extends TickableTileEntity {
 
     public boolean isActive = false;
+    public boolean hasPower = true; //TODO: implement power system
     public int overclockPercentage = 100;
 
     public final ArrayList<Vec3i> BOUNDING_BLOCKS_POS = Lists.newArrayList();
@@ -55,4 +56,12 @@ public abstract class MachineBaseTileEntity extends TickableTileEntity {
 
     public abstract IItemHandler getOutputInventory();
     public abstract IItemHandler getInputInventory();
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public boolean isHasPower() {
+        return hasPower;
+    }
 }
