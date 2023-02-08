@@ -16,8 +16,8 @@ import java.util.ArrayList;
 //TODO: implement here capabilities
 public abstract class MachineBaseTileEntity extends TickableTileEntity {
 
-    public boolean isActive = false;
-    public boolean hasPower = true; //TODO: implement power system
+    private boolean isActive = false;
+    private boolean hasPower = true; //TODO: implement power system
     public int overclockPercentage = 100;
 
     public final ArrayList<Vec3i> BOUNDING_BLOCKS_POS = Lists.newArrayList();
@@ -61,7 +61,7 @@ public abstract class MachineBaseTileEntity extends TickableTileEntity {
         return isActive;
     }
 
-    public boolean isHasPower() {
+    public boolean hasPower() {
         return hasPower;
     }
 }

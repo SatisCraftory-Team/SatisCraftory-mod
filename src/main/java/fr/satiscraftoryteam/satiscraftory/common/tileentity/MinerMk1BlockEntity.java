@@ -25,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -103,7 +104,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @javax.annotation.Nullable Direction side) {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return lazyItemHandler.cast();
         }
 
@@ -149,7 +150,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
 
     @Override
     public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
-        if(hasPower() && hasNotReachedStackLimit()) {
+        if(super.hasPower() && hasNotReachedStackLimit()) {
             craftItem();
         }
     }
