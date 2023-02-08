@@ -1,8 +1,8 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.logistics.sorting;
 
-import fr.satiscraftoryteam.satiscraftory.utils.MultiBlockUtil;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.BlockEntityutils;
+import fr.satiscraftoryteam.satiscraftory.utils.MultiBlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;

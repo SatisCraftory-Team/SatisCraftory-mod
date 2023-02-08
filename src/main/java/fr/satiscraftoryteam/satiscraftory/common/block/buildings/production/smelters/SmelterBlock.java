@@ -1,7 +1,7 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.smelters;
 
-import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.FacingAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.MachineBaseBlock;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.FacingAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.IOAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.ShapeAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
@@ -17,7 +17,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;

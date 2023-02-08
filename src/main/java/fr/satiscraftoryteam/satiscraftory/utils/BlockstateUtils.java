@@ -1,8 +1,8 @@
 package fr.satiscraftoryteam.satiscraftory.utils;
 
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.Attribute;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.FacingAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.StateAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.FacingAttribute;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;

@@ -6,7 +6,6 @@ import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTile
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.lang.constant.Constable;
 import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Predicate;

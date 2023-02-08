@@ -1,6 +1,5 @@
 package fr.satiscraftoryteam.satiscraftory.common.network.packets;
 
-import ca.weblite.objc.Client;
 import fr.satiscraftoryteam.satiscraftory.client.ClientAccessor;
 import fr.satiscraftoryteam.satiscraftory.common.network.IPacket;
 import net.minecraft.network.FriendlyByteBuf;

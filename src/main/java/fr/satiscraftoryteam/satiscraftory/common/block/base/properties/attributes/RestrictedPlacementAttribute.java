@@ -6,7 +6,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
 import java.util.Arrays;
-import java.util.List;
 
 public record RestrictedPlacementAttribute(Block... blocks) implements Attribute {
 

@@ -4,7 +4,6 @@ import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.Attribute
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.BlockProps;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.BoudingAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.FacingAttribute;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.IOAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.ShapeAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;

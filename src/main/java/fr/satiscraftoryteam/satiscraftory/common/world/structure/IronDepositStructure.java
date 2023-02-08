@@ -2,7 +2,6 @@ package fr.satiscraftoryteam.satiscraftory.common.world.structure;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.init.StructuresInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;

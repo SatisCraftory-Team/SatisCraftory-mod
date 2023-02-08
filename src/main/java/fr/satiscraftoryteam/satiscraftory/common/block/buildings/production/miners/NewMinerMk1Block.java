@@ -2,7 +2,10 @@ package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.min
 
 import fr.satiscraftoryteam.satiscraftory.common.block.base.MachineBaseBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.Attribute;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.*;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.BoudingAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.FacingAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.RestrictedPlacementAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.ShapeAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTickableTileEntity;

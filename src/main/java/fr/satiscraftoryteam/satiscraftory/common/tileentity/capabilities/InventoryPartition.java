@@ -2,14 +2,14 @@ package fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class InventoryPartition extends ItemStackHandler {
+public class InventoryPartition implements IItemHandler, IItemHandlerModifiable {
     public final String name;
+    public ItemStackHandler inventory;
     public final int partitionSize;
     private int partitionIndex;
 
@@ -19,12 +19,12 @@ public class InventoryPartition extends ItemStackHandler {
         this.partitionIndex = 0;
     }
 
-//    public InventoryPartition(String name, int partitionSize, ItemStackHandler inventory) {
-//        this.name = name;
-//        this.partitionSize = partitionSize;
-//        this.inventory = inventory;
-//        this.partitionIndex = 0;
-//    }
+    public InventoryPartition(String name, int partitionSize, ItemStackHandler inventory) {
+        this.name = name;
+        this.partitionSize = partitionSize;
+        this.inventory = inventory;
+        this.partitionIndex = 0;
+    }
 
     public void setPartitionIndex(int partitionIndex) {
         this.partitionIndex = partitionIndex;
@@ -37,27 +37,27 @@ public class InventoryPartition extends ItemStackHandler {
 
     @Override
     public @NotNull ItemStack getStackInSlot(int slot) {
-        return super.getStackInSlot(partitionIndex + slot);
+        return inventory.getStackInSlot(partitionIndex + slot);
     }
 
     @Override
     public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-        return super.insertItem(partitionIndex + slot, stack, simulate);
+        return inventory.insertItem(partitionIndex + slot, stack, simulate);
     }
 
     @Override
     public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-        return super.extractItem(partitionIndex + slot, amount, simulate);
+        return inventory.extractItem(partitionIndex + slot, amount, simulate);
     }
 
     @Override
     public int getSlotLimit(int slot) {
-        return super.getSlotLimit(partitionIndex + slot);
+        return inventory.getSlotLimit(partitionIndex + slot);
     }
 
     @Override
     public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-        return super.isItemValid(partitionIndex + slot, stack);
+        return inventory.isItemValid(partitionIndex + slot, stack);
     }
 
     public void serializeNBT(CompoundTag nbt) {
@@ -70,6 +70,6 @@ public class InventoryPartition extends ItemStackHandler {
 
     @Override
     public void setStackInSlot(int slot, @NotNull ItemStack stack) {
-        super.setStackInSlot(partitionIndex + slot, stack);
+        inventory.setStackInSlot(partitionIndex + slot, stack);
     }
 }

@@ -7,7 +7,6 @@ import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketGetMachineInfos;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.ServerboundUpdatePacketInfos;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;

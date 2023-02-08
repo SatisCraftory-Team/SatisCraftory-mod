@@ -25,7 +25,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -39,7 +38,6 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
 
@@ -104,7 +102,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @javax.annotation.Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
+        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return lazyItemHandler.cast();
         }
 
@@ -150,7 +148,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
 
     @Override
     public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
-        if(super.hasPower() && hasNotReachedStackLimit()) {
+        if(hasPower() && hasNotReachedStackLimit()) {
             craftItem();
         }
     }
@@ -165,6 +163,14 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
                 
     }
 
+    private boolean hasPower() {
+//        boolean hasItemInFirstSlot = overclockPartition.getStackInSlot(0).getItem() == ItemInit.POWER_SHARD.get();
+//        boolean hasItemInSecondSlot = overclockPartition.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get();
+//        boolean hasItemInThirdSlot = overclockPartition.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();
+
+//        return hasItemInFirstSlot && hasItemInSecondSlot && hasItemInThirdSlot;
+        return isActive;
+    }
 
     private boolean hasNotReachedStackLimit() {
         return outputPartition.getStackInSlot(0).getCount() < outputPartition.getStackInSlot(0).getMaxStackSize();
@@ -172,7 +178,9 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
 
 
     //-------------------------------------------------Animation------------------------------------------------------//
-    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
+
+    private AnimationFactory factory = new AnimationFactory(this);
+
     @Override
     public void registerControllers(AnimationData data) {
         data.addAnimationController(new AnimationController<MinerMk1BlockEntity>

@@ -1,12 +1,12 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
-import fr.satiscraftoryteam.satiscraftory.utils.MultiBlockUtil;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorBlock;
 import fr.satiscraftoryteam.satiscraftory.common.init.ItemInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketUpdateConveyor;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
+import fr.satiscraftoryteam.satiscraftory.utils.MultiBlockUtil;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

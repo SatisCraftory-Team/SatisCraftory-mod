@@ -8,7 +8,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.ArrayList;
@@ -16,8 +15,7 @@ import java.util.ArrayList;
 //TODO: implement here capabilities
 public abstract class MachineBaseTileEntity extends TickableTileEntity {
 
-    private boolean isActive = false;
-    private boolean hasPower = true; //TODO: implement power system
+    public boolean isActive = false;
     public int overclockPercentage = 100;
 
     public final ArrayList<Vec3i> BOUNDING_BLOCKS_POS = Lists.newArrayList();
@@ -56,12 +54,4 @@ public abstract class MachineBaseTileEntity extends TickableTileEntity {
 
     public abstract IItemHandler getOutputInventory();
     public abstract IItemHandler getInputInventory();
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public boolean hasPower() {
-        return hasPower;
-    }
 }
