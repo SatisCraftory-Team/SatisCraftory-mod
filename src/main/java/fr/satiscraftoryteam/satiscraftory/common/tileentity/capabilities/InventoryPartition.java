@@ -37,27 +37,27 @@ public class InventoryPartition extends ItemStackHandler {
 
     @Override
     public @NotNull ItemStack getStackInSlot(int slot) {
-        return this.getStackInSlot(partitionIndex + slot);
+        return super.getStackInSlot(partitionIndex + slot);
     }
 
     @Override
     public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-        return this.insertItem(partitionIndex + slot, stack, simulate);
+        return super.insertItem(partitionIndex + slot, stack, simulate);
     }
 
     @Override
     public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-        return this.extractItem(partitionIndex + slot, amount, simulate);
+        return super.extractItem(partitionIndex + slot, amount, simulate);
     }
 
     @Override
     public int getSlotLimit(int slot) {
-        return this.getSlotLimit(partitionIndex + slot);
+        return super.getSlotLimit(partitionIndex + slot);
     }
 
     @Override
     public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-        return this.isItemValid(partitionIndex + slot, stack);
+        return super.isItemValid(partitionIndex + slot, stack);
     }
 
     public void serializeNBT(CompoundTag nbt) {
@@ -70,6 +70,6 @@ public class InventoryPartition extends ItemStackHandler {
 
     @Override
     public void setStackInSlot(int slot, @NotNull ItemStack stack) {
-        this.setStackInSlot(partitionIndex + slot, stack);
+        super.setStackInSlot(partitionIndex + slot, stack);
     }
 }
