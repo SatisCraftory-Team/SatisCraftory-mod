@@ -92,6 +92,26 @@ public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTi
                     }
                 }
             }
+
+// Ça, c'est peut-être mieux, mais je sais pas si ça marche vraiment
+//            Direction direction = Attribute.get(this, FacingAttribute.class).getDirection(state);
+//            int zStart = (direction == Direction.NORTH || direction == Direction.WEST) ? 1 : -3;
+//            int zEnd = (direction == Direction.NORTH || direction == Direction.WEST) ? -3 : 3;
+//
+//            for (int x = -1; x <= 1; x++) {
+//                for (int y = 0; y <= 5; y++) {
+//                    for (int z = zStart; z <= zEnd; z++) {
+//                        if (x != 0 || y != 0 || z != 0) {
+//                            if (direction == Direction.EAST || direction == Direction.WEST) {
+//                                builder.add(pos.offset(z, y, x));
+//                            } else {
+//                                builder.add(pos.offset(x, y, z));
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+
         }));
     }
 

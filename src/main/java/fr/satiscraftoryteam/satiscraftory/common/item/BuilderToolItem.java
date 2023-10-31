@@ -35,4 +35,6 @@ public class BuilderToolItem extends Item {
             NetworkHooks.openScreen((ServerPlayer) pPlayer, new SimpleMenuProvider((pId, pInv, pPlayer1) -> new BuilderToolMenu(pId, pInv, (FriendlyByteBuf) ContainerLevelAccess.create(pLevel, pPlayer.blockPosition())), Component.nullToEmpty("Builder Tool")));
         return InteractionResultHolder.sidedSuccess(stack, pLevel.isClientSide);
     }
+
+
 }
