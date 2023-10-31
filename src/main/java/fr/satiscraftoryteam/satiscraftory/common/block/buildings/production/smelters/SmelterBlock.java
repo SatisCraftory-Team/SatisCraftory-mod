@@ -38,7 +38,10 @@ public class SmelterBlock extends MachineBaseBlock implements IHasTileEntity<Sme
         this.getProps().addProperties(new ShapeAttribute(ShapesList.SMELTER));
         this.getProps().addProperties(new FacingAttribute(BlockStateProperties.HORIZONTAL_FACING, FacingAttribute.FacePlacementType.PLAYER_LOCATION));
         this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.INPUT_OUTPUT, (pos, state, builder) -> {
-
+            builder.add(pos.north(1));
+        }));
+        this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.OUTPUT_ONLY, (pos, state, builder) -> {
+            builder.add(pos.north(-1));
         }));
     }
 

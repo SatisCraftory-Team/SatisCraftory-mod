@@ -7,6 +7,7 @@ import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketGetMachineInfos;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.ServerboundUpdatePacketInfos;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -51,12 +52,12 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
         addRenderableWidget(sliderOverclockInner);
     }
 
-//    @Override
-//    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
-//        // Labels are machine specific, so keep it here
-//        GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf((double) Math.round((default_energy_use * Math.pow( (double) overclockPercentage / 100, 1.6)) * 100.0) / 100.0) + " MW", -90, 26, 0xff8c00);
-//        GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf((double) Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0) + " items/min", -90, 48, 0xff8c00);
-//    }
+    @Override
+    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
+        // Labels are machine specific, so keep it here
+        GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf((double) Math.round((default_energy_use * Math.pow( (double) overclockPercentage / 100, 1.6)) * 100.0) / 100.0) + " MW", -90, 26, 0xff8c00);
+        GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf((double) Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0) + " items/min", -90, 48, 0xff8c00);
+    }
 
     @Override
     double getPowerUsage() {

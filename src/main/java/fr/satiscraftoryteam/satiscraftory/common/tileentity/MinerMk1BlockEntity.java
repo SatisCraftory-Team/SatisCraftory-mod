@@ -25,8 +25,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -46,6 +46,27 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
     public final InventoryHandler inventoryHandler;
     public final InventoryPartition overclockPartition = new InventoryPartition("overclock", 3);
     public final InventoryPartition outputPartition = new InventoryPartition("output", 1);
+
+    private float default_energy_use = 5;
+
+    //level miner_mk1 (default = 60)
+    private float default_mining_speed = 60;
+
+    //info gisement
+    private float purity_modifier = 1;
+    double getPowerUsage() {
+        return (double) Math.round((default_energy_use * Math.pow( (double) overclockPercentage / 100, 1.6)) * 100.0) / 100.0;
+    }
+
+    private int progress = 0;
+    private int maxProgress = (int) (60 * 20 / (int)(Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0));
+    // get et set pour la variable maxProgress
+    public int getMaxProgress() {
+        return maxProgress;
+    }
+    public void updateMaxProgress() {
+        this.maxProgress = (int) (60 * 20 / (int)(Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0));
+    }
 
     public MinerMk1BlockEntity(BlockPos blockPos, BlockState blockState) {
         super(TileEntityInit.MINER_MK1_BLOCK_ENTITY, blockPos, blockState);
@@ -102,10 +123,9 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @javax.annotation.Nullable Direction side) {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return lazyItemHandler.cast();
         }
-
         return super.getCapability(cap, side);
     }
 
@@ -148,8 +168,18 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
 
     @Override
     public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
-        if(hasPower() && hasNotReachedStackLimit()) {
-            craftItem();
+        if (hasNotReachedStackLimit()) {
+            if(hasPower() && this.isActive) {
+                System.out.println("progress: " + progress + " maxProgress: " + maxProgress + " overclockPercentage: " + overclockPercentage);
+                if (progress >= maxProgress) {
+                    progress = 0;
+                    updateMaxProgress();
+                    craftItem();
+                }
+                progress++;
+            }
+        } else {
+            progress=0;
         }
     }
 
@@ -169,7 +199,8 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
 //        boolean hasItemInThirdSlot = overclockPartition.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();
 
 //        return hasItemInFirstSlot && hasItemInSecondSlot && hasItemInThirdSlot;
-        return isActive;
+        // TODO: implement here power system
+        return true;
     }
 
     private boolean hasNotReachedStackLimit() {
@@ -180,6 +211,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
     //-------------------------------------------------Animation------------------------------------------------------//
 
     private AnimationFactory factory = new AnimationFactory(this);
+
 
     @Override
     public void registerControllers(AnimationData data) {
@@ -208,6 +240,19 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
         return null;
     }
 
-
+    @Override
+    public int getNumberOfOverclocks() {
+        int numberOfOverclocks = 0;
+        if (overclockPartition.getStackInSlot(0).getItem() == ItemInit.POWER_SHARD.get()) {
+            numberOfOverclocks++;
+        }
+        if (overclockPartition.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get()) {
+            numberOfOverclocks++;
+        }
+        if (overclockPartition.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get()) {
+            numberOfOverclocks++;
+        }
+        return numberOfOverclocks;
+    }
     //----------------------------------------------------------------------------------------------------------------//
 }

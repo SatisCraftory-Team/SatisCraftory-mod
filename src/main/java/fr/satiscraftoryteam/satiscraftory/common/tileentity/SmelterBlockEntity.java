@@ -230,6 +230,12 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
         return itemHandler;
     }
 
+    // J'ai ajouté ça pour que ça compile
+    @Override
+    public int getNumberOfOverclocks() {
+        return 0;
+    }
+
 
     //----------------------------------------------------------------------------------------------------------------//
 }

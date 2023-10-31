@@ -54,4 +54,6 @@ public abstract class MachineBaseTileEntity extends TickableTileEntity {
 
     public abstract IItemHandler getOutputInventory();
     public abstract IItemHandler getInputInventory();
+
+    public abstract int getNumberOfOverclocks();
 }
