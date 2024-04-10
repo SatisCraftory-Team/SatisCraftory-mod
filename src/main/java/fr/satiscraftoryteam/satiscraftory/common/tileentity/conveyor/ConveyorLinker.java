@@ -59,13 +59,9 @@ public class ConveyorLinker implements IItemStreamable{
         }
         else {
             ConveyorLinker lastLinker = new ConveyorLinker(firstLinker.itemPerMin);
-            SatisCraftory.LOGGER.info("old linker conveyor positions :");
-            firstLinker.conveyorChain.forEach(conveyorTileEntity -> SatisCraftory.LOGGER.info(conveyorTileEntity.getBlockPos()));
             firstLinker.transferConveyors(index + 1, initialSize - index - 1, lastLinker);
             firstLinker.removeLastConveyor();
             firstLinker.sendSplitLinkerUpdate(lastLinker);
-            SatisCraftory.LOGGER.info("new linker conveyor positions :");
-            lastLinker.conveyorChain.forEach(conveyorTileEntity -> SatisCraftory.LOGGER.info(conveyorTileEntity.getBlockPos()));
         }
     }
 
@@ -161,21 +157,18 @@ public class ConveyorLinker implements IItemStreamable{
     }
 
     public void sendLinkerUpdate() {
-        SatisCraftory.LOGGER.info("sendUpdateMasterConveyorLinkerPacket");
         ConveyorTileEntity masterConveyor = conveyorChain.get(0);
         PacketUpdateConveyorLinker updatePacket = new PacketUpdateConveyorLinker(tickCounter, itemsChain, conveyorChain, outputTile);
         SatisCraftory.packetHandler.sendToAllTracking(updatePacket, masterConveyor);
     }
 
     private void sendSplitLinkerUpdate(ConveyorLinker newLinker){
-        SatisCraftory.LOGGER.info("sendNewLinkerUpdate");
         ConveyorTileEntity previousMaster = conveyorChain.get(0);
         PacketUpdateConveyorLinker updatePacket = new PacketNewConveyorLinker(tickCounter, newLinker.itemsChain, newLinker.conveyorChain, newLinker.outputTile, previousMaster);
         SatisCraftory.packetHandler.sendToAllTracking(updatePacket, previousMaster);
     }
 
     public void handleLinkerUpdate(PacketUpdateConveyorLinker updatePacket){
-        SatisCraftory.LOGGER.info("handleUpdateLinkerPacket");
         tickCounter = updatePacket.getTickCounter();
         itemsChain = updatePacket.getItemsChain();
         conveyorChain = updatePacket.getConveyorChainDeducedFromPosition();
@@ -184,7 +177,6 @@ public class ConveyorLinker implements IItemStreamable{
     }
 
     public void handleSplitLinkerUpdate(PacketNewConveyorLinker updatePacket){
-        SatisCraftory.LOGGER.info("handleSplitLinkerUpdate");
         ConveyorLinker newLinker = new ConveyorLinker(itemPerMin);
         newLinker.handleLinkerUpdate(updatePacket);
     }
@@ -198,7 +190,6 @@ public class ConveyorLinker implements IItemStreamable{
 
     @Override
     public void inputItem(ItemStack itemStack) {
-        SatisCraftory.LOGGER.info("inputItem");
         itemsChain.set(0,itemStack);
         sendLinkerUpdate();
     }
@@ -210,7 +201,6 @@ public class ConveyorLinker implements IItemStreamable{
 
     public void trySetOutput(IItemInputable stream, ConveyorTileEntity connectionHandlerSender){
         if(connectionHandlerSender != conveyorChain.get(conveyorChain.size() - 1)){
-            SatisCraftory.LOGGER.error("trying to link output without being last conveyor in chain");
             return;
         }
 
@@ -220,7 +210,6 @@ public class ConveyorLinker implements IItemStreamable{
     public ItemStack[] getItemsForConveyor(ConveyorTileEntity conveyorTile){
         int index = conveyorChain.indexOf(conveyorTile);
         if(index == -1){
-            SatisCraftory.LOGGER.error("trying to get items for conveyor not in conveyor chain");
             return null;
         }
         return getItemsForConveyor(index);
@@ -234,14 +223,12 @@ public class ConveyorLinker implements IItemStreamable{
 
     public ItemStack[] getItemsForConveyor(int conveyorIndex){
         if(conveyorIndex * 2 + 1 > itemsChain.size() - 1){
-            SatisCraftory.LOGGER.error("trying to get items for conveyor not in conveyor chain");
             return null;
         }
         return new ItemStack[]{itemsChain.get(conveyorIndex * 2), itemsChain.get(conveyorIndex * 2 + 1)};
     }
 
     public void save(CompoundTag compoundTag) {
-        SatisCraftory.LOGGER.info("saving items : "+itemsChain);
         compoundTag.putIntArray("itemsChain", itemsChain.stream().mapToInt((itemStack -> Item.getId(itemStack.getItem()))).toArray());
         int[] poses = new int[conveyorChain.size() * 3];
         for (int i = 0; i < conveyorChain.size(); i++) {
@@ -250,7 +237,6 @@ public class ConveyorLinker implements IItemStreamable{
             poses[i * 3 + 1] = pos.getY();
             poses[i * 3 + 2] = pos.getZ();
         }
-        SatisCraftory.LOGGER.info("saving poses : "+ Arrays.stream(poses).boxed().toList());
         compoundTag.putIntArray("conveyorsChainPoses",poses);
         int[] outputPose =  {0,0,0};
         if(outputTile instanceof BlockEntity tile){
@@ -274,20 +260,15 @@ public class ConveyorLinker implements IItemStreamable{
     }
 
     public void activate(Level world){
-        SatisCraftory.LOGGER.warn("activating conveyor linker");
         activated = true;
         conveyorChain = new ArrayList<>();
-        SatisCraftory.LOGGER.info("conveyor poses : "+Arrays.stream(loadPoses).boxed().toList());
         for (int i = 0; i < loadPoses.length; i+=3) {
             BlockPos conveyorPos = new BlockPos(loadPoses[i], loadPoses[i + 1], loadPoses[i + 2]);
             ConveyorTileEntity conveyorTile = WorldUtils.getTileEntity(ConveyorTileEntity.class, world, conveyorPos);
             conveyorChain.add(conveyorTile);
-            SatisCraftory.LOGGER.info("adding conveyor to chain : "+conveyorTile.getBlockPos());
         }
 
-        SatisCraftory.LOGGER.info("conveyor chain masters before update : "+conveyorChain.stream().map((conveyorTileEntity -> conveyorTileEntity.getLinker().toString())).toList());
         updateAllLinkers();
-        SatisCraftory.LOGGER.info("conveyor chain masters after update : "+conveyorChain.stream().map((conveyorTileEntity -> conveyorTileEntity.getLinker().toString())).toList());
 
         BlockPos outputTilePos = new BlockPos(loadOutputPose[0], loadOutputPose[1], loadOutputPose[2]);
         outputTile = (IItemInputable) WorldUtils.getTileEntity(BlockEntity.class, world, outputTilePos);

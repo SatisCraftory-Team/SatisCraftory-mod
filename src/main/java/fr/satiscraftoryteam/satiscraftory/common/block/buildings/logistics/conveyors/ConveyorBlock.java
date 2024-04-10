@@ -62,7 +62,6 @@ public class ConveyorBlock extends BlockDelayedBlockEntity<ConveyorTileEntity> i
 
     @Override
     public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState newBlockState, boolean p_60519_) {
-        SatisCraftory.LOGGER.info("onRemove");
         BlockEntity be = level.getBlockEntity(blockPos);
         if (be instanceof ConveyorTileEntity) {
             ((ConveyorTileEntity) be).onRemove(level, blockPos, blockState);

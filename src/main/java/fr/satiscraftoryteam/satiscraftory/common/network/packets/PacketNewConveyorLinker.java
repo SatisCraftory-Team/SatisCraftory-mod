@@ -18,7 +18,7 @@ public class PacketNewConveyorLinker extends PacketUpdateConveyorLinker{
 
     public PacketNewConveyorLinker(int tickCounter, List<ItemStack> itemsChain, List<ConveyorTileEntity> conveyorChain, IItemInputable outputTile, ConveyorTileEntity previousMaster) {
         super(tickCounter, itemsChain, conveyorChain, outputTile);
-        this.previousMasterPos = previousMaster.getTilePos();
+        this.previousMasterPos = previousMaster.getBlockPos();
     }
 
     public PacketNewConveyorLinker(int tickCounter, ItemStack[] itemsChain, BlockPos[] conveyorChainPoses, BlockPos outputPos, BlockPos previousMasterPos) {

@@ -1,7 +1,7 @@
 package fr.satiscraftoryteam.satiscraftory.common.network.packets;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
-import fr.satiscraftoryteam.satiscraftory.common.interfaces.IPacket;
+import fr.satiscraftoryteam.satiscraftory.common.network.IPacket;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.IItemInputable;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
@@ -30,7 +30,7 @@ public class PacketUpdateConveyorLinker implements IPacket {
 
         conveyorChainPoses = new BlockPos[conveyorChain.size()];
         for (int i = 0; i < conveyorChain.size(); i++) {
-            conveyorChainPoses[i] = conveyorChain.get(i).getTilePos();
+            conveyorChainPoses[i] = conveyorChain.get(i).getBlockPos();
         }
 
         if(outputTile instanceof BlockEntity blockEntity){
@@ -130,7 +130,6 @@ public class PacketUpdateConveyorLinker implements IPacket {
             return (IItemInputable) inputable;
         }
         else {
-            SatisCraftory.LOGGER.warn("block at output position not found (target : {})",tile);
             return null;
         }
     }
