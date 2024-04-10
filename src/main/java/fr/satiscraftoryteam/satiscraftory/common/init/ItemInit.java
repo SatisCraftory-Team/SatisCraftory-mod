@@ -1,6 +1,7 @@
 package fr.satiscraftoryteam.satiscraftory.common.init;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
+import fr.satiscraftoryteam.satiscraftory.common.item.ConveyorDebugger;
 import fr.satiscraftoryteam.satiscraftory.common.item.BuilderToolItem;
 import fr.satiscraftoryteam.satiscraftory.common.item.XenoZapperItem;
 import net.minecraft.world.item.Item;
@@ -37,4 +38,7 @@ public final class ItemInit {
 
     public static final RegistryObject<Item> POWER_SHARD = ITEMS.register("power_shard",
             ()-> new Item(new Item.Properties().tab(SatisCraftory.TAB).fireResistant().stacksTo(16)));
+
+    public static final RegistryObject<Item> CONVEYOR_DEBUGGER = ITEMS.register("conveyor_debugger",
+            () -> new ConveyorDebugger(new Item.Properties().tab(SatisCraftory.TAB).stacksTo(1)));
 }

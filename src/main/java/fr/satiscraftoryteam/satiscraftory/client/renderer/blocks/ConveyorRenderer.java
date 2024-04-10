@@ -36,14 +36,16 @@ public class ConveyorRenderer implements BlockEntityRenderer<ConveyorTileEntity>
         Quaternion rotation = conveyorTileEntity.getBlockState().getValue(ConveyorBlock.FACING).getRotation();
         pose.pushPose();
         pose.translate(0.5f, 0.5f, 0.5f);
-        for(int i = 0; i < items.length; i++) {
-            ItemStack item = items[i];
-            if(item != null) {
-                pose.pushPose();
-                pose.mulPose(rotation);
-                pose.translate(0, (i+progress) * (1f/ ConveyorTileEntity.itemPerConveyor) - 0.5f, -0.2f);
-                itemRenderer.renderStatic(item, ItemTransforms.TransformType.FIXED, combinedOverlay, packedLight, pose, buffer,(int) conveyorTileEntity.getBlockPos().asLong() + i);
-                pose.popPose();
+        if(items != null){
+            for(int i = 0; i < items.length; i++) {
+                ItemStack item = items[i];
+                if(item != null) {
+                    pose.pushPose();
+                    pose.mulPose(rotation);
+                    pose.translate(0, (i+progress) * (1f/ ConveyorTileEntity.itemPerConveyor) - 0.5f, -0.2f);
+                    itemRenderer.renderStatic(item, ItemTransforms.TransformType.FIXED, combinedOverlay, packedLight, pose, buffer,(int) conveyorTileEntity.getBlockPos().asLong() + i);
+                    pose.popPose();
+                }
             }
         }
         pose.popPose();

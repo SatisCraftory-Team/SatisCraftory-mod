@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conveyors;
 
+import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.block.BlockDelayedBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasMultipleTickableTileEntity;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -56,6 +58,16 @@ public class ConveyorBlock extends BlockDelayedBlockEntity<ConveyorTileEntity> i
         if (be instanceof ConveyorTileEntity) {
             ((ConveyorTileEntity) be).onPlaced(level, blockPos, blockState);
         }
+    }
+
+    @Override
+    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState newBlockState, boolean p_60519_) {
+        SatisCraftory.LOGGER.info("onRemove");
+        BlockEntity be = level.getBlockEntity(blockPos);
+        if (be instanceof ConveyorTileEntity) {
+            ((ConveyorTileEntity) be).onRemove(level, blockPos, blockState);
+        }
+        super.onRemove(blockState, level, blockPos, newBlockState, p_60519_);
     }
 
     @Override
