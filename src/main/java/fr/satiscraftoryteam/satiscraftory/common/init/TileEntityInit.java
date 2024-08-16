@@ -6,8 +6,7 @@ import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObje
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.*;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class TileEntityInit {
 
