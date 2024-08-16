@@ -9,14 +9,14 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import software.bernie.geckolib3.GeckoLib;
 
 @Mod(SatisCraftory.MODID)
 public class SatisCraftory {
@@ -24,21 +24,19 @@ public class SatisCraftory {
     public static final Logger LOGGER = LogManager.getLogger(MODID);
     public static ModPackets packetHandler = new ModPackets();
 
-    public SatisCraftory() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        bus.addListener(this::clientSetup);
-        bus.addListener(this::registerRenderers);
+    public SatisCraftory(IEventBus modEventBus, Dist dist, ModContainer container) {
+        modEventBus.addListener(this::clientSetup);
+        modEventBus.addListener(this::registerRenderers);
 
         packetHandler.register();
-        BlockInit.register(bus);
-        ItemInit.register(bus);
-        TileEntityInit.TILE_ENTITY_TYPES.register(bus);
-        TileEntityInit.BLOCK_ENTITIES.register(bus);
-        MenuTypesInit.MENUS.register(bus);
-        StructuresInit.DEFERRED_REGISTRY_STRUCTURE.register(bus);
+        BlockInit.register(modEventBus);
+        ItemInit.register(modEventBus);
+        TileEntityInit.TILE_ENTITY_TYPES.register(modEventBus);
+        TileEntityInit.BLOCK_ENTITIES.register(modEventBus);
+        MenuTypesInit.MENUS.register(modEventBus);
+        StructuresInit.DEFERRED_REGISTRY_STRUCTURE.register(modEventBus);
 
-        GeckoLib.initialize();
+        //GeckoLib.initialize();
         LOGGER.info("ici, c'est le goulag, préparez vous au combat");
     }
 

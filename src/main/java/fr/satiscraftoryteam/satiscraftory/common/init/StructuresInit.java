@@ -5,8 +5,7 @@ import fr.satiscraftoryteam.satiscraftory.common.world.structure.IronDepositStru
 import fr.satiscraftoryteam.satiscraftory.common.world.structure.SkyStructures;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class StructuresInit {
     /**

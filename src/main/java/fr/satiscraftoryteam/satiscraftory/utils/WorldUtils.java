@@ -6,11 +6,12 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ChunkHolder;
+import net.minecraft.server.level.ChunkResult;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -241,8 +242,8 @@ public class WorldUtils {
         if (world == null) {
             return false;
         } else if (world instanceof LevelAccessor accessor && accessor.getChunkSource() instanceof ServerChunkCache serverChunkCache) {
-            CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> future = serverChunkCache.getChunkFuture(chunkX, chunkZ, ChunkStatus.FULL, false);
-            return future.isDone() && future.getNow(ChunkHolder.UNLOADED_CHUNK).left().isPresent();
+            CompletableFuture<ChunkResult<ChunkAccess>> future = serverChunkCache.getChunkFuture(chunkX, chunkZ, ChunkStatus.FULL, false);
+            return future.isDone() && future.getNow(ChunkHolder.UNLOADED_CHUNK).isSuccess();
         }
         return world.getChunk(chunkX, chunkZ, ChunkStatus.FULL, false) != null;
     }
