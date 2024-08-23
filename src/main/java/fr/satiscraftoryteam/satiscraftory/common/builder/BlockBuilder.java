@@ -1,13 +1,13 @@
 package fr.satiscraftoryteam.satiscraftory.common.builder;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
-import fr.satiscraftoryteam.satiscraftory.common.registry.BlockRegistryObject;
-import fr.satiscraftoryteam.satiscraftory.common.registry.DoubleDeferredRegister;
+import fr.satiscraftoryteam.satiscraftory.common.registration.BlockRegistryObject;
+import fr.satiscraftoryteam.satiscraftory.common.registration.DoubleDeferredRegister;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -17,7 +17,7 @@ public class BlockBuilder extends DoubleDeferredRegister<Block, Item> {
 
 
     public BlockBuilder(String modid) {
-        super(modid, ForgeRegistries.BLOCKS, ForgeRegistries.ITEMS);
+        super(modid, DeferredRegister.createBlocks(modid).getRegistryKey(), DeferredRegister.createItems(modid).getRegistryKey());
     }
 
     public BlockRegistryObject<Block, BlockItem> register(String name, BlockBehaviour.Properties properties) {

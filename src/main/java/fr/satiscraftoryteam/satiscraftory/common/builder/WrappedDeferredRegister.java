@@ -1,6 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.builder;
 
-import fr.satiscraftoryteam.satiscraftory.common.registry.WrappedRegistryObject;
+import fr.satiscraftoryteam.satiscraftory.common.registration.WrappedDeferredHolder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.neoforged.bus.api.IEventBus;
@@ -31,7 +31,7 @@ public class WrappedDeferredRegister<T> {
         this(DeferredRegister.create(registryName, modid));
     }
 
-    protected <I extends T, W extends WrappedRegistryObject<I>> W register(String name, Supplier<? extends I> sup, Function<RegistryObject<I>, W> objectWrapper) {
+    protected <I extends T, W extends WrappedDeferredHolder<I>> W register(String name, Supplier<? extends I> sup, Function<RegistryObject<I>, W> objectWrapper) {
         return objectWrapper.apply(internal.register(name, sup));
     }
 

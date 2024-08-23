@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.examplesTest;
 
+import com.mojang.serialization.MapCodec;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -24,6 +25,11 @@ public class EliocubeBlock extends BaseEntityBlock {
     public EliocubeBlock(Properties properties) {
         super(properties);
         //registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
     }
 
 

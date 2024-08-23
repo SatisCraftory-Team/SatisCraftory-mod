@@ -1,10 +1,12 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +30,24 @@ public class InventoryHandler implements INBTSerializable<CompoundTag> {
         tile.setChanged();
     }
 
+//    @Override
+//    public CompoundTag serializeNBT() {
+//        return inventory.serializeNBT();
+//    }
+//
+//    @Override
+//    public void deserializeNBT(CompoundTag nbt) {
+//        inventory.deserializeNBT(nbt);
+//    }
+
     @Override
-    public CompoundTag serializeNBT() {
-        return inventory.serializeNBT();
+    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
+        return inventory.serializeNBT(provider);
     }
 
     @Override
-    public void deserializeNBT(CompoundTag nbt) {
-        inventory.deserializeNBT(nbt);
+    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
+        inventory.deserializeNBT(provider, nbt);
     }
 
 

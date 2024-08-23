@@ -1,9 +1,9 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.base;
 
+import com.mojang.serialization.MapCodec;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
-import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.client.renderer.chunk.RenderChunkRegion;
@@ -25,7 +25,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
@@ -233,6 +232,11 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
         return world.getBlockState(mainPos).getExplosionResistance(world, mainPos, explosion);
     }
 
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
+    }
+
     @NotNull
     @Override
     @Deprecated
@@ -248,7 +252,7 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
     }
 
     @Override
-    public TileEntityRegistryObject<TileEntityBoundingBlock> getTileType() {
+    public TileEntityDeferredHolder<TileEntityBoundingBlock> getTileType() {
         return TileEntityInit.BOUNDING_BLOCK;
     }
 

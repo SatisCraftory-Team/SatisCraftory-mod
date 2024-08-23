@@ -3,9 +3,9 @@ package fr.satiscraftoryteam.satiscraftory.client.models.items;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.item.EliocubeItem;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 
-public class EliocubeItemModel extends AnimatedGeoModel<EliocubeItem> {
+public class EliocubeItemModel extends GeoModel<EliocubeItem> {
     @Override
     public ResourceLocation getModelResource(EliocubeItem object) {
         return new ResourceLocation(SatisCraftory.MODID, "geo/eliocube.geo.json");

@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.specials;
 
+import com.mojang.serialization.MapCodec;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -20,6 +21,11 @@ public class LogoBlock extends BaseEntityBlock {
     public LogoBlock(Properties properties) {
         super(properties);
         //registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
     }
 
 

@@ -2,10 +2,10 @@ package fr.satiscraftoryteam.satiscraftory.client.models;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.model.GeoModel;
 
-public class ModelProvider<T extends IAnimatable & IAutoModelProvider> extends AnimatedGeoModel<T> {
+public class ModelProvider<T extends GeoAnimatable & IAutoModelProvider> extends GeoModel<T> {
 
     @Override
     public ResourceLocation getModelResource(T object) {

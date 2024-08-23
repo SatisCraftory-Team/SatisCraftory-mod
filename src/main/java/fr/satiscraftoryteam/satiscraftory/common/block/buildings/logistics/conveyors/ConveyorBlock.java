@@ -3,7 +3,6 @@ package fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conv
 import fr.satiscraftoryteam.satiscraftory.common.block.BlockDelayedBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasMultipleTickableTileEntity;
-import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
 import net.minecraft.core.BlockPos;
@@ -59,7 +58,7 @@ public class ConveyorBlock extends BlockDelayedBlockEntity<ConveyorTileEntity> i
     }
 
     @Override
-    public List<TileEntityRegistryObject<? extends TickableTileEntity>> getTilesTypes() {
+    public List<TileEntityDeferredHolder<? extends TickableTileEntity>> getTilesTypes() {
         return new ArrayList<>(){
             {
                 add(TileEntityInit.CONVEYOR);

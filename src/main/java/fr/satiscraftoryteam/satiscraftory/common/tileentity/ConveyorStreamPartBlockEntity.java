@@ -1,6 +1,5 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity;
 
-import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -15,7 +14,7 @@ public abstract class ConveyorStreamPartBlockEntity extends TickableTileEntity {
     private BlockEntity master;
     private BlockEntity connectedConveyor;
 
-    public ConveyorStreamPartBlockEntity(TileEntityRegistryObject<?> blockType, BlockPos blockPos, BlockState blockState) {
+    public ConveyorStreamPartBlockEntity(TileEntityDeferredHolder<?> blockType, BlockPos blockPos, BlockState blockState) {
         super(blockType, blockPos, blockState);
     }
 

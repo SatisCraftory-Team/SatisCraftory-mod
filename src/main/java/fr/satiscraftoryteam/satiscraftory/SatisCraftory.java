@@ -29,6 +29,8 @@ public class SatisCraftory {
         modEventBus.addListener(this::registerRenderers);
 
         packetHandler.register();
+        
+        CreativeModeTabsInit.register(modEventBus);
         BlockInit.register(modEventBus);
         ItemInit.register(modEventBus);
         TileEntityInit.TILE_ENTITY_TYPES.register(modEventBus);

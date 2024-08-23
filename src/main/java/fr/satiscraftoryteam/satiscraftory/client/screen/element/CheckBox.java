@@ -3,6 +3,7 @@ package fr.satiscraftoryteam.satiscraftory.client.screen.element;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -10,8 +11,8 @@ import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class CheckBox extends AbstractWidget
@@ -49,16 +50,27 @@ public class CheckBox extends AbstractWidget
     }
 
     private int oof;
+
+    @Override
+    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+
+    }
+
     @Override
     public void onClick(double mouseX, double mouseY)
     {
         this.toggled = !this.toggled;
     }
 
+//    @Override
+//    public void updateNarration(NarrationElementOutput output)
+//    {
+//        this.defaultButtonNarrationText(output);
+//    }
+
     @Override
-    public void updateNarration(NarrationElementOutput output)
-    {
-        this.defaultButtonNarrationText(output);
+    protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
+
     }
 
     public void playDownSound(SoundManager soundManager) {
