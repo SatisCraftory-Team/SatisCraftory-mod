@@ -1,6 +1,5 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity.base;
 
-import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -17,7 +16,7 @@ import java.util.Objects;
 public abstract class TileEntityUpdatable extends BlockEntity {
 
 
-    public TileEntityUpdatable(TileEntityRegistryObject<?> type, BlockPos pos, BlockState state) {
+    public TileEntityUpdatable(TileEntityDeferredHolder<?> type, BlockPos pos, BlockState state) {
         super(type.get(), pos, state);
     }
 

@@ -1,7 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.builder;
 
-import fr.satiscraftoryteam.satiscraftory.common.registry.BlockRegistryObject;
-import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
+import fr.satiscraftoryteam.satiscraftory.common.registration.BlockRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -15,7 +14,7 @@ public class TileEntityBuilder extends WrappedDeferredRegister<BlockEntityType<?
         super(modid, ForgeRegistries.BLOCK_ENTITY_TYPES);
     }
 
-    public <BE extends TickableTileEntity> TileEntityRegistryObject<BE> register(BlockRegistryObject<?, ?> block, BlockEntityType.BlockEntitySupplier<? extends BE> factory) {
+    public <BE extends TickableTileEntity> TileEntityDeferredHolder<BE> register(BlockRegistryObject<?, ?> block, BlockEntityType.BlockEntitySupplier<? extends BE> factory) {
         return this.<BE>builder(block, factory).clientTicker(TickableTileEntity::tickClient).serverTicker(TickableTileEntity::tickServer).build();
     }
 
@@ -58,8 +57,8 @@ public class TileEntityBuilder extends WrappedDeferredRegister<BlockEntityType<?
         }
 
         @SuppressWarnings("ConstantConditions")
-        public TileEntityRegistryObject<BE> build() {
-            TileEntityRegistryObject<BE> registryObject = new TileEntityRegistryObject<>(null);
+        public TileEntityDeferredHolder<BE> build() {
+            TileEntityDeferredHolder<BE> registryObject = new TileEntityDeferredHolder<>(null);
             registryObject.clientTicker(clientTicker).serverTicker(serverTicker);
             return register(block.getInternalRegistryName(), () -> BlockEntityType.Builder.<BE>of(factory, block.getBlock()).build(null),
                     registryObject::setRegistryObject);

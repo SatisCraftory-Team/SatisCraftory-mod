@@ -4,36 +4,37 @@ import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.constant.DefaultAnimations;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class EliocubeBlockEntity extends BlockEntity implements IAnimatable {
+public class EliocubeBlockEntity extends BlockEntity implements GeoAnimatable {
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+
     public EliocubeBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
         super(TileEntityInit.ELIOCUBE_ENTITY.get(), pWorldPosition, pBlockState);
     }
 
-    private AnimationFactory factory = new AnimationFactory(this);
+    private static final RawAnimation DEFAULT_ANIMATION = RawAnimation.begin().thenPlay("idle");
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<EliocubeBlockEntity>
-                (this, "controller", 0, this::predicate));
-    }
-
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP));
-
-        return PlayState.CONTINUE;
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, state -> {
+            return state.setAndContinue(DEFAULT_ANIMATION);
+        }));
     }
 
     @Override
-    public AnimationFactory getFactory() {
-        return this.factory;
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.cache;
+    }
+
+    @Override
+    public double getTick(Object object) {
+        return 0;
     }
 }

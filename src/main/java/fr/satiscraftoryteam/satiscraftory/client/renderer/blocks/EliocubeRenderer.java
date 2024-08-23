@@ -9,11 +9,11 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
+import software.bernie.geckolib.renderer.GeoBlockRenderer;
 
 public class EliocubeRenderer extends GeoBlockRenderer<EliocubeBlockEntity> {
     public EliocubeRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
-        super(rendererDispatcherIn, new EliocubeModel());
+        super(new EliocubeModel());
     }
 
     @Override

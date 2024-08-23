@@ -3,9 +3,9 @@ package fr.satiscraftoryteam.satiscraftory.client.models.items;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.item.LogoItem;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 
-public class LogoItemModel extends AnimatedGeoModel<LogoItem> {
+public class LogoItemModel extends GeoModel<LogoItem> {
     @Override
     public ResourceLocation getModelResource(LogoItem object) {
         return new ResourceLocation(SatisCraftory.MODID, "geo/logo.geo.json");

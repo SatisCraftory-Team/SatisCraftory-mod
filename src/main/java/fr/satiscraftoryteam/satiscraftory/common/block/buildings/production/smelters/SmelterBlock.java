@@ -6,7 +6,6 @@ import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attribute
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.ShapeAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
-import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.common.shapes.ShapesList;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.SmelterBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -76,7 +75,7 @@ public class SmelterBlock extends MachineBaseBlock implements IHasTileEntity<Sme
 
 
     @Override
-    public TileEntityRegistryObject<? extends SmelterBlockEntity> getTileType() {
+    public TileEntityDeferredHolder<? extends SmelterBlockEntity> getTileType() {
         return TileEntityInit.SMELTER_BLOCK_ENTITY;
     }
 

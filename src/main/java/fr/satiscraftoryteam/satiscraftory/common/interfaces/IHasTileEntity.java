@@ -1,6 +1,5 @@
 package fr.satiscraftoryteam.satiscraftory.common.interfaces;
 
-import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -15,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 public interface IHasTileEntity<TILE extends BlockEntity> extends EntityBlock {
 
-    TileEntityRegistryObject<? extends TILE> getTileType();
+    TileEntityDeferredHolder<? extends TILE> getTileType();
 
     default TILE createDummyBlockEntity() {
         return createDummyBlockEntity(((Block) this).defaultBlockState());
@@ -33,7 +32,7 @@ public interface IHasTileEntity<TILE extends BlockEntity> extends EntityBlock {
     @Nullable
     @Override
     default <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> blockEntityType) {
-        TileEntityRegistryObject<? extends TILE> type = getTileType();
+        TileEntityDeferredHolder<? extends TILE> type = getTileType();
         return blockEntityType == type.get() ? (BlockEntityTicker<T>) type.getTicker(level.isClientSide) : null;
     }
 

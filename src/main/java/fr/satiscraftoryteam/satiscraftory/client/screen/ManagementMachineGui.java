@@ -4,18 +4,18 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraftforge.client.gui.widget.ForgeSlider;
+import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 
 public abstract class ManagementMachineGui<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> {
 
-    protected ForgeSlider sliderOverclockInner;
+    protected ExtendedSlider sliderOverclockInner;
     protected CheckBox checkBoxOnOff;
     public int overclockPercentage = 100;
 
@@ -55,8 +55,8 @@ public abstract class ManagementMachineGui<T extends AbstractContainerMenu> exte
     @Override
     protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
         // Labels are machine specific, so keep it here
-        GuiComponent.drawString(poseStack, this.font, "⚡ " + String.valueOf(getPowerUsage()) + " MW", -90, 26, 0xff8c00);
-        GuiComponent.drawString(poseStack, this.font, "⌛ " + String.valueOf(getSpeed()) + " items/min", -90, 48, 0xff8c00);
+//        GuiGraphics.drawString(poseStack, this.font, "⚡ " + String.valueOf(getPowerUsage()) + " MW", -90, 26, 0xff8c00);
+//        GuiGraphics.drawString(poseStack, this.font, "⌛ " + String.valueOf(getSpeed()) + " items/min", -90, 48, 0xff8c00);
     }
 
     abstract double getPowerUsage();

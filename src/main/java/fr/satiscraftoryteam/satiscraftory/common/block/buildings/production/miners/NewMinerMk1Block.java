@@ -9,7 +9,6 @@ import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attribute
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTickableTileEntity;
-import fr.satiscraftoryteam.satiscraftory.common.registry.TileEntityRegistryObject;
 import fr.satiscraftoryteam.satiscraftory.common.shapes.ShapesList;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import net.minecraft.core.BlockPos;
@@ -135,7 +134,7 @@ public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTi
 
 
     @Override
-    public TileEntityRegistryObject<? extends MinerMk1BlockEntity> getTileType() {
+    public TileEntityDeferredHolder<? extends MinerMk1BlockEntity> getTileType() {
         return TileEntityInit.MINER_MK1_BLOCK_ENTITY;
     }
 
