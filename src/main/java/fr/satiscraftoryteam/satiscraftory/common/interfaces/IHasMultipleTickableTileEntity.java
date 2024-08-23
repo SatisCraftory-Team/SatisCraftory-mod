@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.interfaces;
 
+import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;

@@ -1,74 +1,62 @@
 package fr.satiscraftoryteam.satiscraftory.common.network;
 
-import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
-
-import java.util.Optional;
-import java.util.function.Function;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handling.IPayloadHandler;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 public abstract class AbtractPacketHandler {
 
-    private final SimpleChannel netHandler = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(SatisCraftory.MODID))
-            .clientAcceptedVersions("1"::equals)
-            .serverAcceptedVersions("1"::equals)
-            .networkProtocolVersion(() -> "1")
-            .simpleChannel();
-
-
-    private int packetIndex = 0;
-    // S2C = Server to Client
-    protected <MSG extends IPacket> void registerS2CPacket(Class<MSG> type, Function<FriendlyByteBuf, MSG> decode) {
-        registerPacketInternal(type, decode, NetworkDirection.PLAY_TO_SERVER);
+    protected AbtractPacketHandler(IEventBus modEventBus, String version) {
+        modEventBus.addListener(RegisterPayloadHandlersEvent.class, event -> {
+            PayloadRegistrar registrar = event.registrar(version);
+            registerClientToServer(new PacketRegistrar(registrar, true));
+            registerServerToClient(new PacketRegistrar(registrar, false));
+        });
     }
 
-    protected <MSG extends IPacket> void registerC2SPacket(Class<MSG> type, Function<FriendlyByteBuf, MSG> decode) {
-        registerPacketInternal(type, decode, NetworkDirection.PLAY_TO_CLIENT);
-    }
+    protected abstract void registerClientToServer(PacketRegistrar registrar);
 
-    protected <MSG extends IPacket> void registerPacketInternal(Class<MSG> type, Function<FriendlyByteBuf, MSG> decode, NetworkDirection direction) {
-        netHandler.registerMessage(packetIndex++, type, IPacket::encode, decode, IPacket::handle, Optional.of(direction));
-    }
+    protected abstract void registerServerToClient(PacketRegistrar registrar);
 
-    public <MSG> void sendToAllTracking(MSG message, Entity entity) {
-        netHandler.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity), message);
-    }
+    protected record SimplePacketPayLoad(CustomPacketPayload.Type<CustomPacketPayload> type) implements CustomPacketPayload {
 
-    public <MSG> void sendToAllTracking(MSG message, BlockEntity tile) {
-        sendToAllTracking(message, tile.getLevel(), tile.getBlockPos());
-    }
-
-    public <MSG> void sendToAllTracking(MSG message, Level world, BlockPos pos) {
-        if (world instanceof ServerLevel level) {
-            //If we have a ServerWorld just directly figure out the ChunkPos to not require looking up the chunk
-            // This provides a decent performance boost over using the packet distributor
-            level.getChunkSource().chunkMap.getPlayers(new ChunkPos(pos), false).forEach(p -> sendTo(message, p));
-        } else {
-            //Otherwise, fallback to entities tracking the chunk if some mod did something odd and our world is not a ServerWorld
-            netHandler.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunk(pos.getX() >> 4, pos.getZ() >> 4)), message);
+        private SimplePacketPayLoad(ResourceLocation id) {
+            this(new CustomPacketPayload.Type<>(id));
         }
     }
 
-    public <MSG> void sendTo(MSG message, ServerPlayer player) {
-        //Validate it is not a fake player, even though none of our code should call this with a fake player
-        if (!(player instanceof FakePlayer)) {
-            netHandler.sendTo(message, player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
-        }
-    }
+    protected record PacketRegistrar(PayloadRegistrar registrar, boolean toServer) {
 
-    public SimpleChannel getChannel() {
-        return netHandler;
+        public <MSG extends IPacket> void configuration(CustomPacketPayload.Type<MSG> type, StreamCodec<? super FriendlyByteBuf, MSG> reader) {
+            if (toServer) {
+                registrar.configurationToServer(type, reader, IPacket::handle);
+            } else {
+                registrar.configurationToClient(type, reader, IPacket::handle);
+            }
+        }
+
+        public <MSG extends IPacket> void play(CustomPacketPayload.Type<MSG> type, StreamCodec<? super RegistryFriendlyByteBuf, MSG> reader) {
+            if (toServer) {
+                registrar.playToServer(type, reader, IPacket::handle);
+            } else {
+                registrar.playToClient(type, reader, IPacket::handle);
+            }
+        }
+
+        public SimplePacketPayLoad playInstanced(ResourceLocation id, IPayloadHandler<CustomPacketPayload> handler) {
+            SimplePacketPayLoad payload = new SimplePacketPayLoad(id);
+            if (toServer) {
+                registrar.playToServer(payload.type(), StreamCodec.unit(payload), handler);
+            } else {
+                registrar.playToClient(payload.type(), StreamCodec.unit(payload), handler);
+            }
+            return payload;
+        }
     }
 }

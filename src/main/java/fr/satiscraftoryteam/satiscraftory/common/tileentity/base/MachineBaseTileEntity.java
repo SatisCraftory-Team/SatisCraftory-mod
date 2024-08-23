@@ -2,6 +2,7 @@ package fr.satiscraftoryteam.satiscraftory.common.tileentity.base;
 
 import fr.satiscraftoryteam.satiscraftory.utils.RelativeOrientationUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Tuple;
@@ -39,8 +40,8 @@ public abstract class MachineBaseTileEntity extends TickableTileEntity {
     }
 
     @Override
-    public CompoundTag getReducedUpdateTag() {
-        CompoundTag updateTag = super.getReducedUpdateTag();
+    public CompoundTag getReducedUpdateTag(HolderLookup.Provider lookupProvider) {
+        CompoundTag updateTag = super.getReducedUpdateTag(lookupProvider);
         updateTag.putInt("overclockPercentage", overclockPercentage);
         updateTag.putBoolean("isActive", isActive);
         return updateTag;

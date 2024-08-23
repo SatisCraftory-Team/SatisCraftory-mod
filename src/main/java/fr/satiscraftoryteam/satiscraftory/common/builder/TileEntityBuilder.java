@@ -1,68 +1,145 @@
 package fr.satiscraftoryteam.satiscraftory.common.builder;
 
+import com.google.common.base.Preconditions;
 import fr.satiscraftoryteam.satiscraftory.common.registration.BlockRegistryObject;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
+import fr.satiscraftoryteam.satiscraftory.common.registration.WrappedDeferredRegister;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityUpdatable;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.bus.api.IEventBus;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 public class TileEntityBuilder extends WrappedDeferredRegister<BlockEntityType<?>> {
 
     public TileEntityBuilder(String modid) {
-        super(modid, ForgeRegistries.BLOCK_ENTITY_TYPES);
+        super(Registries.BLOCK_ENTITY_TYPE, modid, TileEntityDeferredHolder::new);
     }
 
-    public <BE extends TickableTileEntity> TileEntityDeferredHolder<BE> register(BlockRegistryObject<?, ?> block, BlockEntityType.BlockEntitySupplier<? extends BE> factory) {
-        return this.<BE>builder(block, factory).clientTicker(TickableTileEntity::tickClient).serverTicker(TickableTileEntity::tickServer).build();
+    public <BE extends TileEntityUpdatable> BlockEntityTypeBuilder<BE> mekBuilder(BlockRegistryObject<?, ?> block, BlockEntityType.BlockEntitySupplier<? extends BE> factory) {
+        BlockEntityTypeBuilder<BE> builder = this.<BE>builder(block, factory);
+        return builder;
     }
 
     public <BE extends BlockEntity> BlockEntityTypeBuilder<BE> builder(BlockRegistryObject<?, ?> block, BlockEntityType.BlockEntitySupplier<? extends BE> factory) {
         return new BlockEntityTypeBuilder<>(block, factory);
     }
 
+    @SuppressWarnings("unchecked")
+    private <BE extends BlockEntity> TileEntityDeferredHolder<BE> registerMek(String name, Supplier<? extends BlockEntityType<BE>> sup) {
+        return (TileEntityDeferredHolder<BE>) super.register(name, sup);
+    }
+
+    @Override
+    public void register(@NotNull IEventBus bus) {
+        super.register(bus);
+       // bus.addListener(this::registerCapabilities);
+    }
+
+//    private void registerCapabilities(RegisterCapabilitiesEvent event) {
+//        for (DeferredHolder<BlockEntityType<?>, ? extends BlockEntityType<?>> entry : getEntries()) {
+//            //Note: All entries should be of this type
+//            if (entry instanceof TileEntityTypeRegistryObject<?> tileRO) {
+//                tileRO.registerCapabilityProviders(event);
+//            } else if (!FMLEnvironment.production) {
+//                throw new IllegalStateException("Expected entry to be a TileEntityTypeRegistryObject");
+//            }
+//        }
+//    }
+
     public class BlockEntityTypeBuilder<BE extends BlockEntity> {
 
         private final BlockRegistryObject<?, ?> block;
         private final BlockEntityType.BlockEntitySupplier<? extends BE> factory;
+        //private final List<CapabilityData<BE, ?, ?>> capabilityProviders = new ArrayList<>();
         @Nullable
         private BlockEntityTicker<BE> clientTicker;
         @Nullable
         private BlockEntityTicker<BE> serverTicker;
 
-        private BlockEntityTypeBuilder(BlockRegistryObject<?, ?> block, BlockEntityType.BlockEntitySupplier<? extends BE> factory) {
+        BlockEntityTypeBuilder(BlockRegistryObject<?, ?> block, BlockEntityType.BlockEntitySupplier<? extends BE> factory) {
             this.block = block;
             this.factory = factory;
         }
 
+//        public <CAP, CONTEXT> BlockEntityTypeBuilder<BE> withSimple(BlockCapability<CAP, CONTEXT> capability) {
+//            return withSimple(capability, ConstantPredicates.ALWAYS_TRUE);
+//        }
+//
+//        @SuppressWarnings("unchecked")
+//        public <CAP, CONTEXT> BlockEntityTypeBuilder<BE> withSimple(BlockCapability<CAP, CONTEXT> capability, BooleanSupplier shouldApply) {
+//            return with(capability, (ICapabilityProvider<? super BE, CONTEXT, CAP>) Capabilities.SIMPLE_PROVIDER, shouldApply);
+//        }
+//
+//        public <CAP, CONTEXT> BlockEntityTypeBuilder<BE> with(BlockCapability<CAP, CONTEXT> capability,
+//                                                              Function<BlockCapability<CAP, CONTEXT>, ICapabilityProvider<? super BE, CONTEXT, CAP>> provider) {
+//            return with(capability, provider.apply(capability));
+//        }
+//
+//        public <CAP, CONTEXT> BlockEntityTypeBuilder<BE> with(BlockCapability<CAP, CONTEXT> capability, ICapabilityProvider<? super BE, CONTEXT, CAP> provider) {
+//            return with(capability, provider, ConstantPredicates.ALWAYS_TRUE);
+//        }
+
+//        /**
+//         * @param shouldApply Determines whether the provider actually be attached to this block entity type. Useful for cases when we want to conditionally apply it
+//         *                    based on loaded mods or a block's attributes.
+//         */
+//        public <CAP, CONTEXT> BlockEntityTypeBuilder<BE> with(BlockCapability<CAP, CONTEXT> capability, ICapabilityProvider<? super BE, CONTEXT, CAP> provider,
+//                                                              BooleanSupplier shouldApply) {
+//            capabilityProviders.add(new CapabilityData<>(capability, provider, shouldApply));
+//            return this;
+//        }
+//
+//        public BlockEntityTypeBuilder<BE> without(BlockCapability<?, ?>... capabilities) {
+//            for (BlockCapability<?, ?> capability : capabilities) {
+//                //noinspection Java8CollectionRemoveIf - We can't replace it with removeIf as it has a capturing lambda
+//                for (Iterator<CapabilityData<BE, ?, ?>> iterator = capabilityProviders.iterator(); iterator.hasNext(); ) {
+//                    if (iterator.next().capability() == capability) {
+//                        iterator.remove();
+//                    }
+//                }
+//            }
+//            return this;
+//        }
+//
+//        public BlockEntityTypeBuilder<BE> without(Collection<? extends BlockCapability<?, ?>> capabilities) {
+//            //noinspection Java8CollectionRemoveIf - We can't replace it with removeIf as it has a capturing lambda
+//            for (Iterator<CapabilityData<BE, ?, ?>> iterator = capabilityProviders.iterator(); iterator.hasNext(); ) {
+//                if (capabilities.contains(iterator.next().capability())) {
+//                    iterator.remove();
+//                }
+//            }
+//            return this;
+//        }
+
         public BlockEntityTypeBuilder<BE> clientTicker(BlockEntityTicker<BE> ticker) {
-            if (clientTicker != null) {
-                throw new IllegalStateException("Client ticker may only be set once.");
-            }
-            this.clientTicker = ticker;
+            Preconditions.checkState(clientTicker == null, "Client ticker may only be set once.");
+            clientTicker = ticker;
             return this;
         }
 
         public BlockEntityTypeBuilder<BE> serverTicker(BlockEntityTicker<BE> ticker) {
-            if (serverTicker != null) {
-                throw new IllegalStateException("Server ticker may only be set once.");
-            }
-            this.serverTicker = ticker;
+            Preconditions.checkState(serverTicker == null, "Server ticker may only be set once.");
+            serverTicker = ticker;
             return this;
         }
 
         public BlockEntityTypeBuilder<BE> commonTicker(BlockEntityTicker<BE> ticker) {
-            return clientTicker(ticker).serverTicker(ticker);
+            return clientTicker(ticker)
+                    .serverTicker(ticker);
         }
 
         @SuppressWarnings("ConstantConditions")
         public TileEntityDeferredHolder<BE> build() {
-            TileEntityDeferredHolder<BE> registryObject = new TileEntityDeferredHolder<>(null);
-            registryObject.clientTicker(clientTicker).serverTicker(serverTicker);
-            return register(block.getInternalRegistryName(), () -> BlockEntityType.Builder.<BE>of(factory, block.getBlock()).build(null),
-                    registryObject::setRegistryObject);
+            //Note: There is no data fixer type as forge does not currently have a way exposing data fixers to mods yet
+            TileEntityDeferredHolder<BE> holder = registerMek(block.getName(), () -> BlockEntityType.Builder.<BE>of(factory, block.getBlock()).build(null));
+            holder.tickers(clientTicker, serverTicker);
+            return holder;
         }
     }
-
 }

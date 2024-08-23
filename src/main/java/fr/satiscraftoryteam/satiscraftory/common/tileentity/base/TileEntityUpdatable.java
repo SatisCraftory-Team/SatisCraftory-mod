@@ -1,6 +1,8 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity.base;
 
+import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.PacketFlow;
@@ -22,13 +24,13 @@ public abstract class TileEntityUpdatable extends BlockEntity {
 
     @NotNull
     @Override
-    public CompoundTag getUpdateTag() {
-        return getReducedUpdateTag();
+    public CompoundTag getUpdateTag(HolderLookup.Provider lookupProvider) {
+        return getReducedUpdateTag(lookupProvider);
     }
 
-    public CompoundTag getReducedUpdateTag() {
+    public CompoundTag getReducedUpdateTag(HolderLookup.Provider lookupProvider) {
         //Add the base update tag information
-        return super.getUpdateTag();
+        return super.getUpdateTag(lookupProvider);
     }
 
     public void blockRemoved() {
@@ -43,8 +45,8 @@ public abstract class TileEntityUpdatable extends BlockEntity {
         return getWorldNN().isClientSide();
     }
 
-    public void handleUpdatePacket(@NotNull CompoundTag tag) {
-        handleUpdateTag(tag);
+    public void handleUpdatePacket(@NotNull CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        handleUpdateTag(tag, lookupProvider);
     }
 
 
