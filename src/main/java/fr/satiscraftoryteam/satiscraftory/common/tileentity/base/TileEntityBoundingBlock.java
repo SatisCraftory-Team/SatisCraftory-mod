@@ -3,7 +3,6 @@ package fr.satiscraftoryteam.satiscraftory.common.tileentity.base;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IBoundingBlock;
-import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.UpdateTileEntity;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -66,7 +65,7 @@ public class TileEntityBoundingBlock extends TileEntityUpdatable {
         return mainPos;
     }
 
-    public void é(BlockPos pos) {
+    public void setMainLocation(BlockPos pos) {
         receivedCoords = pos != null;
         mainPos = pos;
         if (!isRemote()) {
@@ -75,8 +74,8 @@ public class TileEntityBoundingBlock extends TileEntityUpdatable {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag compoundTag) {
-        super.saveAdditional(compoundTag);
+    protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider lookupProvider) {
+        super.saveAdditional(compoundTag, lookupProvider);
         int[] coords = new int[]{
                 mainPos.getX(),
                 mainPos.getY(),
@@ -87,12 +86,12 @@ public class TileEntityBoundingBlock extends TileEntityUpdatable {
     }
 
     @Override
-    public void load(CompoundTag compoundTag) {
-        super.load(compoundTag);
-        receivedCoords = compoundTag.getBoolean("receivedCoords");
-        int[] coords = compoundTag.getIntArray("mainPos");
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        super.loadAdditional(tag, lookupProvider);
+        receivedCoords = tag.getBoolean("receivedCoords");
+        int[] coords = tag.getIntArray("mainPos");
         mainPos = new BlockPos(coords[0], coords[1], coords[2]);
-    }
+}
 
     @Override
     public CompoundTag getReducedUpdateTag(HolderLookup.Provider lookupProvider) {
@@ -108,27 +107,14 @@ public class TileEntityBoundingBlock extends TileEntityUpdatable {
     }
 
     @Override
-    public void handleUpdateTag(@NotNull CompoundTag tag) {
+    public void handleUpdateTag(@NotNull CompoundTag tag, HolderLookup.Provider lookupProvider) {
         receivedCoords = tag.getBoolean("receivedCoords");
         int[] coords = tag.getIntArray("mainPos");
         setMainLocation(new BlockPos(coords[0], coords[1], coords[2]));
-        super.handleUpdateTag(tag);
+        super.handleUpdateTag(tag, lookupProvider);
     }
 
     public void sendUpdatePacket() {
         sendUpdatePacket(this);
-    }
-
-    public void sendUpdatePacket(BlockEntity tracking) {
-        if (isRemote()) {
-           // Mekanism.logger.warn("Update packet call requested from client side", new IllegalStateException());
-        } else if (isRemoved()) {
-           // Mekanism.logger.warn("Update packet call requested for removed tile", new IllegalStateException());
-        } else {
-            //Note: We use our own update packet/channel to avoid chunk trashing and minecraft attempting to rerender
-            // the entire chunk when most often we are just updating a TileEntityRenderer, so the chunk itself
-            // does not need to and should not be redrawn
-            SatisCraftory.packetHandler.sendToAllTracking(new UpdateTileEntity(this), tracking);
-        }
     }
 }

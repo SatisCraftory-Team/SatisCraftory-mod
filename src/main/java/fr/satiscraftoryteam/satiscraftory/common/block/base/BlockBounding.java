@@ -4,12 +4,12 @@ import com.mojang.serialization.MapCodec;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.client.renderer.chunk.RenderChunkRegion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -26,9 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -57,7 +55,7 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
         // Torches cannot be placed on the sides due to vanilla checking the incorrect shape
         //Note: We mark it as not having occlusion as our occlusion shape is not quite right in that it goes past a single block size which confuses MC
         // Eventually we may want to try cropping it but for now this works better
-        super(BlockBehaviour.Properties.of(Material.METAL).strength(3.5F, 4.8F)
+        super(BlockBehaviour.Properties.of().strength(3.5F, 4.8F)
                 .requiresCorrectToolForDrops().dynamicShape().noOcclusion().isViewBlocking((a, b, c) -> false));
         registerDefaultState(stateDefinition.any());
     }
@@ -78,18 +76,18 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
     }
 
 
+
     @NotNull
     @Override
     @Deprecated
-    public InteractionResult use(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand,
-                                 @NotNull BlockHitResult hit) {
-        BlockPos mainPos = getMainBlockPos(world, pos);
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        BlockPos mainPos = getMainBlockPos(level, pos);
         if (mainPos == null) {
             return InteractionResult.FAIL;
         }
-        BlockState mainState = world.getBlockState(mainPos);
+        BlockState mainState = level.getBlockState(mainPos);
         //TODO: Use proper ray trace result, currently is using the one we got but we probably should make one with correct position information
-        return mainState.getBlock().use(mainState, world, mainPos, player, hand, hit);
+        return mainState.getBlock().defaultBlockState().useWithoutItem(level, player, hitResult);
     }
 
     @Override
@@ -110,19 +108,19 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
         }
     }
 
-    /**
-     * {@inheritDoc} Delegate to main {@link Block#getCloneItemStack(BlockState, HitResult, BlockGetter, BlockPos, Player)}.
-     */
-    @NotNull
-    @Override
-    public ItemStack getCloneItemStack(@NotNull BlockState state, HitResult target, @NotNull BlockGetter world, @NotNull BlockPos pos, Player player) {
-        BlockPos mainPos = getMainBlockPos(world, pos);
-        if (mainPos == null) {
-            return ItemStack.EMPTY;
-        }
-        BlockState mainState = world.getBlockState(mainPos);
-        return mainState.getBlock().getCloneItemStack(mainState, target, world, mainPos, player);
-    }
+//    /**
+//     * {@inheritDoc} Delegate to main {@link Block#getCloneItemStack(BlockState, HitResult, BlockGetter, BlockPos, Player)}.
+//     */
+//    @NotNull
+//    @Override
+//    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
+//        BlockPos mainPos = getMainBlockPos(level, pos);
+//        if (mainPos == null) {
+//            return ItemStack.EMPTY;
+//        }
+//        BlockState mainState = level.getBlockState(mainPos);
+//        return mainState.getBlock().getCloneItemStack(mainState, target, world, mainPos, player);
+//    }
 
     @Override
     public boolean onDestroyedByPlayer(@NotNull BlockState state, Level world, @NotNull BlockPos pos, @NotNull Player player, boolean willHarvest,
@@ -190,7 +188,7 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
         }
         BlockPos mainPos = getMainBlockPos(world, pos);
         if (mainPos != null) {
-            world.getBlockState(mainPos).neighborChanged(world, mainPos, neighborBlock, neighborPos, isMoving);
+            world.neighborChanged(state, mainPos, neighborBlock, neighborPos, isMoving);
         }
     }
 
@@ -328,12 +326,13 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
-    @Override
-    @Deprecated
-    public boolean isPathfindable(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull PathComputationType type) {
-        //Mark that bounding blocks do not allow movement for use by AI pathing
-        return false;
-    }
+//
+//    @Override
+//    @Deprecated
+//    public boolean isPathfindable(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull PathComputationType type) {
+//        //Mark that bounding blocks do not allow movement for use by AI pathing
+//        return false;
+//    }
 
     private interface ShapeProxy {
 
