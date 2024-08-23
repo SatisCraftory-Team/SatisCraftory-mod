@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity.base;
 
+import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;

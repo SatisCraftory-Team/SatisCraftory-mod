@@ -1,21 +1,31 @@
 package fr.satiscraftoryteam.satiscraftory.common.registration;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 
-public class BlockRegistryObject<PRIMARY_REGISTRY, PRIMARY extends PRIMARY_REGISTRY, SECONDARY_REGISTRY, SECONDARY extends SECONDARY_REGISTRY> extends DoubleWrappedDeferredHolder<PRIMARY_REGISTRY, PRIMARY, SECONDARY_REGISTRY, SECONDARY> {
+public class BlockRegistryObject<BLOCK extends Block, ITEM extends Item> extends DoubleWrappedDeferredHolder<Block, BLOCK, Item, ITEM> {
 
-    public BlockRegistryObject(DeferredHolder<PRIMARY_REGISTRY, PRIMARY> blockRegistryObject, DeferredHolder<SECONDARY_REGISTRY, SECONDARY> itemRegistryObject) {
+    public BlockRegistryObject(DeferredHolder<Block, BLOCK> blockRegistryObject, DeferredHolder<Item, ITEM> itemRegistryObject) {
         super(blockRegistryObject, itemRegistryObject);
     }
 
     @NotNull
-    public PRIMARY getBlock() {
+    public BLOCK getBlock() {
         return getPrimary();
     }
 
     @NotNull
-    public SECONDARY asItem() {
+    public ITEM asItem() {
         return getSecondary();
     }
+
+//    public BlockRegistryObject<BLOCK, ITEM> forItemHolder(Consumer<ItemRegistryObject<ITEM>> consumer) {
+//        if (secondaryRO instanceof UI<ITEM> itemHolder) {
+//            consumer.accept(itemHolder);
+//            return this;
+//        }
+//        throw new IllegalStateException("Called method requires an ItemRegistryObject");
+//    }
 }

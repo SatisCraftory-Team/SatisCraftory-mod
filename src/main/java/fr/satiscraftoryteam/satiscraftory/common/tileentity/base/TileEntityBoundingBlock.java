@@ -3,9 +3,10 @@ package fr.satiscraftoryteam.satiscraftory.common.tileentity.base;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IBoundingBlock;
-import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketUpdateTile;
+import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.UpdateTileEntity;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -65,7 +66,7 @@ public class TileEntityBoundingBlock extends TileEntityUpdatable {
         return mainPos;
     }
 
-    public void setMainLocation(BlockPos pos) {
+    public void é(BlockPos pos) {
         receivedCoords = pos != null;
         mainPos = pos;
         if (!isRemote()) {
@@ -94,8 +95,8 @@ public class TileEntityBoundingBlock extends TileEntityUpdatable {
     }
 
     @Override
-    public CompoundTag getReducedUpdateTag() {
-        CompoundTag updateTag = super.getReducedUpdateTag();
+    public CompoundTag getReducedUpdateTag(HolderLookup.Provider lookupProvider) {
+        CompoundTag updateTag = super.getReducedUpdateTag(lookupProvider);
         int[] coords = new int[]{
                 mainPos.getX(),
                 mainPos.getY(),
@@ -127,7 +128,7 @@ public class TileEntityBoundingBlock extends TileEntityUpdatable {
             //Note: We use our own update packet/channel to avoid chunk trashing and minecraft attempting to rerender
             // the entire chunk when most often we are just updating a TileEntityRenderer, so the chunk itself
             // does not need to and should not be redrawn
-            SatisCraftory.packetHandler.sendToAllTracking(new PacketUpdateTile(this), tracking);
+            SatisCraftory.packetHandler.sendToAllTracking(new UpdateTileEntity(this), tracking);
         }
     }
 }

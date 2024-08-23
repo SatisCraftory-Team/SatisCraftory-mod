@@ -3,49 +3,42 @@ package fr.satiscraftoryteam.satiscraftory.common.builder;
 import fr.satiscraftoryteam.satiscraftory.common.registration.WrappedDeferredHolder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.neoforged.bus.api.IEventBus;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.RegistryBuilder;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 
-public class WrappedDeferredRegister<T> {
+public class WrappedDeferredRegister<T> extends DeferredRegister<T> {
 
 
-    protected final DeferredRegister<T> internal;
+    private final Function<ResourceKey<T>, ? extends WrappedDeferredHolder<T, ?>> holderCreator;
 
-    protected WrappedDeferredRegister(DeferredRegister<T> internal) {
-        this.internal = internal;
+    public WrappedDeferredRegister(ResourceKey<? extends Registry<T>> registryKey, String namespace) {
+        this(registryKey, namespace, WrappedDeferredHolder::new);
     }
 
-    protected WrappedDeferredRegister(String modid, IForgeRegistry<T> registry) {
-        this(DeferredRegister.create(registry, modid));
+    public WrappedDeferredRegister(ResourceKey<? extends Registry<T>> registryKey, String namespace,
+                                   Function<ResourceKey<T>, ? extends WrappedDeferredHolder<T, ? extends T>> holderCreator) {
+        super(registryKey, namespace);
+        this.holderCreator = holderCreator;
     }
 
-    /**
-     * @apiNote For use with vanilla or custom registries
-     */
-    protected WrappedDeferredRegister(String modid, ResourceKey<? extends Registry<T>> registryName) {
-        this(DeferredRegister.create(registryName, modid));
+    @Override
+    @SuppressWarnings("unchecked")
+    public <I extends T> WrappedDeferredHolder<T, I> register(String name, Function<ResourceLocation, ? extends I> func) {
+        return (WrappedDeferredHolder<T, I>) super.register(name, func);
     }
 
-    protected <I extends T, W extends WrappedDeferredHolder<I>> W register(String name, Supplier<? extends I> sup, Function<RegistryObject<I>, W> objectWrapper) {
-        return objectWrapper.apply(internal.register(name, sup));
+    @Override
+    @SuppressWarnings("unchecked")
+    public <I extends T> WrappedDeferredHolder<T, I> register(String name, Supplier<? extends I> sup) {
+        return (WrappedDeferredHolder<T, I>) super.register(name, sup);
     }
 
-    public void register(IEventBus bus) {
-        internal.register(bus);
+    @Override
+    @SuppressWarnings("unchecked")
+    protected <I extends T> WrappedDeferredHolder<T, I> createHolder(ResourceKey<? extends Registry<T>> registryKey, ResourceLocation key) {
+        return (WrappedDeferredHolder<T, I>) holderCreator.apply(ResourceKey.create(registryKey, key));
     }
-
-    public void createAndRegister(IEventBus bus) {
-        createAndRegister(bus, UnaryOperator.identity());
-    }
-
-    public void createAndRegister(IEventBus bus, UnaryOperator<RegistryBuilder<T>> builder) {
-        internal.makeRegistry(() -> builder.apply(new RegistryBuilder<>()));
-        register(bus);
-    }
-
 }
