@@ -6,6 +6,7 @@ import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attribute
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.ShapeAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import fr.satiscraftoryteam.satiscraftory.common.shapes.ShapesList;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.SmelterBlockEntity;
 import net.minecraft.core.BlockPos;

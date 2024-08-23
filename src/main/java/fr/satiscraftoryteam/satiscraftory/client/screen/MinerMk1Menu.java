@@ -4,6 +4,7 @@ import fr.satiscraftoryteam.satiscraftory.client.screen.element.slot.RestrictedS
 import fr.satiscraftoryteam.satiscraftory.client.screen.element.slot.ResultSlotInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.MenuTypesInit;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities.InventoryPartition;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -18,8 +19,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import static fr.satiscraftoryteam.satiscraftory.common.init.ItemInit.POWER_SHARD;
 
 public class MinerMk1Menu extends AbstractContainerMenu {
-    public final MinerMk1BlockEntity blockEntity;
-    private final Level level;
+    public MinerMk1BlockEntity blockEntity;
+    private Level level;
 
 //    public MinerMk1Menu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
 //        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()));
