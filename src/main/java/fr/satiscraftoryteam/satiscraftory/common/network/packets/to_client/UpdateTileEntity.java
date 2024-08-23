@@ -24,7 +24,7 @@ public record UpdateTileEntity(BlockPos pos, CompoundTag updateTag) implements I
     );
 
     public UpdateTileEntity(TileEntityUpdatable tile) {
-        this(tile.getBlockPos(), tile.getReducedUpdateTag(lookupProvider));
+        this(tile.getBlockPos(), tile.getReducedUpdateTag(tile.getLevel().registryAccess()));
     }
 
     public UpdateTileEntity(BlockPos pos, CompoundTag updateTag) {
@@ -47,7 +47,7 @@ public record UpdateTileEntity(BlockPos pos, CompoundTag updateTag) implements I
                SatisCraftory.LOGGER.warn("Update tile packet received for position: {} in world: {}, but no valid tile was found.", pos,
                         world.dimension().location());
             } else {
-                tile.handleUpdatePacket(updateTag);
+                tile.handleUpdatePacket(updateTag, world.registryAccess());
             }
         }
     }

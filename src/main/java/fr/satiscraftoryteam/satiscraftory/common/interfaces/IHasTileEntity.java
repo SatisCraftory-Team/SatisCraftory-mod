@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.interfaces;
 
+import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
