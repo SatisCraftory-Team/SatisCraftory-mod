@@ -20,29 +20,27 @@ public abstract class ManagementMachineGui<T extends AbstractContainerMenu> exte
     public int overclockPercentage = 100;
 
     private static final ResourceLocation INVENTORY =
-            new ResourceLocation(SatisCraftory.MODID, "textures/gui/inventory.png");
+            ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "textures/gui/inventory.png");
     private static final ResourceLocation CONFIG_BAR =
-            new ResourceLocation(SatisCraftory.MODID, "textures/gui/config_bar.png");
+            ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "textures/gui/config_bar.png");
 
     public ManagementMachineGui(T menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
     }
 
     @Override
-    protected void renderBg(PoseStack poseStack, float PartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(GuiGraphics graphics, float PartialTick, int pMouseX, int pMouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
-        RenderSystem.setShaderTexture(0, CONFIG_BAR);
-        this.blit(poseStack, x-9, y+10, 0, 0, 256, 60);
-        this.blit(poseStack, x+imageWidth+3, y+40, 0, 61, 62, 86);
-        this.blit(poseStack, x-100, y+10, 0, 0, 100, 60);
+        graphics.blit(CONFIG_BAR, x-9, y+10, 0, 0, 256, 60);
+        graphics.blit(CONFIG_BAR, x+imageWidth+3, y+40, 0, 61, 62, 86);
+        graphics.blit(CONFIG_BAR, x-100, y+10, 0, 0, 100, 60);
 
-        RenderSystem.setShaderTexture(0, INVENTORY);
-        this.blit(poseStack, x, y + 100, 0, 0, 176, 100);
+        graphics.blit(INVENTORY, x, y + 100, 0, 0, 176, 100);
     }
 
     public void updateMachineInfos(boolean isActive, int overclockPercentage) {
@@ -53,7 +51,7 @@ public abstract class ManagementMachineGui<T extends AbstractContainerMenu> exte
     }
 
     @Override
-    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
+    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
         // Labels are machine specific, so keep it here
 //        GuiGraphics.drawString(poseStack, this.font, "⚡ " + String.valueOf(getPowerUsage()) + " MW", -90, 26, 0xff8c00);
 //        GuiGraphics.drawString(poseStack, this.font, "⌛ " + String.valueOf(getSpeed()) + " items/min", -90, 48, 0xff8c00);

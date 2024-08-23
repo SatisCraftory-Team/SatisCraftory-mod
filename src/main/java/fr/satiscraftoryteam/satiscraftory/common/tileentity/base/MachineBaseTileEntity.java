@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity.base;
 
+import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import fr.satiscraftoryteam.satiscraftory.utils.RelativeOrientationUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -26,15 +27,15 @@ public abstract class MachineBaseTileEntity extends TickableTileEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag compoundTag) {
-        super.saveAdditional(compoundTag);
+    protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider lookupProvider) {
+        super.saveAdditional(compoundTag, lookupProvider);
         compoundTag.putInt("overclockPercentage", overclockPercentage);
         compoundTag.putBoolean("isActive", isActive);
     }
 
     @Override
-    public void load(CompoundTag compoundTag) {
-        super.load(compoundTag);
+    public void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider lookupProvider) {
+        super.loadAdditional(compoundTag, lookupProvider);
         isActive = compoundTag.getBoolean("isActive");
         overclockPercentage = compoundTag.getInt("overclockPercentage");
     }
