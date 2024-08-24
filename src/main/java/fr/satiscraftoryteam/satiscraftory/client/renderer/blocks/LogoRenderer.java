@@ -9,12 +9,4 @@ public class LogoRenderer extends GeoBlockRenderer<LogoBlockEntity> {
     public LogoRenderer(BlockEntityRendererProvider.Context context) {
         super(new LogoModel());
     }
-//    public LogoRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
-//        super(new LogoModel());
-//    }
-
-//    //@Override
-//    public RenderType getRenderType(LogoBlockEntity animatable, float partialTicks, PoseStack stack, @Nullable MultiBufferSource renderTypeBuffer, @Nullable VertexConsumer vertexBuilder, int packedLightIn, ResourceLocation textureLocation) {
-//        return RenderType.entityTranslucent(getTextureLocation(animatable));
-//    }
 }

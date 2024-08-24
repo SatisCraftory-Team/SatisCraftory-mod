@@ -7,12 +7,12 @@ import software.bernie.geckolib.model.GeoModel;
 
 public class MinerMk1ItemModel extends GeoModel<MinerMk1Item> {
     @Override
-    public ResourceLocation getModelResource(MinerMk1Item object) {
+    public ResourceLocation getModelResource(MinerMk1Item animatable) {
         return ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "geo/miner_mk1.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(MinerMk1Item object) {
+    public ResourceLocation getTextureResource(MinerMk1Item animatable) {
         return ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "textures/block/machines/miner_mk1.png");
     }
 

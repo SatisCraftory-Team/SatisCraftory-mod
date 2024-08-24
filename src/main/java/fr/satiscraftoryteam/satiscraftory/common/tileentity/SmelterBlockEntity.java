@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 
 public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuProvider, IBoundingBlock, GeoBlockEntity {
@@ -193,24 +194,18 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
 
     //-------------------------------------------------Animation------------------------------------------------------//
 
-//    private AnimationFactory factory = new AnimationFactory(this);
-//
-//    @Override
-//    public void registerControllers(AnimationData data) {
-//        data.addAnimationController(new AnimationController<SmelterBlockEntity>
-//                (this, "controller", 0, this::predicate));
-//    }
-//
-//    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-//        event.getController().setAnimation(new AnimationBuilder().addAnimation("running", ILoopType.EDefaultLoopTypes.LOOP));
-//
-//        return PlayState.CONTINUE;
-//    }
-//
-//    @Override
-//    public AnimationFactory getFactory() {
-//        return this.factory;
-//    }
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    }
+
+    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
+    }
+
+    //----------------------------------------------------------------------------------------------------------------//
 
     @Override
     public ItemStackHandler getOutputInventory() {
@@ -227,22 +222,6 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
     public int getNumberOfOverclocks() {
         return 0;
     }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return null;
-    }
-
-    @Override
-    public double getTick(Object object) {
-        return 0;
-    }
-
 
     //----------------------------------------------------------------------------------------------------------------//
 }

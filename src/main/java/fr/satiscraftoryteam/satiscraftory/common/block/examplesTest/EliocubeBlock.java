@@ -18,13 +18,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-
-
 public class EliocubeBlock extends BaseEntityBlock {
 
     public EliocubeBlock(Properties properties) {
         super(properties);
-        //registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
     }
 
     @Override
@@ -36,23 +33,10 @@ public class EliocubeBlock extends BaseEntityBlock {
     //----------------------------------------Hitbox/collision--------------------------------------------------------//
 
     private static final VoxelShape SHAPE =  Block.box(1, 0, 1, 15, 32, 15);
-    /*
-    private static final Optional<VoxelShape> SHAPE = Stream.of(Block.box(-2.90625, 0, 0.3125, 3.90625, 0.0625, 0.6875),
-            (Block.box(0.0625, 0, 0.0625, 0.9375, 1, 0.9375)),
-            (Block.box(0.90625, 1.2433373926376117, 0.46875, 0.96875, 1.6316626073623883, 0.53125)),
-            (Block.box(0.90625, 1.2433373926376117, 0.46875, 0.96875, 1.6316626073623883, 0.53125)),
-            (Block.box(-0.03125, 1.1808373926376117, 0.40625, 0.09375, 1.6316626073623883, 0.59375)),
-            (Block.box(0.03125, 1.2433373926376117, 0.46875, 0.09375, 1.6316626073623883, 0.53125)),
-            (Block.box(0.24333739263761167, 0.90625, 0.40625, 0.6941626073623883, 1.03125, 0.59375)),
-            (Block.box(0.24333739263761167, 0.90625, 0.40625, 0.6941626073623883, 1.03125, 0.59375)),
-            (Block.box(0.30583739263761167, 1.84375, 0.46875, 0.6941626073623883, 1.90625, 0.53125)),
-            (Block.box(0.30583739263761167, 1.84375, 0.46875, 0.6941626073623883, 1.90625, 0.53125))
-    ).reduce((voxelShape, voxelShape2) -> Shapes.join(voxelShape,voxelShape2,BooleanOp.OR));*/
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
-        /*.orElse(Shapes.block());*/
     }
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -86,7 +70,7 @@ public class EliocubeBlock extends BaseEntityBlock {
 
 
     @Override
-    public RenderShape getRenderShape(BlockState pState) {
+    public RenderShape getRenderShape(BlockState blockState) {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 

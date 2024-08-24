@@ -1,6 +1,6 @@
 {
   "variants": {
-    "age=0": { "model": "satiscraftory:block/pale_berry_bush" },
-    "age=1": { "model": "satiscraftory:block/pale_berry_bush_with_fruit" }
+    "age=0": { "model": "satiscraftory:block/flora/pale_berry_bush" },
+    "age=1": { "model": "satiscraftory:block/flora/pale_berry_bush_with_fruit" }
   }
 }

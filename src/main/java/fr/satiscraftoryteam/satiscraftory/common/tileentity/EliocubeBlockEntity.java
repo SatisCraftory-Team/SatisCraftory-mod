@@ -6,17 +6,19 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import software.bernie.geckolib.util.RenderUtil;
 
 public class EliocubeBlockEntity extends BlockEntity implements GeoBlockEntity {
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public EliocubeBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
         super(TileEntityInit.ELIOCUBE_ENTITY.get(), pWorldPosition, pBlockState);
     }
+
+    //-------------------------------------------------Animation------------------------------------------------------//
 
     private static final RawAnimation DEFAULT_ANIMATION = RawAnimation.begin().thenPlay("idle");
 
@@ -27,6 +29,8 @@ public class EliocubeBlockEntity extends BlockEntity implements GeoBlockEntity {
         }));
     }
 
+    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
@@ -34,6 +38,8 @@ public class EliocubeBlockEntity extends BlockEntity implements GeoBlockEntity {
 
     @Override
     public double getTick(Object object) {
-        return 0;
+        return RenderUtil.getCurrentTick();
     }
+
+    //----------------------------------------------------------------------------------------------------------------//
 }

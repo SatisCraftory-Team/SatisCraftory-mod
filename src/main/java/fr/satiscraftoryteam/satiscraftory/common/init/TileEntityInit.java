@@ -10,8 +10,9 @@ import fr.satiscraftoryteam.satiscraftory.common.tileentity.SmelterBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorOutputPartBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorTileEntity;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -19,7 +20,7 @@ public class TileEntityInit {
 
     public static final TileEntityBuilder TILE_ENTITY_TYPES = new TileEntityBuilder(SatisCraftory.MODID);
 
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, SatisCraftory.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, SatisCraftory.MODID);
 
     public static final TileEntityDeferredHolder<LogoBlockEntity> LOGO_ENTITY = TILE_ENTITY_TYPES.builder(BlockInit.LOGO, LogoBlockEntity::new).build();
     public static final TileEntityDeferredHolder<EliocubeBlockEntity> ELIOCUBE_ENTITY = TILE_ENTITY_TYPES.builder(BlockInit.ELIOCUBE, EliocubeBlockEntity::new).build();
@@ -31,4 +32,7 @@ public class TileEntityInit {
     public static final TileEntityDeferredHolder<ConveyorTileEntity> CONVEYOR_FULL = TILE_ENTITY_TYPES.builderAutoTick(BlockInit.CONVEYOR_FULL, (blockPos, blockState) -> new ConveyorTileEntity(blockPos,blockState,false)).build();
     public static final TileEntityDeferredHolder<ConveyorTileEntity> CONVEYOR = TILE_ENTITY_TYPES.builderAutoTick(BlockInit.CONVEYOR, ConveyorTileEntity::new).build();
 
+    public static void register(IEventBus eventBus) {
+        BLOCK_ENTITIES.register(eventBus);
+    }
 }

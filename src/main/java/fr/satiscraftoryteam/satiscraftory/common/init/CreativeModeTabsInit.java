@@ -18,7 +18,7 @@ public class CreativeModeTabsInit {
     public static final Supplier<CreativeModeTab> SATISCRAFTORY_TAB = CREATIVE_MODE_TABS.register(
             "satiscraftory_tab",
             () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(BlockInit.MANU.getBlock().asItem()))
+                    .icon(() -> new ItemStack(BlockInit.LOGO.getBlock().asItem()))
                     .title(Component.translatable("creativetab.satiscraftory.global"))
                     .displayItems((itemDisplayParameters, output) -> {
                         // Add all blocks to the creative tab
@@ -26,11 +26,7 @@ public class CreativeModeTabsInit {
                                 // Blocks that should not be displayed in the creative tab
                                 .filter(item ->
                                     !Arrays.asList(
-                                            BlockInit.LOGO.asItem(),
-                                            BlockInit.BOUNDING_BLOCK.asItem(),
-                                            BlockInit.MINER_MK1.asItem(),
-                                            BlockInit.SMELTER.asItem(),
-                                            BlockInit.ELIOCUBE.asItem()
+                                            BlockInit.BOUNDING_BLOCK.asItem()
                                     ).contains(item.get())
                                 )
                                 .forEach(item -> output.accept(item.get()));

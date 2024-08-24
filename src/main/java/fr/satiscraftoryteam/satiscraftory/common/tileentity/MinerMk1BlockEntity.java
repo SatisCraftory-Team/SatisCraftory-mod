@@ -199,8 +199,6 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
 
     //-------------------------------------------------Animation------------------------------------------------------//
 
-    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-
     private static final RawAnimation DEFAULT_ANIMATION = RawAnimation.begin().thenPlay("running");
 
     @Override
@@ -210,15 +208,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
         }));
     }
 
-//    @Override
-//    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-//        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
-//    }
-//
-//    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
-//        tAnimationState.getController().setAnimation(RawAnimation.begin().then("running", Animation.LoopType.LOOP));
-//        return PlayState.CONTINUE;
-//    }
+    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
@@ -229,7 +219,6 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
     public double getTick(Object object) {
         return RenderUtil.getCurrentTick();
     }
-
 
     //----------------------------------------------------------------------------------------------------------------//
 

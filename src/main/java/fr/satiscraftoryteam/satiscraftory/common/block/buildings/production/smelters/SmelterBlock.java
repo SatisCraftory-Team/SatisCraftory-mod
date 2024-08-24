@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.smelters;
 
+import com.mojang.serialization.MapCodec;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.MachineBaseBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.FacingAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.IOAttribute;
@@ -13,18 +14,26 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class SmelterBlock extends MachineBaseBlock implements IHasTileEntity<SmelterBlockEntity> {
 
+    public SmelterBlock() {
+        super(BlockBehaviour.Properties.of().noOcclusion());
+    }
+
     public SmelterBlock(Properties properties) {
         super(properties);
-        //registerDefaultState(this.defaultBlockState().setValue(HAS_BOUNDING_BLOCKS, Boolean.TRUE));
+    }
 
-        //runCalculation(SHAPE.orElse(Shapes.block()));
-
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
     }
 
     @Override
@@ -78,6 +87,12 @@ public class SmelterBlock extends MachineBaseBlock implements IHasTileEntity<Sme
     public SmelterBlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new SmelterBlockEntity(blockPos, blockState);
     }
+
+    @Override
+    public RenderShape getRenderShape(BlockState blockState) {
+        return RenderShape.ENTITYBLOCK_ANIMATED;
+    }
+
     //----------------------------------------------------------------------------------------------------------------//
 
 

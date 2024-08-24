@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.miners;
 
+import com.mojang.serialization.MapCodec;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.MachineBaseBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.Attribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.BoudingAttribute;
@@ -21,6 +22,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -29,14 +31,19 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTileEntity {
+public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileEntity {
 
     private static final Vec3i P2OFFSET = new Vec3i(0, 0, 3);
 
-    public NewMinerMk1Block() {
-        super(BlockBehaviour.Properties.of());
-        //registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
+    public MinerMk1Block() {
+        super(BlockBehaviour.Properties.of().noOcclusion());
     }
+
+    public MinerMk1Block(Properties properties) {
+        super(properties);
+    }
+
+
 
     @Override
     protected void initProperties() {
@@ -115,8 +122,13 @@ public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTi
     //------------------------------------------BLOCK_ENTITY----------------------------------------------------------//
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
+    }
+
+    @Override
     public RenderShape getRenderShape(BlockState blockState) {
-        return RenderShape.INVISIBLE;
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Override

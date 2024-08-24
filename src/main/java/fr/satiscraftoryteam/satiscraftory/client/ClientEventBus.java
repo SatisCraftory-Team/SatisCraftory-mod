@@ -1,13 +1,14 @@
 package fr.satiscraftoryteam.satiscraftory.client;
 
-import fr.satiscraftoryteam.satiscraftory.client.renderer.blocks.EliocubeRenderer;
-import fr.satiscraftoryteam.satiscraftory.client.renderer.blocks.LogoRenderer;
-import fr.satiscraftoryteam.satiscraftory.client.renderer.blocks.MinerMk1Renderer;
-import fr.satiscraftoryteam.satiscraftory.client.renderer.blocks.SmelterRenderer;
+import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
+import fr.satiscraftoryteam.satiscraftory.client.renderer.blocks.*;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
+@EventBusSubscriber(value = Dist.CLIENT, modid = SatisCraftory.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ClientEventBus {
 
     @SubscribeEvent
@@ -16,6 +17,8 @@ public class ClientEventBus {
         event.registerBlockEntityRenderer(TileEntityInit.ELIOCUBE_ENTITY.get(), EliocubeRenderer::new);
         event.registerBlockEntityRenderer(TileEntityInit.MINER_MK1_BLOCK_ENTITY.get(), MinerMk1Renderer::new);
         event.registerBlockEntityRenderer(TileEntityInit.SMELTER_BLOCK_ENTITY.get(), SmelterRenderer::new);
+        event.registerBlockEntityRenderer(TileEntityInit.CONVEYOR.get(), ConveyorRenderer::new);
+        event.registerBlockEntityRenderer(TileEntityInit.CONVEYOR_FULL.get(), ConveyorRenderer::new);
     }
 
 }
