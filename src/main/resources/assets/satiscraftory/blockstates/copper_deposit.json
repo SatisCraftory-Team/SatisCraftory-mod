@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "satiscraftory:ressources/copper_deposit"
+      "model": "satiscraftory:block/ressources/copper_deposit"
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "satiscraftory:item/regle_help_dev"
+    "layer0": "satiscraftory:item/test/regle_help_dev"
   }
 }

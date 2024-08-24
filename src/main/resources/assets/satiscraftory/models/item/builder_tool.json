@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench by vgtom4",
 	"textures": {
-		"0": "satiscraftory:item/builder_tool",
-		"particle": "satiscraftory:item/builder_tool"
+		"0": "satiscraftory:item/tools/builder_tool",
+		"particle": "satiscraftory:item/tools/builder_tool"
 	},
 	"elements": [
 		{

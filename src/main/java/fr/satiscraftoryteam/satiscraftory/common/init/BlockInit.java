@@ -44,7 +44,7 @@ public class BlockInit {
     public static final BlockRegistryObject<Block, BlockItem> BOUNDING_BLOCK =  BLOCKS.register("bounding_block", BlockBounding::new);
     public static final BlockRegistryObject<Block, BlockItem> CURVED_CONVEYOR = BLOCKS.register("curved_conveyor", () -> new Block(BlockBehaviour.Properties.of()));
     public static final BlockRegistryObject<Block, BlockItem> CONVEYOR_MERGER = BLOCKS.register("conveyor_merger", () -> new ConveyorMerger(BlockBehaviour.Properties.of()));
-    public static final BlockRegistryObject<Block, BlockItem> MANU =            BLOCKS.register("manu", () -> new Block(BlockBehaviour.Properties.of()));
+    public static final BlockRegistryObject<Block, BlockItem> MANU =            BLOCKS.register("manu", () -> new Block(BlockBehaviour.Properties.of().noOcclusion()));
     public static final BlockRegistryObject<Block, BlockItem> IRON_DEPOSIT =    BLOCKS.register("iron_deposit", () -> new Block(BlockBehaviour.Properties.of()));
     public static final BlockRegistryObject<Block, BlockItem> COPPER_DEPOSIT =  BLOCKS.register("copper_deposit", () -> new Block(BlockBehaviour.Properties.of()));
     public static final BlockRegistryObject<Block, BlockItem> FOUNDATION_2M =   BLOCKS.register("foundation_2m", () -> new Foundations(BlockBehaviour.Properties.of()));
@@ -60,9 +60,4 @@ public class BlockInit {
     public static final BlockRegistryObject<SmelterBlock, BlockItem> SMELTER =        BLOCKS.register("smelter", () -> new SmelterBlock(BlockBehaviour.Properties.of().noOcclusion()), (block) -> new SmelterItem(block, new Item.Properties()));
     public static final BlockRegistryObject<ConveyorBlock, BlockItem> CONVEYOR_FULL = BLOCKS.register("conveyor_full", () -> new ConveyorBlock(BlockBehaviour.Properties.of().noOcclusion(), ((blockPos, blockState) -> new ConveyorTileEntity(blockPos, blockState, false))));
     public static final BlockRegistryObject<ConveyorBlock, BlockItem> CONVEYOR =      BLOCKS.register("conveyor", () -> new ConveyorBlock(BlockBehaviour.Properties.of().noOcclusion(), ConveyorTileEntity::new));
-
-    protected static class DefaultBlockMaterial {
-        protected static BlockBehaviour.Properties STONE = BlockBehaviour.Properties.of().noOcclusion();
-        protected static BlockBehaviour.Properties METAL = BlockBehaviour.Properties.of().noOcclusion();
-    }
 }

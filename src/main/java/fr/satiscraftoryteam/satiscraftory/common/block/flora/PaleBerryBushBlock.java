@@ -31,13 +31,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class PaleBerryBushBlock extends BushBlock implements BonemealableBlock {
 
     public static final MapCodec<PaleBerryBushBlock> CODEC = simpleCodec(PaleBerryBushBlock::new);
-    public static final int MAX_AGE = 3;
-    public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
+    public static final int MAX_AGE = 1;
+    public static final IntegerProperty AGE = BlockStateProperties.AGE_1;
     private static final VoxelShape SAPLING_SHAPE = Block.box(3.0, 0.0, 3.0, 13.0, 8.0, 13.0);
 
     public PaleBerryBushBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 3));
+        this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 1));
     }
 
     @Override
@@ -58,47 +58,47 @@ public class PaleBerryBushBlock extends BushBlock implements BonemealableBlock {
     }
 
     public boolean isRandomlyTicking(BlockState blockState) {
-        return blockState.getValue(AGE) < 3;
+        return blockState.getValue(AGE) < 1;
     }
 
     @Override
-    protected void randomTick(BlockState p_222563_, ServerLevel p_222564_, BlockPos p_222565_, RandomSource p_222566_) {
-        int i = p_222563_.getValue(AGE);
-        if (i < 3 && p_222564_.getRawBrightness(p_222565_.above(), 0) >= 9 && net.neoforged.neoforge.common.CommonHooks.canCropGrow(p_222564_, p_222565_, p_222563_, p_222566_.nextInt(5) == 0)) {
-            BlockState blockstate = p_222563_.setValue(AGE, Integer.valueOf(i + 1));
-            p_222564_.setBlock(p_222565_, blockstate, 2);
-            net.neoforged.neoforge.common.CommonHooks.fireCropGrowPost(p_222564_, p_222565_, p_222563_);
-            p_222564_.gameEvent(GameEvent.BLOCK_CHANGE, p_222565_, GameEvent.Context.of(blockstate));
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        int i = state.getValue(AGE);
+        if (i < 1 && level.getRawBrightness(pos.above(), 0) >= 9 && net.neoforged.neoforge.common.CommonHooks.canCropGrow(level, pos, state, random.nextInt(5) == 0)) {
+            BlockState blockstate = state.setValue(AGE, Integer.valueOf(i + 1));
+            level.setBlock(pos, blockstate, 2);
+            net.neoforged.neoforge.common.CommonHooks.fireCropGrowPost(level, pos, state);
+            level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(blockstate));
         }
     }
 
     @Override
     protected ItemInteractionResult useItemOn(
-            ItemStack p_316636_, BlockState p_316295_, Level p_316812_, BlockPos p_316380_, Player p_316731_, InteractionHand p_316188_, BlockHitResult p_316626_
+            ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult
     ) {
-        int i = p_316295_.getValue(AGE);
-        boolean flag = i == 3;
-        return !flag && p_316636_.is(Items.BONE_MEAL)
+        int i = state.getValue(AGE);
+        boolean flag = i == 1;
+        return !flag && stack.is(Items.BONE_MEAL)
                 ? ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION
-                : super.useItemOn(p_316636_, p_316295_, p_316812_, p_316380_, p_316731_, p_316188_, p_316626_);
+                : super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState p_316134_, Level p_316429_, BlockPos p_316748_, Player p_316431_, BlockHitResult p_316474_) {
-        int i = p_316134_.getValue(AGE);
-        boolean flag = i == 3;
-        if (i > 1) {
-            int j = 1 + p_316429_.random.nextInt(2);
-            popResource(p_316429_, p_316748_, new ItemStack(Items.SWEET_BERRIES, j + (flag ? 1 : 0)));
-            p_316429_.playSound(
-                    null, p_316748_, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + p_316429_.random.nextFloat() * 0.4F
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        int i = state.getValue(AGE);
+        boolean flag = i == 1;
+        if (i > 0) {
+            int j = 1 + level.random.nextInt(2);
+            popResource(level, pos, new ItemStack(ItemInit.PALEBERRY.asItem(), j + (flag ? 1 : 0)));
+            level.playSound(
+                    null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F
             );
-            BlockState blockstate = p_316134_.setValue(AGE, Integer.valueOf(1));
-            p_316429_.setBlock(p_316748_, blockstate, 2);
-            p_316429_.gameEvent(GameEvent.BLOCK_CHANGE, p_316748_, GameEvent.Context.of(p_316431_, blockstate));
-            return InteractionResult.sidedSuccess(p_316429_.isClientSide);
+            BlockState blockstate = state.setValue(AGE, Integer.valueOf(0));
+            level.setBlock(pos, blockstate, 0);
+            level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, blockstate));
+            return InteractionResult.sidedSuccess(level.isClientSide);
         } else {
-            return super.useWithoutItem(p_316134_, p_316429_, p_316748_, p_316431_, p_316474_);
+            return super.useWithoutItem(state, level, pos, player, hitResult);
         }
     }
 
@@ -108,18 +108,18 @@ public class PaleBerryBushBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader p_256056_, BlockPos p_57261_, BlockState p_57262_) {
-        return p_57262_.getValue(AGE) < 3;
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+        return state.getValue(AGE) < 1;
     }
 
     @Override
-    public boolean isBonemealSuccess(Level p_222558_, RandomSource p_222559_, BlockPos p_222560_, BlockState p_222561_) {
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel p_222553_, RandomSource p_222554_, BlockPos p_222555_, BlockState p_222556_) {
-        int i = Math.min(3, p_222556_.getValue(AGE) + 1);
-        p_222553_.setBlock(p_222555_, p_222556_.setValue(AGE, Integer.valueOf(i)), 2);
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+        int i = Math.min(1, state.getValue(AGE) + 1);
+        level.setBlock(pos, state.setValue(AGE, Integer.valueOf(i)), 2);
     }
 }

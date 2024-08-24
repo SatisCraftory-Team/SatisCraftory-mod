@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "satiscraftory:block/logo"
+      "model": "satiscraftory:block/miscellaneous/logo"
     }
   }
 }

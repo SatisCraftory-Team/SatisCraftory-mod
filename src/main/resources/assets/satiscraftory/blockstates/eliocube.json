@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "satiscraftory:block/eliocube"
+      "model": "satiscraftory:block/test/eliocube"
     }
   }
 }

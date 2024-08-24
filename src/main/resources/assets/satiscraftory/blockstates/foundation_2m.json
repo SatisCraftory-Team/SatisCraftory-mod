@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "satiscraftory:foundations/foundation_2m"
+      "model": "satiscraftory:block/foundations/foundation_2m"
     }
   }
 }
