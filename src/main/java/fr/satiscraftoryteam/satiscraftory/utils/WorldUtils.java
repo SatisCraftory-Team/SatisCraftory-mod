@@ -1,6 +1,5 @@
 package fr.satiscraftoryteam.satiscraftory.utils;
 
-import com.mojang.datafixers.util.Either;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import net.minecraft.core.BlockPos;

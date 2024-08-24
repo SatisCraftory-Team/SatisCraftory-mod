@@ -1,6 +1,5 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor;
 
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public interface IItemInputable {

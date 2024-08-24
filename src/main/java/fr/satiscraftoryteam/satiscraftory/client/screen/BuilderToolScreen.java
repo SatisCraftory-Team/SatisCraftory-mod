@@ -1,7 +1,5 @@
 package fr.satiscraftoryteam.satiscraftory.client.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

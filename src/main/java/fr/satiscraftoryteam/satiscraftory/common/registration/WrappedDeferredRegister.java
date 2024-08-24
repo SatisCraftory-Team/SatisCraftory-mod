@@ -1,11 +1,12 @@
 package fr.satiscraftoryteam.satiscraftory.common.registration;
 
-import net.minecraft.resources.ResourceLocation;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class WrappedDeferredRegister<T> extends DeferredRegister<T> {
     private final Function<ResourceKey<T>, ? extends WrappedDeferredHolder<T, ?>> holderCreator;

@@ -1,11 +1,12 @@
 package fr.satiscraftoryteam.satiscraftory.common.registration;
 
 import com.mojang.serialization.MapCodec;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class DeferredMapCodecRegister<T> extends WrappedDeferredRegister<MapCodec<? extends T>> {
 

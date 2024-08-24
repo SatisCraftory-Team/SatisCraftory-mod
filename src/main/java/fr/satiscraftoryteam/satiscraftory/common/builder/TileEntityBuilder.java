@@ -22,7 +22,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 public class TileEntityBuilder extends WrappedDeferredRegister<BlockEntityType<?>> {
