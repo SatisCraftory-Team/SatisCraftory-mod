@@ -118,7 +118,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
 
     private BlockCapabilityCache<IItemHandler, @Nullable Direction> itemHandlerCache;
 
-    public IItemHandler getItemHandler() {
+    public IItemHandler getItemHandler(@Nullable Direction context) {
         return (IItemHandler) inventoryHandler;
     }
 

@@ -1,5 +1,7 @@
 package fr.satiscraftoryteam.satiscraftory.client.screen;
 
+import fr.satiscraftoryteam.satiscraftory.client.screen.element.slot.RestrictedSlot;
+import fr.satiscraftoryteam.satiscraftory.client.screen.element.slot.ResultSlotInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.MenuTypesInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.SmelterBlockEntity;
@@ -13,9 +15,14 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.capabilities.Capabilities;
+
+import java.util.Arrays;
+
+import static fr.satiscraftoryteam.satiscraftory.common.init.ItemInit.*;
 
 public class SmelterMenu extends AbstractContainerMenu {
-    public SmelterBlockEntity blockEntity;
+    private SmelterBlockEntity blockEntity;
     private Level level;
 
     public SmelterMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
@@ -39,13 +46,13 @@ public class SmelterMenu extends AbstractContainerMenu {
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-//        this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-//            this.addSlot(new ResultSlotInit(handler, 0, 17, 45));
-//            this.addSlot(new RestrictedSlot(handler, 1, 107, 45, POWER_SHARD.get()));
-//            this.addSlot(new RestrictedSlot(handler, 2, 125, 45, POWER_SHARD.get()));
-//            this.addSlot(new RestrictedSlot(handler, 3, 143, 45, POWER_SHARD.get()));
-//            this.addSlot(new RestrictedSlot(handler, 4, 1, 45, Arrays.asList(IRON_RESIDUE.get(), COPPER_RESIDUE.get())));
-//        });
+        this.blockEntity.getCapability(Capabilities.ItemHandler.BLOCK, null).ifPresent(handler -> {
+            this.addSlot(new ResultSlotInit(handler, 0, 17, 45));
+            this.addSlot(new RestrictedSlot(handler, 1, 107, 45, POWER_SHARD.get()));
+            this.addSlot(new RestrictedSlot(handler, 2, 125, 45, POWER_SHARD.get()));
+            this.addSlot(new RestrictedSlot(handler, 3, 143, 45, POWER_SHARD.get()));
+            this.addSlot(new RestrictedSlot(handler, 4, 1, 45, Arrays.asList(IRON_RESIDUE.get(), COPPER_RESIDUE.get())));
+        });
     }
 
 
