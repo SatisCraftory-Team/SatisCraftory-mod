@@ -8,7 +8,7 @@ import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTile
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
 import fr.satiscraftoryteam.satiscraftory.utils.RelativeOrientationUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -22,25 +22,13 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.common.util.Lazy;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.builder.ILoopType;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-import javax.annotation.Nonnull;
-
-public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuProvider, IAnimatable, IBoundingBlock {
+public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuProvider, IBoundingBlock {
 
     public SmelterBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(TileEntityInit.SMELTER_BLOCK_ENTITY, blockPos, blockState);
@@ -112,7 +100,7 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
         }
     };
 
-    private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
+    private Lazy<IItemHandler> lazyItemHandler = Lazy.of(() -> itemHandler);
 
 
     @Override
@@ -126,38 +114,39 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
         return new SmelterMenu(pContainerId, pInventory, this);
     }
 
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @javax.annotation.Nullable Direction side) {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return lazyItemHandler.cast();
-        }
-
-        return super.getCapability(cap, side);
-    }
+//    @Nonnull
+//    @Override
+//    public <T> Lazy<T> getCapability(@Nonnull Capability<T> cap, @javax.annotation.Nullable Direction side) {
+//        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+//            return lazyItemHandler.cast();
+//        }
+//
+//        return super.getCapability(cap, side);
+//    }
 
     @Override
     public void onLoad() {
         super.onLoad();
-        lazyItemHandler = LazyOptional.of(() -> itemHandler);
+        lazyItemHandler = Lazy.of(() -> itemHandler);
     }
 
-    @Override
-    public void invalidateCaps()  {
-        super.invalidateCaps();
-        lazyItemHandler.invalidate();
-    }
+//    @Override
+//    public void invalidateCaps()  {
+//        super.invalidateCaps();
+//        lazyItemHandler.invalidate();
+//    }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
-        tag.put("inventory", itemHandler.serializeNBT());
-        super.saveAdditional(tag);
+    protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        tag.put("inventory", itemHandler.serializeNBT(lookupProvider));
+        super.saveAdditional(tag, lookupProvider);
     }
 
+
     @Override
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
-        itemHandler.deserializeNBT(nbt.getCompound("inventory"));
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider lookupProvider) {
+        super.loadAdditional(nbt, lookupProvider);
+        itemHandler.deserializeNBT(lookupProvider, nbt.getCompound("inventory"));
     }
 
     public void drops() {
@@ -201,24 +190,24 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
 
     //-------------------------------------------------Animation------------------------------------------------------//
 
-    private AnimationFactory factory = new AnimationFactory(this);
-
-    @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<SmelterBlockEntity>
-                (this, "controller", 0, this::predicate));
-    }
-
-    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("running", ILoopType.EDefaultLoopTypes.LOOP));
-
-        return PlayState.CONTINUE;
-    }
-
-    @Override
-    public AnimationFactory getFactory() {
-        return this.factory;
-    }
+//    private AnimationFactory factory = new AnimationFactory(this);
+//
+//    @Override
+//    public void registerControllers(AnimationData data) {
+//        data.addAnimationController(new AnimationController<SmelterBlockEntity>
+//                (this, "controller", 0, this::predicate));
+//    }
+//
+//    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+//        event.getController().setAnimation(new AnimationBuilder().addAnimation("running", ILoopType.EDefaultLoopTypes.LOOP));
+//
+//        return PlayState.CONTINUE;
+//    }
+//
+//    @Override
+//    public AnimationFactory getFactory() {
+//        return this.factory;
+//    }
 
     @Override
     public ItemStackHandler getOutputInventory() {

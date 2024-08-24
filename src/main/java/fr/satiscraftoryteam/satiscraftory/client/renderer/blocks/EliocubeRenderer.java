@@ -16,7 +16,7 @@ public class EliocubeRenderer extends GeoBlockRenderer<EliocubeBlockEntity> {
         super(new EliocubeModel());
     }
 
-    @Override
+    // @Override
     public RenderType getRenderType(EliocubeBlockEntity animatable, float partialTicks, PoseStack stack, @Nullable MultiBufferSource renderTypeBuffer, @Nullable VertexConsumer vertexBuilder, int packedLightIn, ResourceLocation textureLocation) {
         return RenderType.entityTranslucent(getTextureLocation(animatable));
     }

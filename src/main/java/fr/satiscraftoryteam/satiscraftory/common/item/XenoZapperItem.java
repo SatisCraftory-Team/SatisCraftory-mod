@@ -15,10 +15,10 @@ public class XenoZapperItem extends Item {
     @Override
     public boolean hurtEnemy(ItemStack item, LivingEntity attackedEntity, LivingEntity attackingEntity) {
         if (attackingEntity instanceof ServerPlayer player) {
-            LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(player.level);
+            LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(player.level());
             lightningBolt.setPos(attackedEntity.getX(), attackedEntity.getY(), attackedEntity.getZ());
             lightningBolt.setVisualOnly(true);
-            player.level.addFreshEntity(lightningBolt);
+            player.level().addFreshEntity(lightningBolt);
         }
         return super.hurtEnemy(item, attackedEntity, attackingEntity);
     }

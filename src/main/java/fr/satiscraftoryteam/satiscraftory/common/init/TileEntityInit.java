@@ -22,7 +22,7 @@ public class TileEntityInit {
     public static final TileEntityDeferredHolder<ConveyorOutputPartBlockEntity> CONVEYOR_INPUT_PART_ENTITY = TILE_ENTITY_TYPES.builder(BlockInit.CONVEYOR_INPUT_PART, ConveyorOutputPartBlockEntity::new).build();
     public static final TileEntityDeferredHolder<SmelterBlockEntity> SMELTER_BLOCK_ENTITY = TILE_ENTITY_TYPES.builder(BlockInit.SMELTER, SmelterBlockEntity::new).build();
     public static final TileEntityDeferredHolder<MinerMk1BlockEntity> MINER_MK1_BLOCK_ENTITY = TILE_ENTITY_TYPES.builder(BlockInit.MINER_MK1, MinerMk1BlockEntity::new).build();
-//    public static final TileEntityDeferredHolder<ConveyorTileEntity> CONVEYOR_FULL = TILE_ENTITY_TYPES.register(BlockInit.CONVEYOR_FULL, (blockPos, blockState) -> new ConveyorTileEntity(blockPos,blockState,false));
-//    public static final TileEntityDeferredHolder<ConveyorTileEntity> CONVEYOR = TILE_ENTITY_TYPES.register(BlockInit.CONVEYOR, ConveyorTileEntity::new);
+    public static final TileEntityDeferredHolder<ConveyorTileEntity> CONVEYOR_FULL = TILE_ENTITY_TYPES.builder(BlockInit.CONVEYOR_FULL, (blockPos, blockState) -> new ConveyorTileEntity(blockPos,blockState,false)).build();
+    public static final TileEntityDeferredHolder<ConveyorTileEntity> CONVEYOR = TILE_ENTITY_TYPES.builder(BlockInit.CONVEYOR, ConveyorTileEntity::new).build();
 
 }

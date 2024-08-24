@@ -8,16 +8,16 @@ import software.bernie.geckolib.model.GeoModel;
 public class EliocubeModel extends GeoModel<EliocubeBlockEntity> {
     @Override
     public ResourceLocation getModelResource(EliocubeBlockEntity object) {
-        return new ResourceLocation(SatisCraftory.MODID, "geo/eliocube.geo.json");
+        return SatisCraftory.rl("geo/eliocube.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(EliocubeBlockEntity object) {
-        return new ResourceLocation(SatisCraftory.MODID, "textures/machines/eliocube.png");
+        return SatisCraftory.rl("textures/machines/eliocube.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(EliocubeBlockEntity animatable) {
-        return new ResourceLocation(SatisCraftory.MODID, "animations/eliocube.animation.json");
+        return SatisCraftory.rl("animations/eliocube.animation.json");
     }
 }

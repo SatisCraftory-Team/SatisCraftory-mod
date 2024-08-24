@@ -1,11 +1,8 @@
 package fr.satiscraftoryteam.satiscraftory.common.init;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
-import fr.satiscraftoryteam.satiscraftory.common.world.structure.IronDepositStructure;
-import fr.satiscraftoryteam.satiscraftory.common.world.structure.SkyStructures;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class StructuresInit {
@@ -19,6 +16,7 @@ public class StructuresInit {
      * Registers the base structure itself and sets what its path is. In this case,
      * this base structure will have the resourcelocation of structure_tutorial:sky_structures.
      */
-    public static final DeferredHolder<StructureType<IronDepositStructure>> IRON_DEPOSIT_STRUCTURES = DEFERRED_REGISTRY_STRUCTURE.register("iron_deposit_structure", () -> () -> IronDepositStructure.CODEC);
-    public static final DeferredHolder<StructureType<SkyStructures>> SKY_STRUCTURES = DEFERRED_REGISTRY_STRUCTURE.register("sky_structures", () -> () -> SkyStructures.CODEC);
+    //disable structures for now
+   // public static final DeferredHolder<StructureType<IronDepositStructure>> IRON_DEPOSIT_STRUCTURES = DEFERRED_REGISTRY_STRUCTURE.register("iron_deposit_structure", () -> () -> IronDepositStructure.CODEC);
+   // public static final DeferredHolder<StructureType<SkyStructures>> SKY_STRUCTURES = DEFERRED_REGISTRY_STRUCTURE.register("sky_structures", () -> () -> SkyStructures.CODEC);
 }

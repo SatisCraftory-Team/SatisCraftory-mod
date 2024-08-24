@@ -29,7 +29,7 @@ public abstract class ConveyorStreamPartBlockEntity extends TickableTileEntity {
 
     public void onUse(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         if (master != null) {
-            master.getBlockState().use(level, player, interactionHand, blockHitResult);
+            master.getBlockState().useWithoutItem(level, player, blockHitResult);
         }
     }
 }

@@ -8,16 +8,16 @@ import software.bernie.geckolib.model.GeoModel;
 public class LogoModel extends GeoModel<LogoBlockEntity> {
     @Override
     public ResourceLocation getModelResource(LogoBlockEntity object) {
-        return new ResourceLocation(SatisCraftory.MODID, "geo/logo.geo.json");
+        return SatisCraftory.rl("geo/logo.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(LogoBlockEntity object) {
-        return new ResourceLocation(SatisCraftory.MODID, "textures/block/logo.png");
+        return SatisCraftory.rl("textures/block/logo.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(LogoBlockEntity animatable) {
-        return new ResourceLocation(SatisCraftory.MODID, "animations/logo.animation.json");
+        return SatisCraftory.rl("animations/logo.animation.json");
     }
 }

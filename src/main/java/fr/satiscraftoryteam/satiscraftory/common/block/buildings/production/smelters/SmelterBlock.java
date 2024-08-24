@@ -11,17 +11,11 @@ import fr.satiscraftoryteam.satiscraftory.common.shapes.ShapesList;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.SmelterBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
 
 public class SmelterBlock extends MachineBaseBlock implements IHasTileEntity<SmelterBlockEntity> {
 
@@ -47,18 +41,18 @@ public class SmelterBlock extends MachineBaseBlock implements IHasTileEntity<Sme
 
 
     //------------------------------------------OPEN_INTERFACE--------------------------------------------------------//
-    @Override
-    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
-        if (!level.isClientSide()) {
-            BlockEntity entity = level.getBlockEntity(blockPos);
-            if(entity instanceof SmelterBlockEntity) {
-                NetworkHooks.openScreen(((ServerPlayer)player), (SmelterBlockEntity)entity, blockPos);
-            } else {
-                throw new IllegalStateException("Our Container provider is missing!");
-            }
-        }
-        return InteractionResult.sidedSuccess(level.isClientSide());
-    }
+//    @Override
+//    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
+//        if (!level.isClientSide()) {
+//            BlockEntity entity = level.getBlockEntity(blockPos);
+//            if(entity instanceof SmelterBlockEntity) {
+//                NetworkHooks.openScreen(((ServerPlayer)player), (SmelterBlockEntity)entity, blockPos);
+//            } else {
+//                throw new IllegalStateException("Our Container provider is missing!");
+//            }
+//        }
+//        return InteractionResult.sidedSuccess(level.isClientSide());
+//    }
     //----------------------------------------------------------------------------------------------------------------//
 
 
