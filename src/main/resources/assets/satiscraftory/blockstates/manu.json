@@ -1,7 +1,15 @@
 {
   "variants": {
     "": {
-      "model": "satiscraftory:block/manu"
+      "model": "satiscraftory:block/miscellaneous/manu"
     }
   }
 }
+//{
+//  "variants": {
+//    "facing=north": {"model": "satiscraftory:block/miscellaneous/manu"},
+//    "facing=east": {"model": "satiscraftory:block/miscellaneous/manu", "y":  90},
+//    "facing=south": {"model": "satiscraftory:block/miscellaneous/manu", "y": 180},
+//    "facing=west": {"model": "satiscraftory:block/miscellaneous/manu", "y": 270}
+//  }
+//}

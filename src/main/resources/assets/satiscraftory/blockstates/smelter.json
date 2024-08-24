@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "satiscraftory:block/smelter"
+      "model": "satiscraftory:block/machines/smelter"
     }
   }
 }

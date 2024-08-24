@@ -13,7 +13,7 @@ public class LogoItemModel extends GeoModel<LogoItem> {
 
     @Override
     public ResourceLocation getTextureResource(LogoItem object) {
-        return SatisCraftory.rl("textures/block/logo.png");
+        return SatisCraftory.rl("textures/block/miscellaneous/logo.png");
     }
 
     @Override

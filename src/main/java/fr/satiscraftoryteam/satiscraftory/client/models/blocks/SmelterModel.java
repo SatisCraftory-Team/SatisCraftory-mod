@@ -13,7 +13,7 @@ public class SmelterModel extends GeoModel<SmelterBlockEntity> {
 
     @Override
     public ResourceLocation getTextureResource(SmelterBlockEntity object) {
-        return ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "textures/machines/smelter.png");
+        return ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "textures/block/machines/smelter.png");
     }
 
     @Override

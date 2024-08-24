@@ -13,7 +13,7 @@ public class EliocubeModel extends GeoModel<EliocubeBlockEntity> {
 
     @Override
     public ResourceLocation getTextureResource(EliocubeBlockEntity object) {
-        return SatisCraftory.rl("textures/machines/eliocube.png");
+        return SatisCraftory.rl("textures/block/test/eliocube.png");
     }
 
     @Override

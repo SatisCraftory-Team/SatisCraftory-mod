@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench by vgtom4",
   "parent": "builtin/entity",
   "textures": {
-    "particle": "satiscraftory:block/logo"
+    "particle": "satiscraftory:block/miscellaneous/logo"
   },
   "texture_size": [
     64,

@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench by vgtom4",
 	"texture_size": [256, 256],
 	"textures": {
-		"0": "satiscraftory:logistics/conveyor_merger",
-		"particle": "satiscraftory:logistics/conveyor_merger"
+		"0": "satiscraftory:block/logistics/conveyor_merger",
+		"particle": "satiscraftory:block/logistics/conveyor_merger"
 	},
 	"elements": [
 		{

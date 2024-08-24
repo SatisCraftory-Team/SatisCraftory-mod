@@ -13,7 +13,7 @@ public class MinerMk1Model extends GeoModel<MinerMk1BlockEntity> {
 
     @Override
     public ResourceLocation getTextureResource(MinerMk1BlockEntity object) {
-        return ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "textures/machines/miner_mk1.png");
+        return ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "textures/block/machines/miner_mk1.png");
     }
 
     @Override

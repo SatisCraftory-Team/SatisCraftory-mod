@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench by vgtom4",
 	"textures": {
-		"0": "satiscraftory:ressources/deposit/stone_deposit",
-		"1": "satiscraftory:ressources/deposit/copper_deposit",
-		"particle": "satiscraftory:ressources/deposit/stone_deposit"
+		"0": "satiscraftory:block/ressources/deposit/stone_deposit",
+		"1": "satiscraftory:block/ressources/deposit/copper_deposit",
+		"particle": "satiscraftory:block/ressources/deposit/stone_deposit"
 	},
 	"elements": [
 		{

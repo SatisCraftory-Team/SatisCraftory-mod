@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench by vgtom4",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "satiscraftory:foundations/industrial_foundation",
-		"particle": "satiscraftory:foundations/industrial_foundation"
+		"0": "satiscraftory:block/foundations/industrial_foundation",
+		"particle": "satiscraftory:block/foundations/industrial_foundation"
 	},
 	"elements": [
 		{

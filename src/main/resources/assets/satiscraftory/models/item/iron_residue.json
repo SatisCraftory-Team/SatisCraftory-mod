@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench by vgtom4",
 	"texture_size": [32, 16],
 	"textures": {
-		"2": "satiscraftory:ressources/iron_residue"
+		"2": "satiscraftory:item/ressources/iron_residue"
 	},
 	"elements": [
 		{

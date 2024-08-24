@@ -8,9 +8,11 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.Arrays;
 import java.util.function.Supplier;
 
 public class CreativeModeTabsInit {
+
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SatisCraftory.MODID);
 
     public static final Supplier<CreativeModeTab> SATISCRAFTORY_TAB = CREATIVE_MODE_TABS.register(
@@ -19,12 +21,21 @@ public class CreativeModeTabsInit {
                     .icon(() -> new ItemStack(BlockInit.MANU.getBlock().asItem()))
                     .title(Component.translatable("creativetab.satiscraftory.global"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        BlockInit.BLOCKS.getSecondaryEntries().forEach(item -> {
-                            // Logo is broken, so this is temporary
-                            if (item.get().asItem() != BlockInit.LOGO.asItem()){
-                                output.accept(item.get());
-                            }
-                        });
+                        // Add all blocks to the creative tab
+                        BlockInit.BLOCKS.getSecondaryEntries().stream()
+                                // Blocks that should not be displayed in the creative tab
+                                .filter(item ->
+                                    !Arrays.asList(
+                                            BlockInit.LOGO.asItem(),
+                                            BlockInit.BOUNDING_BLOCK.asItem(),
+                                            BlockInit.MINER_MK1.asItem(),
+                                            BlockInit.SMELTER.asItem(),
+                                            BlockInit.ELIOCUBE.asItem()
+                                    ).contains(item.get())
+                                )
+                                .forEach(item -> output.accept(item.get()));
+
+                        // Add all items to the creative tab
                         ItemInit.ITEMS.getEntries().forEach(item -> {
                             output.accept(item.get());
                         });
