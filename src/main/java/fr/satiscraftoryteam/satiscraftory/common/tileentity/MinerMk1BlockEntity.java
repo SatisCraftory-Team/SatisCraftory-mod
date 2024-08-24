@@ -26,21 +26,20 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.util.RenderUtil;
 
-import javax.annotation.Nonnull;
-
-public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuProvider, GeoAnimatable, IBoundingBlock {
+public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuProvider, GeoBlockEntity, IBoundingBlock {
 
     public final InventoryHandler inventoryHandler;
     public final InventoryPartition overclockPartition = new InventoryPartition("overclock", 3);
@@ -200,6 +199,8 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
 
     //-------------------------------------------------Animation------------------------------------------------------//
 
+    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+
     private static final RawAnimation DEFAULT_ANIMATION = RawAnimation.begin().thenPlay("running");
 
     @Override
@@ -209,14 +210,24 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
         }));
     }
 
+//    @Override
+//    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+//        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+//    }
+//
+//    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
+//        tAnimationState.getController().setAnimation(RawAnimation.begin().then("running", Animation.LoopType.LOOP));
+//        return PlayState.CONTINUE;
+//    }
+
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return null;
+        return cache;
     }
 
     @Override
     public double getTick(Object object) {
-        return 0;
+        return RenderUtil.getCurrentTick();
     }
 
 

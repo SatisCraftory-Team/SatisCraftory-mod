@@ -27,8 +27,11 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoBlockEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
 
-public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuProvider, IBoundingBlock {
+public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuProvider, IBoundingBlock, GeoBlockEntity {
 
     public SmelterBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(TileEntityInit.SMELTER_BLOCK_ENTITY, blockPos, blockState);
@@ -222,6 +225,21 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
     // J'ai ajouté ça pour que ça compile
     @Override
     public int getNumberOfOverclocks() {
+        return 0;
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return null;
+    }
+
+    @Override
+    public double getTick(Object object) {
         return 0;
     }
 
