@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.network;
 
+import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.UpdateConveyor;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.UpdateMachineInfos;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.UpdatePacketInfos;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.UpdateTileEntity;
@@ -22,6 +23,7 @@ public class ModPackets extends AbtractPacketHandler {
         registrar.play(UpdateMachineInfos.TYPE, UpdateMachineInfos.STREAM_CODEC);
         registrar.play(UpdatePacketInfos.TYPE, UpdatePacketInfos.STREAM_CODEC);
         registrar.play(UpdateTileEntity.TYPE, UpdateTileEntity.STREAM_CODEC);
+        registrar.play(UpdateConveyor.TYPE, UpdateConveyor.STREAM_CODEC);
 
     }
 }

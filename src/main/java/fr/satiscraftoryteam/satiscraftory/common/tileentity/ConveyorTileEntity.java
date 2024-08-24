@@ -1,20 +1,21 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity;
 
-import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorBlock;
 import fr.satiscraftoryteam.satiscraftory.common.init.ItemInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
-import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketUpdateConveyor;
+import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.UpdateConveyor;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
 import fr.satiscraftoryteam.satiscraftory.utils.MultiBlockUtil;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ConveyorTileEntity extends TickableTileEntity implements IItemStreamable {
 
@@ -84,8 +85,8 @@ public class ConveyorTileEntity extends TickableTileEntity implements IItemStrea
     }
 
     @Override
-    public CompoundTag getReducedUpdateTag() {
-        return super.getReducedUpdateTag();
+    public CompoundTag getReducedUpdateTag(HolderLookup.Provider lookupProvider) {
+        return super.getReducedUpdateTag(lookupProvider);
     }
 
     @Override
@@ -118,12 +119,13 @@ public class ConveyorTileEntity extends TickableTileEntity implements IItemStrea
         return  tickCounter / (20f * (itemPerMin/60));
     }
 
-    public void handleUpdateConveyorPacket(PacketUpdateConveyor packetUpdateConveyor) {
+    public void handleUpdateConveyorPacket(UpdateConveyor packetUpdateConveyor) {
         items = packetUpdateConveyor.getItems();
     }
 
     public void sendUpdateConveyorPacket(){
-        SatisCraftory.packetHandler.sendToAllTracking(new PacketUpdateConveyor(this), this);
+        //TODO: send packet only to tracking chunks
+        PacketDistributor.sendToAllPlayers(new UpdateConveyor(this));
     }
 
     public void onPlaced(Level level, BlockPos blockPos, BlockState blockState) {
