@@ -3,15 +3,15 @@ package fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conv
 import fr.satiscraftoryteam.satiscraftory.common.block.BlockDelayedBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasMultipleTickableTileEntity;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;

@@ -17,9 +17,9 @@ import fr.satiscraftoryteam.satiscraftory.common.item.LogoItem;
 import fr.satiscraftoryteam.satiscraftory.common.item.MinerMk1Item;
 import fr.satiscraftoryteam.satiscraftory.common.item.SmelterItem;
 import fr.satiscraftoryteam.satiscraftory.common.registration.BlockRegistryObject;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorInputPartBlockEntity;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorOutputPartBlockEntity;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.ConveyorTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorInputPartBlockEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorOutputPartBlockEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorTileEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -53,7 +53,7 @@ public class BlockInit {
     public static final BlockRegistryObject<Block, BlockItem> ELIOCUBE =        BLOCKS.register("eliocube", () -> new EliocubeBlock(BlockBehaviour.Properties.of().noOcclusion()), (block) -> new EliocubeItem(block, new Item.Properties()));
     public static final BlockRegistryObject<Block, BlockItem> LOGO =            BLOCKS.register("logo", () -> new LogoBlock(BlockBehaviour.Properties.of().noOcclusion()), (block) -> new LogoItem(block, new Item.Properties()));
 
-    public static final BlockRegistryObject<ConveyorStreamPartBlock, BlockItem> CONVEYOR_INPUT_PART = BLOCKS.register("conveyor_input_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of().noOcclusion(),ConveyorInputPartBlockEntity::new));
+    public static final BlockRegistryObject<ConveyorStreamPartBlock, BlockItem> CONVEYOR_INPUT_PART = BLOCKS.register("conveyor_input_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of().noOcclusion(), ConveyorInputPartBlockEntity::new));
     public static final BlockRegistryObject<ConveyorStreamPartBlock, BlockItem> CONVEYOR_OUTPUT_PART = BLOCKS.register("conveyor_output_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of().noOcclusion(), ConveyorOutputPartBlockEntity::new));
     public static final BlockRegistryObject<NewMinerMk1Block, BlockItem> MINER_MK1 =     BLOCKS.register("miner_mk1", NewMinerMk1Block::new, (block) -> new MinerMk1Item(block, new Item.Properties()));
 

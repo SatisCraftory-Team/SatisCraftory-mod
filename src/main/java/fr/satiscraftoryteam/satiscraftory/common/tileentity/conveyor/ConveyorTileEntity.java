@@ -9,6 +9,7 @@ import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEnt
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -76,22 +77,22 @@ public class ConveyorTileEntity extends TickableTileEntity {
     }
 
     @Override
-    public void load(CompoundTag compoundTag) {
-        super.load(compoundTag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
 
-        isMaster = compoundTag.getBoolean("master");
+        isMaster = tag.getBoolean("master");
         if(isMaster){
-            linker.load(compoundTag);
+            linker.load(tag);
         }
     }
 
     @Override
-    protected void saveAdditional(CompoundTag compoundTag) {
-        super.saveAdditional(compoundTag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
 
-        compoundTag.putBoolean("master", isMaster);
+        tag.putBoolean("master", isMaster);
         if(isMaster){
-            linker.save(compoundTag);
+            linker.save(tag);
         }
     }
 

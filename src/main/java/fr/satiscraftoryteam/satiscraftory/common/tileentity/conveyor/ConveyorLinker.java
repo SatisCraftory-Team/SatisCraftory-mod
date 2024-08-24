@@ -1,16 +1,17 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor;
 
-import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
-import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketNewConveyorLinker;
-import fr.satiscraftoryteam.satiscraftory.common.network.packets.PacketUpdateConveyorLinker;
+import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.NewConveyorLinker;
+import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.UpdateConveyorLinker;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -158,25 +159,27 @@ public class ConveyorLinker implements IItemStreamable{
 
     public void sendLinkerUpdate() {
         ConveyorTileEntity masterConveyor = conveyorChain.get(0);
-        PacketUpdateConveyorLinker updatePacket = new PacketUpdateConveyorLinker(tickCounter, itemsChain, conveyorChain, outputTile);
-        SatisCraftory.packetHandler.sendToAllTracking(updatePacket, masterConveyor);
+        ChunkPos chunkPos = new ChunkPos(masterConveyor.getBlockPos());
+        UpdateConveyorLinker updatePacket = new UpdateConveyorLinker(tickCounter, itemsChain, conveyorChain, outputTile);
+        PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) masterConveyor.getLevel(), chunkPos, updatePacket);
     }
 
     private void sendSplitLinkerUpdate(ConveyorLinker newLinker){
         ConveyorTileEntity previousMaster = conveyorChain.get(0);
-        PacketUpdateConveyorLinker updatePacket = new PacketNewConveyorLinker(tickCounter, newLinker.itemsChain, newLinker.conveyorChain, newLinker.outputTile, previousMaster);
-        SatisCraftory.packetHandler.sendToAllTracking(updatePacket, previousMaster);
+        ChunkPos chunkPos = new ChunkPos(previousMaster.getBlockPos());
+        NewConveyorLinker updatePacket = new NewConveyorLinker(tickCounter, newLinker.itemsChain, newLinker.conveyorChain, newLinker.outputTile, previousMaster);
+        PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) previousMaster.getLevel(), chunkPos, updatePacket);
     }
 
-    public void handleLinkerUpdate(PacketUpdateConveyorLinker updatePacket){
+    public void handleLinkerUpdate(UpdateConveyorLinker updatePacket){
         tickCounter = updatePacket.getTickCounter();
-        itemsChain = updatePacket.getItemsChain();
+        itemsChain = updatePacket.getItemsChainList();
         conveyorChain = updatePacket.getConveyorChainDeducedFromPosition();
         outputTile = updatePacket.getOutputTile();
         localUpdate();
     }
 
-    public void handleSplitLinkerUpdate(PacketNewConveyorLinker updatePacket){
+    public void handleSplitLinkerUpdate(NewConveyorLinker updatePacket){
         ConveyorLinker newLinker = new ConveyorLinker(itemPerMin);
         newLinker.handleLinkerUpdate(updatePacket);
     }
@@ -251,7 +254,7 @@ public class ConveyorLinker implements IItemStreamable{
         int[] itemsIDs = compoundTag.getIntArray("itemsChain");
         itemsChain = new ArrayList<>();
         for (int i = 0; i < itemsIDs.length; i++) {
-            ItemStack item = Registry.ITEM.byId(itemsIDs[i]).getDefaultInstance();
+            ItemStack item = Item.byId(itemsIDs[i]).getDefaultInstance();
             itemsChain.add(item);
         }
 
