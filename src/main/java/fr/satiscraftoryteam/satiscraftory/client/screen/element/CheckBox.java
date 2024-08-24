@@ -2,6 +2,7 @@ package fr.satiscraftoryteam.satiscraftory.client.screen.element;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -17,7 +18,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class CheckBox extends AbstractWidget
 {
-    private static final ResourceLocation BUTTON_ON_OFF = new ResourceLocation("satiscraftory:textures/gui/components.png");
+    private static final ResourceLocation BUTTON_ON_OFF = SatisCraftory.rl("satiscraftory:textures/gui/components.png");
 
     private boolean toggled = false;
 

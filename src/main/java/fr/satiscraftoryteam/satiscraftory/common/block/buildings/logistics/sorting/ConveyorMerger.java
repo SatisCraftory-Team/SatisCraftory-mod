@@ -1,4 +1,4 @@
-package fr.satiscraftoryteam.satiscraftory.common.block.logistics.sorting;
+package fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.sorting;
 
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.BlockEntityutils;

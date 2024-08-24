@@ -9,16 +9,16 @@ public class ModelProvider<T extends GeoAnimatable & IAutoModelProvider> extends
 
     @Override
     public ResourceLocation getModelResource(T object) {
-        return new ResourceLocation(SatisCraftory.MODID, String.format("geo/%s%s.geo.json", object.getModelPath(), object.getModelName()));
+        return SatisCraftory.rl( String.format("geo/%s%s.geo.json", object.getModelPath(), object.getModelName()));
     }
 
     @Override
     public ResourceLocation getTextureResource(T object) {
-        return new ResourceLocation(SatisCraftory.MODID, String.format("textures/%s%s.png", object.getModelTexturePath(),object.getModelName()));
+        return SatisCraftory.rl( String.format("textures/%s%s.png", object.getModelTexturePath(),object.getModelName()));
     }
 
     @Override
     public ResourceLocation getAnimationResource(T animatable) {
-        return new ResourceLocation(SatisCraftory.MODID, String.format("animations/%s%s.animation.json", animatable.getModelAnimationPath(), animatable.getModelName()));
+        return SatisCraftory.rl( String.format("animations/%s%s.animation.json", animatable.getModelAnimationPath(), animatable.getModelName()));
     }
 }

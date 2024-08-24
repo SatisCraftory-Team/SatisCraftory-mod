@@ -17,7 +17,7 @@ public class BuilderToolMenu extends AbstractContainerMenu {
 
     public BuilderToolMenu(int pContainerId, Inventory inv) {
         super(MenuTypesInit.BUILDER_TOOL_MENU.get(), pContainerId);
-        this.level = inv.player.level;
+        this.level = inv.player.level();
     }
 
     @Override
