@@ -7,9 +7,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.*;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import software.bernie.geckolib.util.RenderUtil;
 
 public class LogoBlockEntity extends BlockEntity implements GeoAnimatable {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -32,11 +31,11 @@ public class LogoBlockEntity extends BlockEntity implements GeoAnimatable {
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
+        return cache;
     }
 
     @Override
     public double getTick(Object object) {
-        return 0;
+        return RenderUtil.getCurrentTick();
     }
 }

@@ -1,10 +1,16 @@
 package fr.satiscraftoryteam.satiscraftory.common.init;
 
+import com.mojang.serialization.MapCodec;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
+import fr.satiscraftoryteam.satiscraftory.common.world.structure.SkyStructures;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+// Help : https://github.com/TelepathicGrunt/StructureTutorialMod
 public class StructuresInit {
     /**
      * We are using the Deferred Registry system to register our structure as this is the preferred way on Forge.
@@ -18,5 +24,21 @@ public class StructuresInit {
      */
     //disable structures for now
    // public static final DeferredHolder<StructureType<IronDepositStructure>> IRON_DEPOSIT_STRUCTURES = DEFERRED_REGISTRY_STRUCTURE.register("iron_deposit_structure", () -> () -> IronDepositStructure.CODEC);
-   // public static final DeferredHolder<StructureType<SkyStructures>> SKY_STRUCTURES = DEFERRED_REGISTRY_STRUCTURE.register("sky_structures", () -> () -> SkyStructures.CODEC);
+//    public static final DeferredHolder<StructureType<SkyStructures>,StructureType<SkyStructures>> SKY_STRUCTURES = DEFERRED_REGISTRY_STRUCTURE.register("sky_structures", () -> () -> SkyStructures.CODEC);
+    public static final DeferredHolder<StructureType<?>, StructureType<SkyStructures>> SKY_STRUCTURES = DEFERRED_REGISTRY_STRUCTURE.register("sky_structures", () -> explicitStructureTypeTyping(SkyStructures.CODEC));
+
+
+
+    /**
+     * Originally, I had a double lambda ()->()-> for the RegistryObject line above, but it turns out that
+     * some IDEs cannot resolve the typing correctly. This method explicitly states what the return type
+     * is so that the IDE can put it into the DeferredRegistry properly.
+     */
+    private static <T extends Structure> StructureType<T> explicitStructureTypeTyping(MapCodec<T> structureCodec) {
+        return () -> structureCodec;
+    }
+
+    public static void register(IEventBus eventBus) {
+        DEFERRED_REGISTRY_STRUCTURE.register(eventBus);
+    }
 }

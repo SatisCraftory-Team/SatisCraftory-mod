@@ -1,9 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.client.screen.element;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -18,7 +15,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class CheckBox extends AbstractWidget
 {
-    private static final ResourceLocation BUTTON_ON_OFF = SatisCraftory.rl("satiscraftory:textures/gui/components.png");
+    private static final ResourceLocation BUTTON_ON_OFF = ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "textures/gui/components.png");
 
     private boolean toggled = false;
 
@@ -37,18 +34,18 @@ public class CheckBox extends AbstractWidget
         return this.toggled;
     }
 
-    @Override
-    public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
-    {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, BUTTON_ON_OFF);
-        this.blit(poseStack, this.x, this.y, 0, 0, 8, 8);
-        if(!this.toggled)
-        {
-            this.blit(poseStack, this.x, this.y, 8, 0, 9, 8);
-        }
-        drawString(poseStack, Minecraft.getInstance().font, this.getMessage(), this.x + 12, this.y, 0xFFFFFF);
-    }
+//    @Override
+//    public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+//    {
+//        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+//        RenderSystem.setShaderTexture(0, BUTTON_ON_OFF);
+//        this.blit(poseStack, this.x, this.y, 0, 0, 8, 8);
+//        if(!this.toggled)
+//        {
+//            this.blit(poseStack, this.getX(), this.getY(), 8, 0, 9, 8);
+//        }
+//        drawString(poseStack, Minecraft.getInstance().font, this.getMessage(), this.x + 12, this.y, 0xFFFFFF);
+//    }
 
     private int oof;
 

@@ -23,4 +23,9 @@ public class BlockDelayedBlockEntity<T extends BlockEntity> extends BaseEntityBl
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return blockEntityFactory.apply(blockPos,blockState);
     }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
+    }
 }

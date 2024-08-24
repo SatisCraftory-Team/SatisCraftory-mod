@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.sorting;
 
+import com.mojang.serialization.MapCodec;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.BlockEntityutils;
 import fr.satiscraftoryteam.satiscraftory.utils.MultiBlockUtil;
@@ -41,6 +42,11 @@ public class ConveyorMerger extends HorizontalDirectionalBlock {
         super(properties);
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH));
         runCalculation(SHAPE.orElse(Shapes.block()));
+    }
+
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return null;
     }
 
     @Override

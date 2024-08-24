@@ -1,17 +1,14 @@
-//package fr.satiscraftoryteam.satiscraftory.client.renderer.blocks;
-//
-//import com.mojang.blaze3d.vertex.PoseStack;
-//import com.mojang.blaze3d.vertex.VertexConsumer;
-//import fr.satiscraftoryteam.satiscraftory.client.models.blocks.SmelterModel;
-//import fr.satiscraftoryteam.satiscraftory.common.tileentity.SmelterBlockEntity;
-//import net.minecraft.client.renderer.MultiBufferSource;
-//import net.minecraft.client.renderer.RenderType;
-//import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-//import net.minecraft.resources.ResourceLocation;
-//import org.jetbrains.annotations.Nullable;
-//import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
-//
-//public class SmelterRenderer extends GeoBlockRenderer<SmelterBlockEntity> {
+package fr.satiscraftoryteam.satiscraftory.client.renderer.blocks;
+
+import fr.satiscraftoryteam.satiscraftory.client.models.blocks.SmelterModel;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.SmelterBlockEntity;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import software.bernie.geckolib.renderer.GeoBlockRenderer;
+
+public class SmelterRenderer extends GeoBlockRenderer<SmelterBlockEntity> {
+    public SmelterRenderer(BlockEntityRendererProvider.Context context) {
+        super(new SmelterModel());
+    }
 //    public SmelterRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
 //        super(rendererDispatcherIn, new SmelterModel());
 //    }
@@ -25,4 +22,4 @@
 //    public void renderEarly(SmelterBlockEntity animatable, PoseStack stackIn, float partialTicks, @Nullable MultiBufferSource renderTypeBuffer, @Nullable VertexConsumer vertexBuilder, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 //        stackIn.translate(0,-0.01f,0);
 //    }
-//}
+}

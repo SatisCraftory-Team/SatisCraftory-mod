@@ -1,11 +1,10 @@
 package fr.satiscraftoryteam.satiscraftory.client.screen;
 
-import fr.satiscraftoryteam.satiscraftory.client.screen.element.slot.RestrictedSlot;
-import fr.satiscraftoryteam.satiscraftory.client.screen.element.slot.ResultSlotInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.MenuTypesInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.SmelterBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -15,16 +14,20 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import java.util.Arrays;
-
-import static fr.satiscraftoryteam.satiscraftory.common.init.ItemInit.*;
-
 public class SmelterMenu extends AbstractContainerMenu {
-    private final SmelterBlockEntity blockEntity;
-    private final Level level;
+    public SmelterBlockEntity blockEntity;
+    private Level level;
 
     public SmelterMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
         this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()));
+    }
+
+    public SmelterMenu(SmelterMenu smelterMenu, Inventory inventory, Component component) {
+        super(MenuTypesInit.SMELTER_MENU.get(), smelterMenu.slots.size());
+    }
+
+    public SmelterMenu(int pContainerId, Inventory inventory) {
+        super(MenuTypesInit.SMELTER_MENU.get(), pContainerId);
     }
 
     public SmelterMenu(int pContainerId, Inventory inv, BlockEntity entity) {
@@ -36,13 +39,13 @@ public class SmelterMenu extends AbstractContainerMenu {
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-        this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-            this.addSlot(new ResultSlotInit(handler, 0, 17, 45));
-            this.addSlot(new RestrictedSlot(handler, 1, 107, 45, POWER_SHARD.get()));
-            this.addSlot(new RestrictedSlot(handler, 2, 125, 45, POWER_SHARD.get()));
-            this.addSlot(new RestrictedSlot(handler, 3, 143, 45, POWER_SHARD.get()));
-            this.addSlot(new RestrictedSlot(handler, 4, 1, 45, Arrays.asList(IRON_RESIDUE.get(), COPPER_RESIDUE.get())));
-        });
+//        this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+//            this.addSlot(new ResultSlotInit(handler, 0, 17, 45));
+//            this.addSlot(new RestrictedSlot(handler, 1, 107, 45, POWER_SHARD.get()));
+//            this.addSlot(new RestrictedSlot(handler, 2, 125, 45, POWER_SHARD.get()));
+//            this.addSlot(new RestrictedSlot(handler, 3, 143, 45, POWER_SHARD.get()));
+//            this.addSlot(new RestrictedSlot(handler, 4, 1, 45, Arrays.asList(IRON_RESIDUE.get(), COPPER_RESIDUE.get())));
+//        });
     }
 
 
@@ -64,8 +67,10 @@ public class SmelterMenu extends AbstractContainerMenu {
     // THIS YOU HAVE TO DEFINE!
     private static final int TE_INVENTORY_SLOT_COUNT = 5;  // must be the number of slots you have!
 
-    public SmelterMenu(int i, Inventory inventory) {
+    public SmelterMenu(int i, Inventory inventory, SmelterBlockEntity blockEntity, Level level) {
         super(MenuTypesInit.SMELTER_MENU.get(), i);
+        this.blockEntity = blockEntity;
+        this.level = level;
     }
 
     @Override

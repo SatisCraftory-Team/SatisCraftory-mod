@@ -38,8 +38,7 @@ public class BlockInit {
         BLOCKS.register(bus);
     }
 
-    public static final DeferredRegister.Blocks BLOCKSs =
-            DeferredRegister.createBlocks(SatisCraftory.MODID);
+    public static final DeferredRegister.Blocks BLOCKSs = DeferredRegister.createBlocks(SatisCraftory.MODID);
 
     // Default BlockItem
     public static final BlockRegistryObject<Block, BlockItem> BOUNDING_BLOCK =  BLOCKS.register("bounding_block", BlockBounding::new);
@@ -52,7 +51,7 @@ public class BlockInit {
 
     public static final BlockRegistryObject<Block, BlockItem> PALE_BERRY_BUSH = BLOCKS.register("pale_berry_bush", () -> new PaleBerryBushBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SWEET_BERRY_BUSH)));
     public static final BlockRegistryObject<Block, BlockItem> ELIOCUBE =        BLOCKS.register("eliocube", () -> new EliocubeBlock(BlockBehaviour.Properties.of().noOcclusion()), (block) -> new EliocubeItem(block, new Item.Properties()));
-    public static final BlockRegistryObject<Block, BlockItem> LOGO =            BLOCKS.register("logo", () -> new LogoBlock(null), (block) -> new LogoItem(block, new Item.Properties()));
+    public static final BlockRegistryObject<Block, BlockItem> LOGO =            BLOCKS.register("logo", () -> new LogoBlock(BlockBehaviour.Properties.of().noOcclusion()), (block) -> new LogoItem(block, new Item.Properties()));
 
     public static final BlockRegistryObject<ConveyorStreamPartBlock, BlockItem> CONVEYOR_INPUT_PART = BLOCKS.register("conveyor_input_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of().noOcclusion(),ConveyorInputPartBlockEntity::new));
     public static final BlockRegistryObject<ConveyorStreamPartBlock, BlockItem> CONVEYOR_OUTPUT_PART = BLOCKS.register("conveyor_output_part", () -> new ConveyorStreamPartBlock<>(BlockBehaviour.Properties.of().noOcclusion(), ConveyorOutputPartBlockEntity::new));

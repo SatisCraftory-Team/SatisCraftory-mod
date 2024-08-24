@@ -1,10 +1,8 @@
 package fr.satiscraftoryteam.satiscraftory.client.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -70,18 +68,14 @@ public class SmelterScreen extends ManagementMachineGui<SmelterMenu> {
         return result;
     }
 
-
-
     @Override
-    protected void renderBg(PoseStack pPoseStack, float partialTick, int pMouseX, int pMouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        super.renderBg(pPoseStack, partialTick, pMouseX, pMouseY);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, GUI);
+    protected void renderBg(GuiGraphics graphics, float PartialTick, int pMouseX, int pMouseY) {
+        super.renderBg(graphics, PartialTick, pMouseX, pMouseY);
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
-        this.blit(pPoseStack, x, y, 0, 0, imageWidth, imageHeight);
+        // GUIs are machine specific, so keep it here
+        graphics.blit(GUI, x, y, 0, 0, imageWidth, imageHeight);
     }
 
     @Override
@@ -100,14 +94,9 @@ public class SmelterScreen extends ManagementMachineGui<SmelterMenu> {
     }
 
     @Override
-    public void render(PoseStack poseStack, int mouseX, int mouseY, float delta) {
-        renderBackground(poseStack);
-        super.render(poseStack, mouseX, mouseY, delta);
-        renderTooltip(poseStack, mouseX, mouseY);
-
-        int startX = this.leftPos;
-        int startY = this.topPos;
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        renderTooltip(guiGraphics, mouseX, mouseY);
     }
-
-
 }

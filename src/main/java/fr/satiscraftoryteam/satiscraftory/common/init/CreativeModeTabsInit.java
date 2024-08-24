@@ -15,18 +15,19 @@ public class CreativeModeTabsInit {
 
     public static final Supplier<CreativeModeTab> SATISCRAFTORY_TAB = CREATIVE_MODE_TABS.register(
             "satiscraftory_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(BlockInit.LOGO.getBlock().asItem()))
+            () -> CreativeModeTab.builder()
+                    .icon(() -> new ItemStack(BlockInit.MANU.getBlock().asItem()))
                     .title(Component.translatable("creativetab.satiscraftory.global"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(BlockInit.MANU.asItem());
-                        output.accept(BlockInit.ELIOCUBE.asItem());
-                        output.accept(BlockInit.LOGO.asItem());
-                        output.accept(BlockInit.PALE_BERRY_BUSH.asItem());
-                        output.accept(BlockInit.CONVEYOR_MERGER.asItem());
-                        output.accept(BlockInit.CONVEYOR_INPUT_PART.asItem());
-                        output.accept(BlockInit.CONVEYOR_OUTPUT_PART.asItem());
-                        output.accept(BlockInit.MINER_MK1.asItem());
-                        output.accept(BlockInit.SMELTER.asItem());
+                        BlockInit.BLOCKS.getSecondaryEntries().forEach(item -> {
+                            // Logo is broken, so this is temporary
+                            if (item.get().asItem() != BlockInit.LOGO.asItem()){
+                                output.accept(item.get());
+                            }
+                        });
+                        ItemInit.ITEMS.getEntries().forEach(item -> {
+                            output.accept(item.get());
+                        });
                     })
                     .build());
 

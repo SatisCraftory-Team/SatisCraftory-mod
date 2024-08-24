@@ -16,13 +16,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTileEntity {
@@ -148,8 +152,8 @@ public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTi
 
     //------------------------------------------OPEN_INTERFACE--------------------------------------------------------//
 
-//    @Override
-//    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos blockPos, Player player, BlockHitResult hitResult) {
 //        if (!level.isClientSide()) {
 //            BlockEntity entity = level.getBlockEntity(blockPos);
 //            if(entity instanceof MinerMk1BlockEntity) {
@@ -159,7 +163,13 @@ public class NewMinerMk1Block extends MachineBaseBlock implements IHasTickableTi
 //            }
 //        }
 //        return InteractionResult.sidedSuccess(level.isClientSide());
-//    }
+
+        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+            //serverPlayer.openMenu(state.getMenuProvider(level, blockPos));
+        }
+        return InteractionResult.sidedSuccess(level.isClientSide);
+    }
+
     //----------------------------------------------------------------------------------------------------------------//
 
     //------------------------------------------------particle--------------------------------------------------------//
