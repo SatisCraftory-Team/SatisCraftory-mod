@@ -5,6 +5,7 @@ import fr.satiscraftoryteam.satiscraftory.common.registration.BlockRegistryObjec
 import fr.satiscraftoryteam.satiscraftory.common.registration.DeferredBlockEntityCapabilityRegisterData;
 import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import fr.satiscraftoryteam.satiscraftory.common.registration.WrappedDeferredRegister;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityUpdatable;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -37,6 +38,11 @@ public class TileEntityBuilder extends WrappedDeferredRegister<BlockEntityType<?
 
     public <BE extends BlockEntity> BlockEntityTypeBuilder<BE> builder(BlockRegistryObject<?, ?> block, BlockEntityType.BlockEntitySupplier<? extends BE> factory) {
         return new BlockEntityTypeBuilder<>(block, factory);
+    }
+
+    public <BE extends TickableTileEntity> BlockEntityTypeBuilder<BE> builderAutoTick(BlockRegistryObject<?, ?> block, BlockEntityType.BlockEntitySupplier<? extends BE> factory) {
+        BlockEntityTypeBuilder<BE> builder = new BlockEntityTypeBuilder<>(block, factory);
+        return builder.clientTicker(TickableTileEntity::tickClient).serverTicker(TickableTileEntity::tickServer); //strange syntax but java don't like the simpler syntax
     }
 
     @SuppressWarnings("unchecked")
