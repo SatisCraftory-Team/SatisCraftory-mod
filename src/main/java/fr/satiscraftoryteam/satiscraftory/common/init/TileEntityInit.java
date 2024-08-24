@@ -7,6 +7,7 @@ import fr.satiscraftoryteam.satiscraftory.common.tileentity.*;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class TileEntityInit {
@@ -21,7 +22,7 @@ public class TileEntityInit {
     public static final TileEntityDeferredHolder<ConveyorOutputPartBlockEntity> CONVEYOR_OUTPUT_PART_ENTITY = TILE_ENTITY_TYPES.builder(BlockInit.CONVEYOR_OUTPUT_PART, ConveyorOutputPartBlockEntity::new).build();
     public static final TileEntityDeferredHolder<ConveyorOutputPartBlockEntity> CONVEYOR_INPUT_PART_ENTITY = TILE_ENTITY_TYPES.builder(BlockInit.CONVEYOR_INPUT_PART, ConveyorOutputPartBlockEntity::new).build();
     public static final TileEntityDeferredHolder<SmelterBlockEntity> SMELTER_BLOCK_ENTITY = TILE_ENTITY_TYPES.builder(BlockInit.SMELTER, SmelterBlockEntity::new).build();
-    public static final TileEntityDeferredHolder<MinerMk1BlockEntity> MINER_MK1_BLOCK_ENTITY = TILE_ENTITY_TYPES.builder(BlockInit.MINER_MK1, MinerMk1BlockEntity::new).build();
+    public static final TileEntityDeferredHolder<MinerMk1BlockEntity> MINER_MK1_BLOCK_ENTITY = TILE_ENTITY_TYPES.builder(BlockInit.MINER_MK1, MinerMk1BlockEntity::new).withCapability(Capabilities.ItemHandler.BLOCK, MinerMk1BlockEntity::getItemHandler).build();
     public static final TileEntityDeferredHolder<ConveyorTileEntity> CONVEYOR_FULL = TILE_ENTITY_TYPES.builder(BlockInit.CONVEYOR_FULL, (blockPos, blockState) -> new ConveyorTileEntity(blockPos,blockState,false)).build();
     public static final TileEntityDeferredHolder<ConveyorTileEntity> CONVEYOR = TILE_ENTITY_TYPES.builder(BlockInit.CONVEYOR, ConveyorTileEntity::new).build();
 

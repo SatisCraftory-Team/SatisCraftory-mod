@@ -2,6 +2,7 @@ package fr.satiscraftoryteam.satiscraftory.common.builder;
 
 import com.google.common.base.Preconditions;
 import fr.satiscraftoryteam.satiscraftory.common.registration.BlockRegistryObject;
+import fr.satiscraftoryteam.satiscraftory.common.registration.DeferredBlockEntityCapabilityRegisterData;
 import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import fr.satiscraftoryteam.satiscraftory.common.registration.WrappedDeferredRegister;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityUpdatable;
@@ -10,9 +11,17 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.ICapabilityProvider;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 public class TileEntityBuilder extends WrappedDeferredRegister<BlockEntityType<?>> {
@@ -38,25 +47,26 @@ public class TileEntityBuilder extends WrappedDeferredRegister<BlockEntityType<?
     @Override
     public void register(@NotNull IEventBus bus) {
         super.register(bus);
-       // bus.addListener(this::registerCapabilities);
+        bus.addListener(this::registerCapabilities);
     }
 
-//    private void registerCapabilities(RegisterCapabilitiesEvent event) {
-//        for (DeferredHolder<BlockEntityType<?>, ? extends BlockEntityType<?>> entry : getEntries()) {
-//            //Note: All entries should be of this type
-//            if (entry instanceof TileEntityTypeRegistryObject<?> tileRO) {
-//                tileRO.registerCapabilityProviders(event);
-//            } else if (!FMLEnvironment.production) {
-//                throw new IllegalStateException("Expected entry to be a TileEntityTypeRegistryObject");
-//            }
-//        }
-//    }
+    private void registerCapabilities(RegisterCapabilitiesEvent event) {
+        for (DeferredHolder<BlockEntityType<?>, ? extends BlockEntityType<?>> entry : getEntries()) {
+            //Note: All entries should be of this type
+            if (entry instanceof TileEntityDeferredHolder<?> tileEntityDeferredHolder) {
+                tileEntityDeferredHolder.registerCapabilityProviders(event);
+            } else if (!FMLEnvironment.production) {
+                throw new IllegalStateException("Expected entry to be a TileEntityTypeRegistryObject");
+            }
+        }
+    }
 
     public class BlockEntityTypeBuilder<BE extends BlockEntity> {
 
         private final BlockRegistryObject<?, ?> block;
         private final BlockEntityType.BlockEntitySupplier<? extends BE> factory;
         //private final List<CapabilityData<BE, ?, ?>> capabilityProviders = new ArrayList<>();
+        private final Set<DeferredBlockEntityCapabilityRegisterData<?, ?, BE>> deferredCapabilityRegisterData = new HashSet<>();
         @Nullable
         private BlockEntityTicker<BE> clientTicker;
         @Nullable
@@ -134,12 +144,19 @@ public class TileEntityBuilder extends WrappedDeferredRegister<BlockEntityType<?
                     .serverTicker(ticker);
         }
 
+        public <T, C, BC extends BlockCapability<T, C>> BlockEntityTypeBuilder<BE> withCapability(BC capability, ICapabilityProvider<BE, C, T> capabilityProvider){
+            deferredCapabilityRegisterData.add(new DeferredBlockEntityCapabilityRegisterData<>(capability, capabilityProvider));
+            return this;
+        }
+
         @SuppressWarnings("ConstantConditions")
         public TileEntityDeferredHolder<BE> build() {
             //Note: There is no data fixer type as forge does not currently have a way exposing data fixers to mods yet
             TileEntityDeferredHolder<BE> holder = registerMek(block.getName(), () -> BlockEntityType.Builder.<BE>of(factory, block.getBlock()).build(null));
             holder.tickers(clientTicker, serverTicker);
+            holder.capabilityProviders(deferredCapabilityRegisterData);
             return holder;
         }
+
     }
 }

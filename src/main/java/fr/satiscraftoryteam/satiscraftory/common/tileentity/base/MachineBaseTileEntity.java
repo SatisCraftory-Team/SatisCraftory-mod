@@ -1,6 +1,7 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity.base;
 
 import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities.IBlockCapabilityProvider;
 import fr.satiscraftoryteam.satiscraftory.utils.RelativeOrientationUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -8,13 +9,16 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.apache.commons.compress.utils.Lists;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 //TODO: implement here capabilities
-public abstract class MachineBaseTileEntity extends TickableTileEntity {
+public abstract class MachineBaseTileEntity extends TickableTileEntity implements IBlockCapabilityProvider {
 
     public boolean isActive = false;
     public int overclockPercentage = 100;
@@ -57,4 +61,11 @@ public abstract class MachineBaseTileEntity extends TickableTileEntity {
     public abstract IItemHandler getInputInventory();
 
     public abstract int getNumberOfOverclocks();
+
+    public <Q, C extends @Nullable Object, T extends BlockCapability<Q, C>> Optional<Q> getCapability(T cap, C context) {
+        if(level == null) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(level.getCapability(cap, getBlockPos(), getBlockState(), this, context));
+    }
 }

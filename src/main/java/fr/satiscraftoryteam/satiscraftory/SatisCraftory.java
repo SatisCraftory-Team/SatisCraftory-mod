@@ -27,7 +27,7 @@ public class SatisCraftory {
 
     public SatisCraftory(IEventBus modEventBus, Dist dist, ModContainer container) {
         instance = this;
-        //modEventBus.addListener(this::registerRenderers);
+        modEventBus.addListener(this::registerRenderers);
         modEventBus.addListener(this::registerScreens);
         packetHandler = new ModPackets(modEventBus);
         
