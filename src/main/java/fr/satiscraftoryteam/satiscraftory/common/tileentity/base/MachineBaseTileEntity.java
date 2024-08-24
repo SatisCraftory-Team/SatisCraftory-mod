@@ -11,7 +11,6 @@ import net.minecraft.util.Tuple;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.items.IItemHandler;
-import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -23,9 +22,9 @@ public abstract class MachineBaseTileEntity extends TickableTileEntity implement
     public boolean isActive = false;
     public int overclockPercentage = 100;
 
-    public final ArrayList<Vec3i> BOUNDING_BLOCKS_POS = Lists.newArrayList();
-    public final ArrayList<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> CONVEYOR_INPUT_POS_ORIENTATION = Lists.newArrayList();
-    public final ArrayList<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> CONVEYOR_OUTPUT_POS_ORIENTATION = Lists.newArrayList();
+    public final ArrayList<Vec3i> BOUNDING_BLOCKS_POS = new ArrayList<>();
+    public final ArrayList<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> CONVEYOR_INPUT_POS_ORIENTATION = new ArrayList<>();
+    public final ArrayList<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> CONVEYOR_OUTPUT_POS_ORIENTATION = new ArrayList<>();
 
     public void onAdded() {
     }
