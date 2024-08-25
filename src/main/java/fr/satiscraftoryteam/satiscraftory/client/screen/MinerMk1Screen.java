@@ -2,7 +2,7 @@ package fr.satiscraftoryteam.satiscraftory.client.screen;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
-import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.UpdatePacketInfos;
+import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_server.UpdateMachineInfos;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_server.RequestMachineInfos;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
@@ -71,7 +71,7 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
         this.sliderOverclockInner.mouseClicked(mouseX, mouseY, mouseButton);
-        PacketDistributor.sendToServer(new UpdatePacketInfos(this.tileEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
+        PacketDistributor.sendToServer(new UpdateMachineInfos(this.tileEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
         return super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
@@ -79,7 +79,7 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
     public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
         if (sliderOverclockInner.isMouseOver(pMouseX, pMouseY)) {
             sliderOverclockInner.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
-            PacketDistributor.sendToServer(new UpdatePacketInfos(this.tileEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
+            PacketDistributor.sendToServer(new UpdateMachineInfos(this.tileEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
         }
         return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
     }
@@ -89,7 +89,7 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
         if (sliderOverclockInner.isMouseOver(mouseX, mouseY)) {
             sliderOverclockInner.setValue(sliderOverclockInner.getValueInt() + (scrollY > 0 ? 1 : -1));
             overclockPercentage = sliderOverclockInner.getValueInt();
-            PacketDistributor.sendToServer(new UpdatePacketInfos(this.tileEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
+            PacketDistributor.sendToServer(new UpdateMachineInfos(this.tileEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
         }
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }

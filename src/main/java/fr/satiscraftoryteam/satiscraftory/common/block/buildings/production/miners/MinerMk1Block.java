@@ -162,23 +162,26 @@ public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileE
 
     //------------------------------------------OPEN_INTERFACE--------------------------------------------------------//
 
-    @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos blockPos, Player player, BlockHitResult hitResult) {
-//        if (!level.isClientSide()) {
-//            BlockEntity entity = level.getBlockEntity(blockPos);
-//            if(entity instanceof MinerMk1BlockEntity) {
-//                NetworkHooks.openScreen(((ServerPlayer)player), (MinerMk1BlockEntity)entity, blockPos);
-//            } else {
-//                throw new IllegalStateException("Our Container provider is missing!");
-//            }
-//        }
-//        return InteractionResult.sidedSuccess(level.isClientSide());
+    //############ NOW HANDLED BY MACHINEBASEBLOCK ############//
 
-        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
-            //serverPlayer.openMenu(state.getMenuProvider(level, blockPos));
-        }
-        return InteractionResult.sidedSuccess(level.isClientSide);
-    }
+//    @Override
+//    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos blockPos, Player player, BlockHitResult hitResult) {
+////        if (!level.isClientSide()) {
+////            BlockEntity entity = level.getBlockEntity(blockPos);
+////            if(entity instanceof MinerMk1BlockEntity) {
+////                NetworkHooks.openScreen(((ServerPlayer)player), (MinerMk1BlockEntity)entity, blockPos);
+////            } else {
+////                throw new IllegalStateException("Our Container provider is missing!");
+////            }
+////        }
+////        return InteractionResult.sidedSuccess(level.isClientSide());
+//
+//        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+//            //serverPlayer.openMenu(state.getMenuProvider(level, blockPos));
+//            serverPlayer.openMenu()
+//        }
+//        return InteractionResult.sidedSuccess(level.isClientSide);
+//    }
 
     //----------------------------------------------------------------------------------------------------------------//
 

@@ -9,6 +9,7 @@ import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conve
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IPropsGetter;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorOutputPartBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.utils.BlockstateUtils;
@@ -18,8 +19,14 @@ import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Tuple;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -29,10 +36,12 @@ import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
@@ -123,6 +132,17 @@ public abstract class MachineBaseBlock extends BaseEntityBlock implements IProps
         return triggered;
     }
 
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+            if(level.getBlockEntity(pos) instanceof MenuProvider menuProvider) {
+                serverPlayer.openMenu(menuProvider, registryFriendlyByteBuf -> {
+                    registryFriendlyByteBuf.writeBlockPos(pos);
+                });
+            }
+        }
+        return InteractionResult.sidedSuccess(level.isClientSide);
+    }
 
     @Override
     @Deprecated

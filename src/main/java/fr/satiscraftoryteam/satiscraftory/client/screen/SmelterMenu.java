@@ -21,24 +21,28 @@ import java.util.Arrays;
 
 import static fr.satiscraftoryteam.satiscraftory.common.init.ItemInit.*;
 
-public class SmelterMenu extends AbstractContainerMenu {
+public class SmelterMenu extends MachineBaseMenu<SmelterBlockEntity> {
     private SmelterBlockEntity blockEntity;
     private Level level;
 
     public SmelterMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()));
+        super(MenuTypesInit.SMELTER_MENU.get() ,pContainerId, inv, extraData);
     }
 
-    public SmelterMenu(SmelterMenu smelterMenu, Inventory inventory, Component component) {
-        super(MenuTypesInit.SMELTER_MENU.get(), smelterMenu.slots.size());
+//    public SmelterMenu(SmelterMenu smelterMenu, Inventory inventory, Component component) {
+//        super(MenuTypesInit.SMELTER_MENU.get(), smelterMenu.slots.size());
+//    }
+//
+//    public SmelterMenu(int pContainerId, Inventory inventory) {
+//        super(MenuTypesInit.SMELTER_MENU.get(), pContainerId);
+//    }
+
+    public SmelterMenu(int pContainerId, Inventory inv, SmelterBlockEntity entity) {
+        super(MenuTypesInit.SMELTER_MENU.get(), pContainerId, inv, entity);
     }
 
-    public SmelterMenu(int pContainerId, Inventory inventory) {
-        super(MenuTypesInit.SMELTER_MENU.get(), pContainerId);
-    }
-
-    public SmelterMenu(int pContainerId, Inventory inv, BlockEntity entity) {
-        super(MenuTypesInit.SMELTER_MENU.get(), pContainerId);
+    @Override
+    protected void init(Inventory inv, SmelterBlockEntity entity) {
         //checkContainerSize(inv, 5);
         blockEntity = ((SmelterBlockEntity) entity);
         this.level = inv.player.level();
@@ -54,7 +58,6 @@ public class SmelterMenu extends AbstractContainerMenu {
             this.addSlot(new RestrictedSlot(handler, 4, 1, 45, Arrays.asList(IRON_RESIDUE.get(), COPPER_RESIDUE.get())));
         });
     }
-
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
@@ -74,11 +77,11 @@ public class SmelterMenu extends AbstractContainerMenu {
     // THIS YOU HAVE TO DEFINE!
     private static final int TE_INVENTORY_SLOT_COUNT = 5;  // must be the number of slots you have!
 
-    public SmelterMenu(int i, Inventory inventory, SmelterBlockEntity blockEntity, Level level) {
-        super(MenuTypesInit.SMELTER_MENU.get(), i);
-        this.blockEntity = blockEntity;
-        this.level = level;
-    }
+//    public SmelterMenu(int i, Inventory inventory, SmelterBlockEntity blockEntity, Level level) {
+//        super(MenuTypesInit.SMELTER_MENU.get(), i);
+//        this.blockEntity = blockEntity;
+//        this.level = level;
+//    }
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int index) {

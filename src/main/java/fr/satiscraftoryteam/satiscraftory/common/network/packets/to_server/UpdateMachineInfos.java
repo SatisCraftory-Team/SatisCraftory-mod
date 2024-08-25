@@ -1,4 +1,4 @@
-package fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client;
+package fr.satiscraftoryteam.satiscraftory.common.network.packets.to_server;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.network.IPacket;
@@ -11,16 +11,16 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
-public record UpdatePacketInfos(BlockPos pos, boolean isActive, int overclockPercentage) implements IPacket {
-    public static final CustomPacketPayload.Type<UpdatePacketInfos> TYPE = new CustomPacketPayload.Type<>(SatisCraftory.rl("update_packet_infos"));
-    public static final StreamCodec<ByteBuf, UpdatePacketInfos> STREAM_CODEC = StreamCodec.composite(
-            BlockPos.STREAM_CODEC, UpdatePacketInfos::pos,
-            ByteBufCodecs.BOOL, UpdatePacketInfos::isActive,
-            ByteBufCodecs.INT, UpdatePacketInfos::overclockPercentage,
-            UpdatePacketInfos::new
+public record UpdateMachineInfos(BlockPos pos, boolean isActive, int overclockPercentage) implements IPacket {
+    public static final CustomPacketPayload.Type<UpdateMachineInfos> TYPE = new CustomPacketPayload.Type<>(SatisCraftory.rl("update_packet_infos"));
+    public static final StreamCodec<ByteBuf, UpdateMachineInfos> STREAM_CODEC = StreamCodec.composite(
+            BlockPos.STREAM_CODEC, UpdateMachineInfos::pos,
+            ByteBufCodecs.BOOL, UpdateMachineInfos::isActive,
+            ByteBufCodecs.INT, UpdateMachineInfos::overclockPercentage,
+            UpdateMachineInfos::new
     );
 
-    public UpdatePacketInfos(BlockPos pos, boolean isActive, int overclockPercentage) {
+    public UpdateMachineInfos(BlockPos pos, boolean isActive, int overclockPercentage) {
         this.pos = pos;
         this.isActive = isActive;
         this.overclockPercentage = overclockPercentage;
@@ -28,7 +28,7 @@ public record UpdatePacketInfos(BlockPos pos, boolean isActive, int overclockPer
 
     @NotNull
     @Override
-    public CustomPacketPayload.Type<UpdatePacketInfos> type() {
+    public CustomPacketPayload.Type<UpdateMachineInfos> type() {
         return TYPE;
     }
 

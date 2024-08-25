@@ -6,6 +6,7 @@ import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.MenuTypesInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities.InventoryPartition;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -18,24 +19,30 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import static fr.satiscraftoryteam.satiscraftory.common.init.ItemInit.POWER_SHARD;
 
-public class MinerMk1Menu extends AbstractContainerMenu {
+public class MinerMk1Menu extends MachineBaseMenu<MinerMk1BlockEntity> {
     public MinerMk1BlockEntity blockEntity;
     private Level level;
 
-//    public MinerMk1Menu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
-//        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()));
+    //Client side
+    public MinerMk1Menu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
+        super(MenuTypesInit.MINER_MK1_MENU.get(), pContainerId, inv, extraData);
+    }
+
+//    public MinerMk1Menu(MinerMk1Menu minerMk1Menu, Inventory inventory, Component component) {
+//        super(MenuTypesInit.MINER_MK1_MENU.get(), minerMk1Menu.slots.size());
+//    }
+//
+//    public MinerMk1Menu(int pContainerId, Inventory inventory) {
+//        super(MenuTypesInit.MINER_MK1_MENU.get(), pContainerId);
 //    }
 
-    public MinerMk1Menu(MinerMk1Menu minerMk1Menu, Inventory inventory, Component component) {
-        super(MenuTypesInit.MINER_MK1_MENU.get(), minerMk1Menu.slots.size());
+    //Server side
+    public MinerMk1Menu(int pContainerId, Inventory inv, MinerMk1BlockEntity entity) {
+        super(MenuTypesInit.MINER_MK1_MENU.get(), pContainerId, inv, entity);
     }
 
-    public MinerMk1Menu(int pContainerId, Inventory inventory) {
-        super(MenuTypesInit.MINER_MK1_MENU.get(), pContainerId);
-    }
-
-    public MinerMk1Menu(int pContainerId, Inventory inv, BlockEntity entity) {
-        super(MenuTypesInit.MINER_MK1_MENU.get(), pContainerId);
+    @Override
+    protected void init(Inventory inv, MinerMk1BlockEntity entity) {
         checkContainerSize(inv, 4);
         blockEntity = ((MinerMk1BlockEntity) entity);
         this.level = inv.player.level();
@@ -56,7 +63,6 @@ public class MinerMk1Menu extends AbstractContainerMenu {
             this.addSlot(new RestrictedSlot(handler, 3, 143, 45, POWER_SHARD.get()));
         });*/
     }
-
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
