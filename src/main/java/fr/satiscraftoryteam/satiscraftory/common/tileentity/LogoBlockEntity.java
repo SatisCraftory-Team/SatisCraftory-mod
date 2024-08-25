@@ -12,34 +12,9 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.RenderUtil;
 
-public class LogoBlockEntity extends BlockEntity implements GeoBlockEntity {
+public class LogoBlockEntity extends GeoBlockAnimable<LogoBlockEntity> {
 
     public LogoBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-        super(TileEntityInit.ELIOCUBE_ENTITY.get(), pWorldPosition, pBlockState);
+        super(TileEntityInit.LOGO_ENTITY.get(), pWorldPosition, pBlockState, "spin");
     }
-
-    //-------------------------------------------------Animation------------------------------------------------------//
-
-    private static final RawAnimation DEFAULT_ANIMATION = RawAnimation.begin().thenPlay("spin");
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, state -> {
-            return state.setAndContinue(DEFAULT_ANIMATION);
-        }));
-    }
-
-    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
-
-    @Override
-    public double getTick(Object object) {
-        return RenderUtil.getCurrentTick();
-    }
-
-    //----------------------------------------------------------------------------------------------------------------//
 }

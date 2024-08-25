@@ -7,15 +7,16 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
-public abstract class ConveyorStreamPartBlockEntity extends TickableTileEntity {
+public abstract class ConveyorStreamPartBlockEntity extends TickableTileEntity<ConveyorStreamPartBlockEntity> {
 
     private BlockEntity master;
     private BlockEntity connectedConveyor;
 
-    public ConveyorStreamPartBlockEntity(TileEntityDeferredHolder<?> blockType, BlockPos blockPos, BlockState blockState) {
+    public ConveyorStreamPartBlockEntity(BlockEntityType blockType, BlockPos blockPos, BlockState blockState) {
         super(blockType, blockPos, blockState);
     }
 

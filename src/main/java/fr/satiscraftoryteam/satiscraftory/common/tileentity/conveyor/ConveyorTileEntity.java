@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ConveyorTileEntity extends TickableTileEntity {
+public class ConveyorTileEntity extends TickableTileEntity<ConveyorTileEntity> {
 
     public static final int itemPerConveyor = 2;
     private IItemInputable output;
@@ -25,7 +25,7 @@ public class ConveyorTileEntity extends TickableTileEntity {
     private int itemPerMin = 60;
 
     public ConveyorTileEntity(BlockPos blockPos, BlockState blockState, boolean full) {
-        super(TileEntityInit.CONVEYOR_FULL, blockPos, blockState);
+        super(TileEntityInit.CONVEYOR_FULL.get(), blockPos, blockState);
         linker = new ConveyorLinker(itemPerMin);
         linker.conveyorChain.add(this);
         isMaster = true;
@@ -35,7 +35,7 @@ public class ConveyorTileEntity extends TickableTileEntity {
     }
 
     public ConveyorTileEntity(BlockPos blockPos, BlockState blockState) {
-        super(TileEntityInit.CONVEYOR, blockPos, blockState);
+        super(TileEntityInit.CONVEYOR.get(), blockPos, blockState);
         linker = new ConveyorLinker(itemPerMin);
         linker.conveyorChain.add(this);
         isMaster = true;

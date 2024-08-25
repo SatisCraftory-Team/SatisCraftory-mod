@@ -2,6 +2,7 @@ package fr.satiscraftoryteam.satiscraftory.common.tileentity.base;
 
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.UpdateTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.GeoBlockAnimable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -10,6 +11,7 @@ import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
@@ -17,11 +19,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public abstract class TileEntityUpdatable extends BlockEntity {
+public abstract class TileEntityUpdatable<BE extends BlockEntity> extends GeoBlockAnimable<BE> {
 
 
-    public TileEntityUpdatable(TileEntityDeferredHolder<?> type, BlockPos pos, BlockState state) {
-        super(type.get(), pos, state);
+    public TileEntityUpdatable(BlockEntityType<BE> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     @NotNull

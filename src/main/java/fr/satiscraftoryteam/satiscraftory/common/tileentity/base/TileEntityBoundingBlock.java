@@ -13,14 +13,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class TileEntityBoundingBlock extends TileEntityUpdatable {
+public class TileEntityBoundingBlock extends TileEntityUpdatable<TileEntityBoundingBlock> {
 
     private BlockPos mainPos = BlockPos.ZERO;
 
     private boolean receivedCoords;
 
     public TileEntityBoundingBlock(BlockPos pos, BlockState state) {
-        super(TileEntityInit.BOUNDING_BLOCK, pos, state);
+        super(TileEntityInit.BOUNDING_BLOCK.get(), pos, state);
     }
 
 

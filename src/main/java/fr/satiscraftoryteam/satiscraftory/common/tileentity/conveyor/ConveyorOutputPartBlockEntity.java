@@ -15,7 +15,7 @@ public class ConveyorOutputPartBlockEntity extends ConveyorStreamPartBlockEntity
     private MachineBaseTileEntity machine;
     private IItemInputable output;
     public ConveyorOutputPartBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(TileEntityInit.CONVEYOR_OUTPUT_PART_ENTITY, blockPos, blockState);
+        super(TileEntityInit.CONVEYOR_OUTPUT_PART_ENTITY.get(), blockPos, blockState);
     }
 
     @Override

@@ -3,10 +3,12 @@ package fr.satiscraftoryteam.satiscraftory.common.tileentity.base;
 import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class TickableTileEntity extends TileEntityUpdatable{
-    public TickableTileEntity(TileEntityDeferredHolder<?> type, BlockPos pos, BlockState state) {
+public abstract class TickableTileEntity<BE extends BlockEntity> extends TileEntityUpdatable<BE>{
+    public TickableTileEntity(BlockEntityType<BE> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 

@@ -12,38 +12,9 @@ import software.bernie.geckolib.animation.AnimatableManager;
 
 import java.util.function.Consumer;
 
-public class MinerMk1Item extends MachineItem implements GeoItem {
+public class MinerMk1Item extends MachineItem<MinerMk1ItemRenderer> {
 
     public MinerMk1Item(Block block, Properties properties) {
-        super(block, properties);
-        SingletonGeoAnimatable.registerSyncedAnimatable(this);
-    }
-
-    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-
-    // Utilise our own render hook to define our custom renderer
-    @Override
-    public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
-        consumer.accept(new GeoRenderProvider() {
-            private MinerMk1ItemRenderer renderer;
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
-                if (this.renderer == null)
-                    this.renderer = new MinerMk1ItemRenderer();
-
-                return this.renderer;
-            }
-        });
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
+        super(block, properties, new MinerMk1ItemRenderer());
     }
 }

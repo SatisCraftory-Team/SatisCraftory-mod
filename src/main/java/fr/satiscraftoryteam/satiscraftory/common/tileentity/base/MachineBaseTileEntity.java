@@ -8,6 +8,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Tuple;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 //TODO: implement here capabilities
-public abstract class MachineBaseTileEntity extends TickableTileEntity implements IBlockCapabilityProvider {
+public abstract class MachineBaseTileEntity<BE extends BlockEntity> extends TickableTileEntity<BE> implements IBlockCapabilityProvider {
 
     public boolean isActive = false;
     public int overclockPercentage = 100;
@@ -52,7 +54,7 @@ public abstract class MachineBaseTileEntity extends TickableTileEntity implement
     }
 
 
-    public MachineBaseTileEntity(TileEntityDeferredHolder<?> type, BlockPos pos, BlockState state) {
+    public MachineBaseTileEntity(BlockEntityType<BE> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 

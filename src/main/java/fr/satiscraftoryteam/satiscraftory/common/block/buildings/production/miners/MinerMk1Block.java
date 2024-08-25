@@ -43,8 +43,6 @@ public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileE
         super(properties);
     }
 
-
-
     @Override
     protected void initProperties() {
         this.getProps().addProperties(new RestrictedPlacementAttribute(BlockInit.IRON_DEPOSIT.getBlock(), BlockInit.COPPER_DEPOSIT.getBlock()));

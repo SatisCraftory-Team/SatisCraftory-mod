@@ -39,7 +39,7 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.RenderUtil;
 
-public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuProvider, GeoBlockEntity, IBoundingBlock {
+public class MinerMk1BlockEntity extends MachineBaseTileEntity<MinerMk1BlockEntity> implements MenuProvider, GeoBlockEntity, IBoundingBlock {
 
     public final InventoryHandler inventoryHandler;
     public final InventoryPartition overclockPartition = new InventoryPartition("overclock", 3);
@@ -67,7 +67,7 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
     }
 
     public MinerMk1BlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(TileEntityInit.MINER_MK1_BLOCK_ENTITY, blockPos, blockState);
+        super(TileEntityInit.MINER_MK1_BLOCK_ENTITY.get(), blockPos, blockState);
 
         inventoryHandler = new InventoryHandler.Builder()
                 .addPartition(overclockPartition)
@@ -206,18 +206,6 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity implements MenuPr
         controllers.add(new AnimationController<>(this, state -> {
             return state.setAndContinue(DEFAULT_ANIMATION);
         }));
-    }
-
-    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
-
-    @Override
-    public double getTick(Object object) {
-        return RenderUtil.getCurrentTick();
     }
 
     //----------------------------------------------------------------------------------------------------------------//

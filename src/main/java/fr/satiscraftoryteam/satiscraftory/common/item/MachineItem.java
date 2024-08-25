@@ -6,11 +6,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import software.bernie.geckolib.renderer.GeoItemRenderer;
 
-public abstract class MachineItem extends BlockItem {
-
-    public MachineItem(Block p_40565_, Properties p_40566_) {
-        super(p_40565_, p_40566_);
+public abstract class MachineItem<BlockItemRenderer extends GeoItemRenderer> extends GeoItemAnimable<BlockItemRenderer> {
+    public MachineItem(Block block, Properties properties, BlockItemRenderer blockItemRenderer) {
+        super(block, properties, blockItemRenderer);
     }
 
     @Override

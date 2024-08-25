@@ -32,10 +32,10 @@ import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 
-public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuProvider, IBoundingBlock, GeoBlockEntity {
+public class SmelterBlockEntity extends MachineBaseTileEntity<SmelterBlockEntity> implements MenuProvider, IBoundingBlock, GeoBlockEntity {
 
     public SmelterBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(TileEntityInit.SMELTER_BLOCK_ENTITY, blockPos, blockState);
+        super(TileEntityInit.SMELTER_BLOCK_ENTITY.get(), blockPos, blockState);
 
         this.CONVEYOR_OUTPUT_POS_ORIENTATION.add(new Tuple<>(new Vec3i(0,0,1), RelativeOrientationUtils.RelativeOrientation.FRONT));
         for (int x = -1; x <= 1; x++) {
@@ -192,20 +192,6 @@ public class SmelterBlockEntity extends MachineBaseTileEntity implements MenuPro
     }
 
 
-    //-------------------------------------------------Animation------------------------------------------------------//
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-    }
-
-    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
-
-    //----------------------------------------------------------------------------------------------------------------//
 
     @Override
     public ItemStackHandler getOutputInventory() {
