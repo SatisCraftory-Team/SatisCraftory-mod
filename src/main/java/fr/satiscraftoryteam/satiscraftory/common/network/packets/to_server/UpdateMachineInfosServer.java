@@ -11,16 +11,16 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
-public record UpdateMachineInfos(BlockPos pos, boolean isActive, int overclockPercentage) implements IPacket {
-    public static final CustomPacketPayload.Type<UpdateMachineInfos> TYPE = new CustomPacketPayload.Type<>(SatisCraftory.rl("update_packet_infos"));
-    public static final StreamCodec<ByteBuf, UpdateMachineInfos> STREAM_CODEC = StreamCodec.composite(
-            BlockPos.STREAM_CODEC, UpdateMachineInfos::pos,
-            ByteBufCodecs.BOOL, UpdateMachineInfos::isActive,
-            ByteBufCodecs.INT, UpdateMachineInfos::overclockPercentage,
-            UpdateMachineInfos::new
+public record UpdateMachineInfosServer(BlockPos pos, boolean isActive, int overclockPercentage) implements IPacket {
+    public static final CustomPacketPayload.Type<UpdateMachineInfosServer> TYPE = new CustomPacketPayload.Type<>(SatisCraftory.rl("update_packet_infos"));
+    public static final StreamCodec<ByteBuf, UpdateMachineInfosServer> STREAM_CODEC = StreamCodec.composite(
+            BlockPos.STREAM_CODEC, UpdateMachineInfosServer::pos,
+            ByteBufCodecs.BOOL, UpdateMachineInfosServer::isActive,
+            ByteBufCodecs.INT, UpdateMachineInfosServer::overclockPercentage,
+            UpdateMachineInfosServer::new
     );
 
-    public UpdateMachineInfos(BlockPos pos, boolean isActive, int overclockPercentage) {
+    public UpdateMachineInfosServer(BlockPos pos, boolean isActive, int overclockPercentage) {
         this.pos = pos;
         this.isActive = isActive;
         this.overclockPercentage = overclockPercentage;
@@ -28,7 +28,7 @@ public record UpdateMachineInfos(BlockPos pos, boolean isActive, int overclockPe
 
     @NotNull
     @Override
-    public CustomPacketPayload.Type<UpdateMachineInfos> type() {
+    public CustomPacketPayload.Type<UpdateMachineInfosServer> type() {
         return TYPE;
     }
 

@@ -2,7 +2,7 @@ package fr.satiscraftoryteam.satiscraftory.common.network.packets.to_server;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.network.IPacket;
-import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.UpdateMachineInfos;
+import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.UpdateMachineInfosClient;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -33,7 +33,7 @@ public record RequestMachineInfos(BlockPos pos) implements IPacket {
     public void handle(IPayloadContext context) {
         context.enqueueWork(() -> {
             final MachineBaseTileEntity blockEntity = (MachineBaseTileEntity) context.player().level().getBlockEntity(this.pos);
-            PacketDistributor.sendToAllPlayers(new UpdateMachineInfos(blockEntity.isActive, blockEntity.overclockPercentage));
+            PacketDistributor.sendToAllPlayers(new UpdateMachineInfosClient(blockEntity.isActive, blockEntity.overclockPercentage));
         });
     }
 

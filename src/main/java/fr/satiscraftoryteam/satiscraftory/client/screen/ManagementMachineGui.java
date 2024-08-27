@@ -3,6 +3,8 @@ package fr.satiscraftoryteam.satiscraftory.client.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
+import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_server.UpdateMachineInfosServer;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -11,20 +13,23 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public abstract class ManagementMachineGui<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> {
 
     protected ExtendedSlider sliderOverclockInner;
     protected CheckBox checkBoxOnOff;
     public int overclockPercentage = 100;
+    private MachineBaseTileEntity blockEntity;
 
     private static final ResourceLocation INVENTORY =
             ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "textures/gui/inventory.png");
     private static final ResourceLocation CONFIG_BAR =
             ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "textures/gui/config_bar.png");
 
-    public ManagementMachineGui(T menu, Inventory inventory, Component component) {
-        super(menu, inventory, component);
+    public ManagementMachineGui(MachineBaseMenu menu, Inventory inventory, Component component) {
+        super((T) menu, inventory, component);
+        this.blockEntity = menu.machineEntity;
     }
 
     @Override
@@ -45,8 +50,35 @@ public abstract class ManagementMachineGui<T extends AbstractContainerMenu> exte
     public void updateMachineInfos(boolean isActive, int overclockPercentage) {
         this.checkBoxOnOff.setToggled(isActive);
 
+        SatisCraftory.LOGGER.error(checkBoxOnOff.isToggled());
         this.overclockPercentage = overclockPercentage;
         this.sliderOverclockInner.setValue(overclockPercentage);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+        this.sliderOverclockInner.mouseClicked(mouseX, mouseY, mouseButton);
+        PacketDistributor.sendToServer(new UpdateMachineInfosServer(this.blockEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
+        return super.mouseClicked(mouseX, mouseY, mouseButton);
+    }
+
+    @Override
+    public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+        if (sliderOverclockInner.isMouseOver(pMouseX, pMouseY)) {
+            sliderOverclockInner.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+            PacketDistributor.sendToServer(new UpdateMachineInfosServer(this.blockEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
+        }
+        return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if (sliderOverclockInner.isMouseOver(mouseX, mouseY)) {
+            sliderOverclockInner.setValue(sliderOverclockInner.getValueInt() + (scrollY > 0 ? 1 : -1));
+            overclockPercentage = sliderOverclockInner.getValueInt();
+            PacketDistributor.sendToServer(new UpdateMachineInfosServer(this.blockEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
+        }
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
     @Override

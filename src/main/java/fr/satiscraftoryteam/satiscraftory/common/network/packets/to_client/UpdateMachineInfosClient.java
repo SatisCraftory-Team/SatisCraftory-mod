@@ -10,22 +10,22 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
-public record UpdateMachineInfos(boolean isActive, int overclockPercentage) implements IPacket {
-    public static final CustomPacketPayload.Type<UpdateMachineInfos> TYPE = new CustomPacketPayload.Type<>(SatisCraftory.rl("update_machine_infos"));
-    public static final StreamCodec<ByteBuf, UpdateMachineInfos> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.BOOL, UpdateMachineInfos::isActive,
-            ByteBufCodecs.INT, UpdateMachineInfos::overclockPercentage,
-            UpdateMachineInfos::new
+public record UpdateMachineInfosClient(boolean isActive, int overclockPercentage) implements IPacket {
+    public static final CustomPacketPayload.Type<UpdateMachineInfosClient> TYPE = new CustomPacketPayload.Type<>(SatisCraftory.rl("update_machine_infos"));
+    public static final StreamCodec<ByteBuf, UpdateMachineInfosClient> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.BOOL, UpdateMachineInfosClient::isActive,
+            ByteBufCodecs.INT, UpdateMachineInfosClient::overclockPercentage,
+            UpdateMachineInfosClient::new
     );
 
-    public UpdateMachineInfos(boolean isActive, int overclockPercentage) {
+    public UpdateMachineInfosClient(boolean isActive, int overclockPercentage) {
         this.isActive = isActive;
         this.overclockPercentage = overclockPercentage;
     }
 
     @NotNull
     @Override
-    public CustomPacketPayload.Type<UpdateMachineInfos> type() {
+    public CustomPacketPayload.Type<UpdateMachineInfosClient> type() {
         return TYPE;
     }
 

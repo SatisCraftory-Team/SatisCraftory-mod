@@ -2,7 +2,6 @@ package fr.satiscraftoryteam.satiscraftory.client.screen;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
-import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_server.UpdateMachineInfos;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_server.RequestMachineInfos;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
@@ -38,7 +37,7 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
     @Override
     public void init() {
         super.init();
-        this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(this.leftPos + 6, this.topPos + 60, Component.translatable("gui.satiscraftory.machine.power")));
+        this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(this.tileEntity, this.leftPos + 6, this.topPos + 60, Component.translatable("gui.satiscraftory.machine.power")));
 
         int baseX = width / 2, baseY = height / 2;
         sliderOverclockInner = new ExtendedSlider(this.leftPos + 184, this.topPos + 15, 52, 20, Component.empty(), Component.translatable(" %"), 1, 250, this.overclockPercentage, true){
@@ -68,31 +67,7 @@ public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
         return (double) Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0;
     }
 
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-        this.sliderOverclockInner.mouseClicked(mouseX, mouseY, mouseButton);
-        PacketDistributor.sendToServer(new UpdateMachineInfos(this.tileEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
-        return super.mouseClicked(mouseX, mouseY, mouseButton);
-    }
 
-    @Override
-    public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
-        if (sliderOverclockInner.isMouseOver(pMouseX, pMouseY)) {
-            sliderOverclockInner.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
-            PacketDistributor.sendToServer(new UpdateMachineInfos(this.tileEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
-        }
-        return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
-    }
-
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-        if (sliderOverclockInner.isMouseOver(mouseX, mouseY)) {
-            sliderOverclockInner.setValue(sliderOverclockInner.getValueInt() + (scrollY > 0 ? 1 : -1));
-            overclockPercentage = sliderOverclockInner.getValueInt();
-            PacketDistributor.sendToServer(new UpdateMachineInfos(this.tileEntity.getBlockPos(), checkBoxOnOff.isToggled(), overclockPercentage));
-        }
-        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
-    }
 
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTick, int pMouseX, int pMouseY) {

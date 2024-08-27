@@ -27,7 +27,7 @@ public class SmelterScreen extends ManagementMachineGui<SmelterMenu> {
     @Override
     public void init() {
         super.init();
-        this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(this.leftPos + 180, this.topPos + 20, Component.translatable("gui.satiscraftory.machine.power")));
+        this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(null, this.leftPos + 180, this.topPos + 20, Component.translatable("gui.satiscraftory.machine.power")));
         this.checkBoxOnOff.setToggled(SmelterScreen.OnOff);
 //        this.addRenderableWidget(new Button(this.leftPos + 107, this.topPos + 25, 10, 10, Component.literal("-"), button -> {
 //            if (overclock_percentage > 0) {
