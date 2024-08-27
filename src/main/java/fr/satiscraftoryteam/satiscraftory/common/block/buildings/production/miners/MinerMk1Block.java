@@ -21,14 +21,18 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileEntity {
@@ -129,17 +133,42 @@ public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileE
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
-    @Override
-    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState pNewState, boolean pIsMoving) {
-        if (blockState.getBlock() != pNewState.getBlock()) {
-            BlockEntity blockEntity = level.getBlockEntity(blockPos);
-            if (blockEntity instanceof MinerMk1BlockEntity) {
-                ((MinerMk1BlockEntity) blockEntity).drops();
-            }
-        }
-        super.onRemove(blockState, level, blockPos, pNewState, pIsMoving);
-    }
+//    @Override
+//    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState pNewState, boolean pIsMoving) {
+//        if (blockState.getBlock() != pNewState.getBlock()) {
+//            BlockEntity blockEntity = level.getBlockEntity(blockPos);
+//            if (blockEntity instanceof MinerMk1BlockEntity) {
+//                ((MinerMk1BlockEntity) blockEntity).drops();
+//            }
+//        }
+//        super.onRemove(blockState, level, blockPos, pNewState, pIsMoving);
+//    }
 
+//    @Override
+//    public void destroy(LevelAccessor level, @NotNull BlockPos pos, BlockState state) {
+//        BlockEntity blockEntity = level.getBlockEntity(pos);
+//        if (blockEntity instanceof MinerMk1BlockEntity) {
+//            ((MinerMk1BlockEntity) blockEntity).drops();
+//        }
+//        super.destroy(level, pos, state);
+//    }
+
+//    @Override
+//    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool) {
+//        if (blockEntity instanceof MinerMk1BlockEntity) {
+//            ((MinerMk1BlockEntity) blockEntity).giveInventoryToPlayer(player);
+//        }
+//        super.playerDestroy(level, player, pos, state, blockEntity, tool);
+//    }
+
+    @Override
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof MinerMk1BlockEntity) {
+            ((MinerMk1BlockEntity) blockEntity).giveInventoryToPlayer(player);
+        }
+        return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
+    }
 
     @Override
     public TileEntityDeferredHolder<? extends MinerMk1BlockEntity> getTileType() {

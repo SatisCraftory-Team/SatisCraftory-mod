@@ -1,6 +1,7 @@
 package fr.satiscraftoryteam.satiscraftory.client.screen;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
+import fr.satiscraftoryteam.satiscraftory.client.screen.MachineGUIType.MinerExtractorMachineGUI;
 import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_server.RequestMachineInfos;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
@@ -11,78 +12,66 @@ import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class MinerMk1Screen extends ManagementMachineGui<MinerMk1Menu> {
+public class MinerMk1Screen extends MinerExtractorMachineGUI<MinerMk1Menu> {
     private static final ResourceLocation GUI =
             ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "textures/gui/miner_mk1_gui.png");
-    private Inventory playerInventory;
-    private ExtendedSlider rangeSlider;
-    private float default_energy_use = 5;
-
-    //level miner_mk1 (default = 60)
-    private float default_mining_speed = 60;
-
-    //info gisement
-    private float purity_modifier = 1;
-
-    private final MinerMk1BlockEntity tileEntity;
+//    private Inventory playerInventory;
+//    private ExtendedSlider rangeSlider;
 
     //items_per_minute = purity_modifier * overclock_percentage / 100 * default_mining_speed
 
     public MinerMk1Screen(MinerMk1Menu pMenu, Inventory pPlayerInventory, Component pTitle) {
-        super(pMenu, pPlayerInventory, pTitle);
-        tileEntity = pMenu.blockEntity;
-        PacketDistributor.sendToServer(new RequestMachineInfos(this.tileEntity.getBlockPos()));
+        super(pMenu, pPlayerInventory, pTitle, GUI);
+//        PacketDistributor.sendToServer(new RequestMachineInfos(pMenu.blockEntity.getBlockPos()));
     }
 
-    @Override
-    public void init() {
-        super.init();
-        this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(this.tileEntity, this.leftPos + 6, this.topPos + 60, Component.translatable("gui.satiscraftory.machine.power")));
+//    @Override
+//    public void init() {
+//        super.init();
+//        this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(this.tileEntity, this.leftPos + 6, this.topPos + 60, Component.translatable("gui.satiscraftory.machine.power")));
+//
+//        int baseX = width / 2, baseY = height / 2;
+//        sliderOverclockInner = new ExtendedSlider(this.leftPos + 184, this.topPos + 15, 52, 20, Component.empty(), Component.translatable(" %"), 1, 250, this.overclockPercentage, true){
+//            @Override
+//            protected void applyValue() {
+//                overclockPercentage = this.getValueInt();
+//            }
+//        };
+//
+//        addRenderableWidget(sliderOverclockInner);
+//    }
 
-        int baseX = width / 2, baseY = height / 2;
-        sliderOverclockInner = new ExtendedSlider(this.leftPos + 184, this.topPos + 15, 52, 20, Component.empty(), Component.translatable(" %"), 1, 250, this.overclockPercentage, true){
-            @Override
-            protected void applyValue() {
-                overclockPercentage = this.getValueInt();
-            }
-        };
+//    @Override
+//    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+//        // Labels are machine specific, so keep it here
+//        graphics.drawString(this.font, "⚡ " + String.valueOf((double) Math.round((default_energy_use * Math.pow( (double) overclockPercentage / 100, 1.6)) * 100.0) / 100.0) + " MW", -90, 26, 0xff8c00);
+//        graphics.drawString(this.font, "⌛ " + String.valueOf((double) Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0) + " items/min", -90, 48, 0xff8c00);
+//    }
 
-        addRenderableWidget(sliderOverclockInner);
-    }
+//    @Override
+//    double getPowerUsage() {
+//        return (double) Math.round((default_energy_use * Math.pow( (double) overclockPercentage / 100, 1.6)) * 100.0) / 100.0;
+//    }
+//
+//    @Override
+//    double getSpeed() {
+//        return (double) Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0;
+//    }
 
-    @Override
-    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
-        // Labels are machine specific, so keep it here
-        graphics.drawString(this.font, "⚡ " + String.valueOf((double) Math.round((default_energy_use * Math.pow( (double) overclockPercentage / 100, 1.6)) * 100.0) / 100.0) + " MW", -90, 26, 0xff8c00);
-        graphics.drawString(this.font, "⌛ " + String.valueOf((double) Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0) + " items/min", -90, 48, 0xff8c00);
-    }
+//    @Override
+//    protected void renderBg(GuiGraphics graphics, float partialTick, int pMouseX, int pMouseY) {
+//        super.renderBg(graphics, partialTick, pMouseX, pMouseY);
+//        int x = (width - imageWidth) / 2;
+//        int y = (height - imageHeight) / 2;
+//
+//        // GUIs are machine specific, so keep it here
+//        graphics.blit(GUI, x, y, 0, 0, imageWidth, imageHeight);
+//    }
 
-    @Override
-    double getPowerUsage() {
-        return (double) Math.round((default_energy_use * Math.pow( (double) overclockPercentage / 100, 1.6)) * 100.0) / 100.0;
-    }
-
-    @Override
-    double getSpeed() {
-        return (double) Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0;
-    }
-
-
-
-    @Override
-    protected void renderBg(GuiGraphics graphics, float partialTick, int pMouseX, int pMouseY) {
-        super.renderBg(graphics, partialTick, pMouseX, pMouseY);
-        int x = (width - imageWidth) / 2;
-        int y = (height - imageHeight) / 2;
-
-        // GUIs are machine specific, so keep it here
-        graphics.blit(GUI, x, y, 0, 0, imageWidth, imageHeight);
-    }
-
-    @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        renderBackground(graphics, mouseX, mouseY, delta);
-        super.render(graphics, mouseX, mouseY, delta);
-        renderTooltip(graphics, mouseX, mouseY);
-    }
+//    @Override
+//    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+//        renderBackground(graphics, mouseX, mouseY, delta);
+//        super.render(graphics, mouseX, mouseY, delta);
+//        renderTooltip(graphics, mouseX, mouseY);
+//    }
 }

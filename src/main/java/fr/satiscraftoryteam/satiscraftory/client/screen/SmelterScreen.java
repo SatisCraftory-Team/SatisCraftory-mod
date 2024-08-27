@@ -58,7 +58,7 @@ public class SmelterScreen extends ManagementMachineGui<SmelterMenu> {
 //    }
 
     public SmelterScreen(SmelterMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
-        super(pMenu, pPlayerInventory, pTitle);
+        super(pMenu, pPlayerInventory, pTitle, GUI);
     }
 
     @Override
@@ -76,16 +76,6 @@ public class SmelterScreen extends ManagementMachineGui<SmelterMenu> {
 
         // GUIs are machine specific, so keep it here
         graphics.blit(GUI, x, y, 0, 0, imageWidth, imageHeight);
-    }
-
-    @Override
-    double getPowerUsage() {
-        return 0;
-    }
-
-    @Override
-    double getSpeed() {
-        return 0;
     }
 
     public static boolean isMouseWithin(int mouseX, int mouseY, int x, int y, int width, int height)

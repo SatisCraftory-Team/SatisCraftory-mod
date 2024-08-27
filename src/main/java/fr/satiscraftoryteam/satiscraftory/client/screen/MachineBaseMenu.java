@@ -8,7 +8,7 @@ import net.minecraft.world.inventory.MenuType;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class MachineBaseMenu<T extends MachineBaseTileEntity> extends AbstractContainerMenu {
-    protected T machineEntity;
+    public T machineEntity;
 
     protected MachineBaseMenu(MenuType<?> menuType, int containerId, Inventory inv, FriendlyByteBuf extraData) {
         super(menuType, containerId);

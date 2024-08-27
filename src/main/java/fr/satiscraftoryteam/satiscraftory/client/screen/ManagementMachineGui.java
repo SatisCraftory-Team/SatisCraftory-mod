@@ -5,6 +5,7 @@ import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.client.screen.element.CheckBox;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_server.UpdateMachineInfosServer;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -15,20 +16,22 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public abstract class ManagementMachineGui<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> {
+public abstract class ManagementMachineGui<T extends MachineBaseMenu<?>> extends AbstractContainerScreen<T> {
 
     protected ExtendedSlider sliderOverclockInner;
     protected CheckBox checkBoxOnOff;
     public int overclockPercentage = 100;
-    private MachineBaseTileEntity blockEntity;
+    private final MachineBaseTileEntity blockEntity;
+    private final ResourceLocation GUI;
 
     private static final ResourceLocation INVENTORY =
             ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "textures/gui/inventory.png");
     private static final ResourceLocation CONFIG_BAR =
             ResourceLocation.fromNamespaceAndPath(SatisCraftory.MODID, "textures/gui/config_bar.png");
 
-    public ManagementMachineGui(MachineBaseMenu menu, Inventory inventory, Component component) {
+    public ManagementMachineGui(MachineBaseMenu menu, Inventory inventory, Component component, ResourceLocation machineGUI) {
         super((T) menu, inventory, component);
+        this.GUI = machineGUI;
         this.blockEntity = menu.machineEntity;
     }
 
@@ -45,12 +48,13 @@ public abstract class ManagementMachineGui<T extends AbstractContainerMenu> exte
         graphics.blit(CONFIG_BAR, x-100, y+10, 0, 0, 100, 60);
 
         graphics.blit(INVENTORY, x, y + 100, 0, 0, 176, 100);
+
+        graphics.blit(GUI, x, y, 0, 0, imageWidth, imageHeight);
     }
 
     public void updateMachineInfos(boolean isActive, int overclockPercentage) {
         this.checkBoxOnOff.setToggled(isActive);
 
-        SatisCraftory.LOGGER.error(checkBoxOnOff.isToggled());
         this.overclockPercentage = overclockPercentage;
         this.sliderOverclockInner.setValue(overclockPercentage);
     }
@@ -82,12 +86,25 @@ public abstract class ManagementMachineGui<T extends AbstractContainerMenu> exte
     }
 
     @Override
-    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
-        // Labels are machine specific, so keep it here
-//        GuiGraphics.drawString(poseStack, this.font, "⚡ " + String.valueOf(getPowerUsage()) + " MW", -90, 26, 0xff8c00);
-//        GuiGraphics.drawString(poseStack, this.font, "⌛ " + String.valueOf(getSpeed()) + " items/min", -90, 48, 0xff8c00);
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        renderBackground(graphics, mouseX, mouseY, delta);
+        super.render(graphics, mouseX, mouseY, delta);
+        renderTooltip(graphics, mouseX, mouseY);
     }
 
-    abstract double getPowerUsage();
-    abstract double getSpeed();
+    @Override
+    protected void init() {
+        super.init();
+        this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(blockEntity, this.leftPos + 6, this.topPos + 60, Component.translatable("gui.satiscraftory.machine.power")));
+
+        int baseX = width / 2, baseY = height / 2;
+        sliderOverclockInner = new ExtendedSlider(this.leftPos + 184, this.topPos + 15, 52, 20, Component.empty(), Component.translatable(" %"), 1, 250, this.overclockPercentage, true){
+            @Override
+            protected void applyValue() {
+                overclockPercentage = this.getValueInt();
+            }
+        };
+
+        addRenderableWidget(sliderOverclockInner);
+    }
 }

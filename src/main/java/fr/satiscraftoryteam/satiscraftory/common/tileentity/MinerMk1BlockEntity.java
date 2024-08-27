@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity;
 
+import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.client.screen.MinerMk1Menu;
 import fr.satiscraftoryteam.satiscraftory.common.init.ItemInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
@@ -8,6 +9,7 @@ import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTile
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities.InventoryHandler;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities.InventoryPartition;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.machineData.MinerExtractorMachine;
 import fr.satiscraftoryteam.satiscraftory.utils.RelativeOrientationUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -39,35 +41,18 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.RenderUtil;
 
-public class MinerMk1BlockEntity extends MachineBaseTileEntity<MinerMk1BlockEntity> implements MenuProvider, GeoBlockEntity, IBoundingBlock {
+public class MinerMk1BlockEntity extends MinerExtractorMachine<MinerMk1BlockEntity> implements MenuProvider, GeoBlockEntity, IBoundingBlock {
 
     public final InventoryHandler inventoryHandler;
     public final InventoryPartition overclockPartition = new InventoryPartition("overclock", 3);
     public final InventoryPartition outputPartition = new InventoryPartition("output", 1);
 
-    private float default_energy_use = 5;
-
-    //level miner_mk1 (default = 60)
-    private float default_mining_speed = 60;
-
-    //info gisement
-    private float purity_modifier = 1;
-    double getPowerUsage() {
-        return (double) Math.round((default_energy_use * Math.pow( (double) overclockPercentage / 100, 1.6)) * 100.0) / 100.0;
-    }
-
     private int progress = 0;
-    private int maxProgress = (int) (60 * 20 / (int)(Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0));
-    // get et set pour la variable maxProgress
-    public int getMaxProgress() {
-        return maxProgress;
-    }
-    public void updateMaxProgress() {
-        this.maxProgress = (int) (60 * 20 / (int)(Math.round((purity_modifier * (double) overclockPercentage / 100 * default_mining_speed) * 100.0) / 100.0));
-    }
+    private int maxProgress = 0;
 
     public MinerMk1BlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(TileEntityInit.MINER_MK1_BLOCK_ENTITY.get(), blockPos, blockState);
+        //TODO: get the purity modifier from the block below the miner
+        super(TileEntityInit.MINER_MK1_BLOCK_ENTITY.get(), blockPos, blockState, 5, 60,  1);
 
         inventoryHandler = new InventoryHandler.Builder()
                 .addPartition(overclockPartition)
@@ -126,6 +111,9 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity<MinerMk1BlockEnti
     public void onLoad() {
         super.onLoad();
 
+        updateMachineInfos(overclockPercentage);
+        maxProgress = (int) (60 * 20 / getExtractionRate());
+
         if(level != null && !level.isClientSide)
             itemHandlerCache = BlockCapabilityCache.create(Capabilities.ItemHandler.BLOCK, (ServerLevel) getLevel(), this.worldPosition, null);
     }
@@ -146,23 +134,21 @@ public class MinerMk1BlockEntity extends MachineBaseTileEntity<MinerMk1BlockEnti
         overclockPartition.deserializeNBT(nbt);
     }
 
-    public void drops() {
+    public void giveInventoryToPlayer(Player player) {
         SimpleContainer inventory = new SimpleContainer(inventoryHandler.inventory.getSlots());
         for (int i = 0; i < inventoryHandler.inventory.getSlots(); i++) {
-            inventory.setItem(i, inventoryHandler.inventory.getStackInSlot(i));
+            player.getInventory().placeItemBackInInventory(inventoryHandler.inventory.getStackInSlot(i));
         }
-
-        Containers.dropContents(this.level, this.worldPosition, inventory);
     }
 
     @Override
     public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
         if (hasNotReachedStackLimit()) {
             if(hasPower() && this.isActive) {
-                System.out.println("progress: " + progress + " maxProgress: " + maxProgress + " overclockPercentage: " + overclockPercentage);
                 if (progress >= maxProgress) {
                     progress = 0;
-                    updateMaxProgress();
+                    updateMachineInfos(overclockPercentage);
+                    maxProgress = (int) (60 * 20 / getExtractionRate());
                     craftItem();
                 }
                 progress++;
