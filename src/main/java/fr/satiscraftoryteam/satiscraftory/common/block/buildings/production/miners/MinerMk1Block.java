@@ -7,6 +7,7 @@ import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attribute
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.FacingAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.RestrictedPlacementAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.ShapeAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.resources.DepositBlock;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTickableTileEntity;
@@ -17,13 +18,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -31,9 +28,10 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileEntity {
 
@@ -179,6 +177,11 @@ public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileE
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new MinerMk1BlockEntity(blockPos, blockState);
+    }
+
+    @Override
+    public void onPlace(BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
+        Objects.requireNonNull(this.getTileType().get().getBlockEntity(world, pos)).setBlockResource((DepositBlock) world.getBlockState(pos.below()).getBlock());
     }
     //----------------------------------------------------------------------------------------------------------------//
 

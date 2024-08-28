@@ -11,6 +11,7 @@ import fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.smel
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.specials.LogoBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.examplesTest.EliocubeBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.flora.PaleBerryBushBlock;
+import fr.satiscraftoryteam.satiscraftory.common.block.resources.DepositBlock;
 import fr.satiscraftoryteam.satiscraftory.common.builder.BlockBuilder;
 import fr.satiscraftoryteam.satiscraftory.common.item.EliocubeItem;
 import fr.satiscraftoryteam.satiscraftory.common.item.LogoItem;
@@ -26,7 +27,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class BlockInit {
     /**
@@ -38,15 +38,15 @@ public class BlockInit {
         BLOCKS.register(bus);
     }
 
-    public static final DeferredRegister.Blocks BLOCKSs = DeferredRegister.createBlocks(SatisCraftory.MODID);
+//    public static final DeferredRegister.Blocks BLOCKSs = DeferredRegister.createBlocks(SatisCraftory.MODID);
 
     // Default BlockItem
     public static final BlockRegistryObject<Block, BlockItem> BOUNDING_BLOCK =  BLOCKS.register("bounding_block", BlockBounding::new);
     public static final BlockRegistryObject<Block, BlockItem> CURVED_CONVEYOR = BLOCKS.register("curved_conveyor", () -> new Block(BlockBehaviour.Properties.of()));
     public static final BlockRegistryObject<Block, BlockItem> CONVEYOR_MERGER = BLOCKS.register("conveyor_merger", () -> new ConveyorMerger(BlockBehaviour.Properties.of()));
     public static final BlockRegistryObject<Block, BlockItem> MANU =            BLOCKS.register("manu", () -> new Block(BlockBehaviour.Properties.of().noOcclusion()));
-    public static final BlockRegistryObject<Block, BlockItem> IRON_DEPOSIT =    BLOCKS.register("iron_deposit", () -> new Block(BlockBehaviour.Properties.of()));
-    public static final BlockRegistryObject<Block, BlockItem> COPPER_DEPOSIT =  BLOCKS.register("copper_deposit", () -> new Block(BlockBehaviour.Properties.of()));
+    public static final BlockRegistryObject<Block, BlockItem> IRON_DEPOSIT =    BLOCKS.register("iron_deposit", () -> new DepositBlock(ItemInit.IRON_RESIDUE.get()));
+    public static final BlockRegistryObject<Block, BlockItem> COPPER_DEPOSIT =  BLOCKS.register("copper_deposit", () -> new DepositBlock(ItemInit.COPPER_RESIDUE.get()));
     public static final BlockRegistryObject<Block, BlockItem> FOUNDATION_2M =   BLOCKS.register("foundation_2m", () -> new Foundations(BlockBehaviour.Properties.of()));
 
     public static final BlockRegistryObject<Block, BlockItem> PALE_BERRY_BUSH = BLOCKS.register("pale_berry_bush", () -> new PaleBerryBushBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SWEET_BERRY_BUSH)));
