@@ -3,7 +3,6 @@ package fr.satiscraftoryteam.satiscraftory.client.screen.MachineGUIType;
 import fr.satiscraftoryteam.satiscraftory.client.screen.MachineBaseMenu;
 import fr.satiscraftoryteam.satiscraftory.client.screen.ManagementMachineGui;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_server.RequestMachineInfos;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.machineData.MinerExtractorMachine;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

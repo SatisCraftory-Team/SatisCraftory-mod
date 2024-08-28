@@ -1,64 +1,91 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity.machineData;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
+import fr.satiscraftoryteam.satiscraftory.common.block.resources.DepositBlock;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.IItemHandler;
-
-import java.text.DecimalFormat;
 
 public class MinerExtractorMachine<BE extends BlockEntity> extends MachineBaseTileEntity<BE> {
-    private final float initialPowerUsage;
-    private final float initialExtractionRate;
 
+    private final double initialPowerUsage;
+    private final double initialExtractionRate;
     private final float purityModifier;
+    private double totalPowerUsage;
+    private double totalExtractionRate;
 
-    private double powerUsage;
-    private double extractionRate;
-
-    public MinerExtractorMachine(BlockEntityType<BE> type, BlockPos blockPos, BlockState blockState, float initialPowerUsage, float initialExtractionRate, float purityModifier) {
-        super(type, blockPos, blockState);
+    public MinerExtractorMachine(BlockEntityType<BE> type, BlockPos blockPos, BlockState blockState, int numberOfOutput, double initialPowerUsage, double initialExtractionRate, float purityModifier, boolean hasOverclockPartition) {
+        super(type, blockPos, blockState, 0, numberOfOutput, hasOverclockPartition);
         this.initialPowerUsage = initialPowerUsage;
         this.initialExtractionRate = initialExtractionRate;
         this.purityModifier = purityModifier;
-    }
 
-    public void setExtractionRate(float purityModifier, int overclockPercentage) {
-        this.extractionRate = (double) Math.round((purityModifier * overclockPercentage / 100 * initialExtractionRate) * 10.0) / 10.0;
+        updateMachineInfos(100);
     }
 
     public void setPowerUsage(int overclockPercentage) {
-        this.powerUsage = (double) Math.round((initialPowerUsage * Math.pow( (double) overclockPercentage / 100, 1.321928)) * 10.0) / 10.0;
+        this.totalPowerUsage = (double) Math.round((initialPowerUsage * Math.pow( (double) overclockPercentage / 100, 1.321928)) * 10.0) / 10.0;
+    }
+
+    public void setExtractionRate(int overclockPercentage) {
+        this.totalExtractionRate = (double) Math.round((purityModifier * overclockPercentage / 100 * initialExtractionRate) * 10.0) / 10.0;
     }
 
     public void updateMachineInfos(int overclockPercentage) {
         setPowerUsage(overclockPercentage);
-        setExtractionRate(purityModifier, overclockPercentage);
+        setExtractionRate(overclockPercentage);
+        maxProgress = (int) (60 * 20 / getExtractionRate());
     }
 
     public double getPowerUsage() {
-        return powerUsage;
+        return totalPowerUsage;
     }
 
     public double getExtractionRate() {
-        return extractionRate;
+        return totalExtractionRate;
     }
 
-    @Override
-    public IItemHandler getOutputInventory() {
-        return null;
-    }
+
+    // --------------------------------------MachineLogic---------------------------------------------------------//
+
+    private int progress = 0;
+    private int maxProgress = 0;
 
     @Override
-    public IItemHandler getInputInventory() {
-        return null;
+    public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
+        if (hasNotReachedStackLimit()) {
+            if(hasPower() && this.isActive) {
+                SatisCraftory.LOGGER.info("Progress: " + progress + " / " + maxProgress);
+                if (progress >= maxProgress) {
+                    progress = 0;
+                    updateMachineInfos(overclockPercentage);
+                    extractResource();
+                }
+                progress++;
+            }
+        } else {
+            progress=0;
+        }
     }
 
-    @Override
-    public int getNumberOfOverclocks() {
-        return 0;
+    private void extractResource() {
+        outputPartition.setStackInSlot(0, new ItemStack(blockResource.getResidueExtracted(),
+                outputPartition.getStackInSlot(0).getCount() + 1));
     }
+
+    protected boolean hasPower() {
+//        boolean hasItemInFirstSlot = overclockPartition.getStackInSlot(0).getItem() == ItemInit.POWER_SHARD.get();
+//        boolean hasItemInSecondSlot = overclockPartition.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get();
+//        boolean hasItemInThirdSlot = overclockPartition.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();
+
+//        return hasItemInFirstSlot && hasItemInSecondSlot && hasItemInThirdSlot;
+        // TODO: implement here power system
+        return true;
+    }
+
 }

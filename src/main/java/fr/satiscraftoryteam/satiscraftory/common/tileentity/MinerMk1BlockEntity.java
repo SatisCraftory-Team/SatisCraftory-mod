@@ -1,63 +1,30 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity;
 
-import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.client.screen.MinerMk1Menu;
-import fr.satiscraftoryteam.satiscraftory.common.init.ItemInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IBoundingBlock;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities.InventoryHandler;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities.InventoryPartition;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.machineData.MinerExtractorMachine;
 import fr.satiscraftoryteam.satiscraftory.utils.RelativeOrientationUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Tuple;
-import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoBlockEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.RenderUtil;
 
-public class MinerMk1BlockEntity extends MinerExtractorMachine<MinerMk1BlockEntity> implements MenuProvider, GeoBlockEntity, IBoundingBlock {
-
-    public final InventoryHandler inventoryHandler;
-    public final InventoryPartition overclockPartition = new InventoryPartition("overclock", 3);
-    public final InventoryPartition outputPartition = new InventoryPartition("output", 1);
-
-    private int progress = 0;
-    private int maxProgress = 0;
+public class MinerMk1BlockEntity extends MinerExtractorMachine<MinerMk1BlockEntity> implements IBoundingBlock, MenuProvider {
 
     public MinerMk1BlockEntity(BlockPos blockPos, BlockState blockState) {
-        //TODO: get the purity modifier from the block below the miner
-        super(TileEntityInit.MINER_MK1_BLOCK_ENTITY.get(), blockPos, blockState, 5, 60,  1);
+        //TODO: get the purity modifier from the block below the miner --> send the blockResource with the purityModifier and resourceType
+        super(TileEntityInit.MINER_MK1_BLOCK_ENTITY.get(), blockPos, blockState, 1, 5, 60, 1, true);
 
-        inventoryHandler = new InventoryHandler.Builder()
-                .addPartition(overclockPartition)
-                .addPartition(outputPartition)
-                .build(this);
         this.CONVEYOR_OUTPUT_POS_ORIENTATION.add(new Tuple<>(new Vec3i(0,0,3), RelativeOrientationUtils.RelativeOrientation.FRONT));
 
         for (int x = -1; x <= 1; x++) {
@@ -101,87 +68,6 @@ public class MinerMk1BlockEntity extends MinerExtractorMachine<MinerMk1BlockEnti
         return new MinerMk1Menu(pContainerId, pInventory, this);
     }
 
-    private BlockCapabilityCache<IItemHandler, @Nullable Direction> itemHandlerCache;
-
-    public IItemHandler getItemHandler(@Nullable Direction context) {
-        return (IItemHandler) inventoryHandler;
-    }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-
-        updateMachineInfos(overclockPercentage);
-        maxProgress = (int) (60 * 20 / getExtractionRate());
-
-        if(level != null && !level.isClientSide)
-            itemHandlerCache = BlockCapabilityCache.create(Capabilities.ItemHandler.BLOCK, (ServerLevel) getLevel(), this.worldPosition, null);
-    }
-
-    @Override
-    protected void saveAdditional(@NotNull CompoundTag tag, @NotNull HolderLookup.Provider provider) {
-        tag.put("inventory", inventoryHandler.serializeNBT(provider));
-        outputPartition.serializeNBT(tag);
-        overclockPartition.serializeNBT(tag);
-        super.saveAdditional(tag, provider);
-    }
-
-    @Override
-    public void loadAdditional(CompoundTag nbt, @NotNull HolderLookup.Provider provider) {
-        super.loadAdditional(nbt, provider);
-        inventoryHandler.deserializeNBT(provider, nbt.getCompound("inventory"));
-        outputPartition.deserializeNBT(nbt);
-        overclockPartition.deserializeNBT(nbt);
-    }
-
-    public void giveInventoryToPlayer(Player player) {
-        SimpleContainer inventory = new SimpleContainer(inventoryHandler.inventory.getSlots());
-        for (int i = 0; i < inventoryHandler.inventory.getSlots(); i++) {
-            player.getInventory().placeItemBackInInventory(inventoryHandler.inventory.getStackInSlot(i));
-        }
-    }
-
-    @Override
-    public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
-        if (hasNotReachedStackLimit()) {
-            if(hasPower() && this.isActive) {
-                if (progress >= maxProgress) {
-                    progress = 0;
-                    updateMachineInfos(overclockPercentage);
-                    maxProgress = (int) (60 * 20 / getExtractionRate());
-                    craftItem();
-                }
-                progress++;
-            }
-        } else {
-            progress=0;
-        }
-    }
-
-    private void craftItem() {/*
-        itemHandler.extractItem(1, 1, false);
-        itemHandler.extractItem(2, 1, false);
-        itemHandler.extractItem(3, 1, false);*/
-
-        outputPartition.setStackInSlot(0, new ItemStack(ItemInit.IRON_RESIDUE.get(),
-                outputPartition.getStackInSlot(0).getCount() + 1));
-
-    }
-
-    private boolean hasPower() {
-//        boolean hasItemInFirstSlot = overclockPartition.getStackInSlot(0).getItem() == ItemInit.POWER_SHARD.get();
-//        boolean hasItemInSecondSlot = overclockPartition.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get();
-//        boolean hasItemInThirdSlot = overclockPartition.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();
-
-//        return hasItemInFirstSlot && hasItemInSecondSlot && hasItemInThirdSlot;
-        // TODO: implement here power system
-        return true;
-    }
-
-    private boolean hasNotReachedStackLimit() {
-        return outputPartition.getStackInSlot(0).getCount() < outputPartition.getStackInSlot(0).getMaxStackSize();
-    }
-
 
     //-------------------------------------------------Animation------------------------------------------------------//
 
@@ -193,35 +79,4 @@ public class MinerMk1BlockEntity extends MinerExtractorMachine<MinerMk1BlockEnti
             return state.setAndContinue(DEFAULT_ANIMATION);
         }));
     }
-
-    //----------------------------------------------------------------------------------------------------------------//
-
-    // --------------------------------------PartitionManagement---------------------------------------------------------//
-
-    @Override
-    public IItemHandler getOutputInventory() {
-        return outputPartition;
-    }
-
-    @Override
-    public IItemHandler getInputInventory() {
-        return null;
-    }
-
-    @Override
-    public int getNumberOfOverclocks() {
-        int numberOfOverclocks = 0;
-        if (overclockPartition.getStackInSlot(0).getItem() == ItemInit.POWER_SHARD.get()) {
-            numberOfOverclocks++;
-        }
-        if (overclockPartition.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get()) {
-            numberOfOverclocks++;
-        }
-        if (overclockPartition.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get()) {
-            numberOfOverclocks++;
-        }
-        return numberOfOverclocks;
-    }
-
-    //----------------------------------------------------------------------------------------------------------------//
 }
