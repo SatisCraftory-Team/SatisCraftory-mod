@@ -66,7 +66,7 @@ public class MinerExtractorMachine<BE extends BlockEntity> extends MachineBaseTi
     public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
         if (hasNotReachedStackLimit()) {
             if(hasPower() && this.isActive) {
-                SatisCraftory.LOGGER.info("Progress: " + progress + " / " + maxProgress);
+                SatisCraftory.LOGGER.info("Progress: " + progress + " / " + maxProgress + " | Power Usage: " + getPowerUsage() + " | Extraction Rate: " + getExtractionRate() + " | Overclock Percentage: " + overclockPercentage);
                 if (progress >= maxProgress) {
                     progress = 0;
                     updateMachineInfos(overclockPercentage);

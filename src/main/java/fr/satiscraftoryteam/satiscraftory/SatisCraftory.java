@@ -30,8 +30,9 @@ public class SatisCraftory {
         packetHandler = new ModPackets(modEventBus);
         
         CreativeModeTabsInit.register(modEventBus);
-        BlockInit.register(modEventBus);
+
         ItemInit.register(modEventBus);
+        BlockInit.register(modEventBus);
 
         TileEntityInit.TILE_ENTITY_TYPES.register(modEventBus);
         TileEntityInit.BLOCK_ENTITIES.register(modEventBus);

@@ -20,10 +20,10 @@ public final class ItemInit {
             ()-> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> IRON_RESIDUE = ITEMS.register("iron_residue",
-            ()-> new Item(new Item.Properties()));
+            ()-> new Item(new Item.Properties().stacksTo(500)));
 
     public static final DeferredItem<Item> COPPER_RESIDUE = ITEMS.register("copper_residue",
-            ()-> new Item(new Item.Properties()));
+            ()-> new Item(new Item.Properties().stacksTo(500)));
 
     public static final DeferredItem<Item> PALEBERRY = ITEMS.register("paleberry",
             ()-> new Item(new Item.Properties().food(FoodInit.PALEBERRY)));

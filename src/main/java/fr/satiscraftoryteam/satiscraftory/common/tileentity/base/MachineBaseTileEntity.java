@@ -48,15 +48,15 @@ public abstract class MachineBaseTileEntity<BE extends BlockEntity> extends Tick
         this.hasOverclockPartition = hasOverclockPartition;
 
         InventoryHandler.Builder builder = new InventoryHandler.Builder();
-        if (numberOfInput > 0) {
+//        if (numberOfInput > 0) {
             this.inputPartition = new InventoryPartition("input", numberOfInput);
             builder.addPartition(inputPartition);
-        }
-        if (numberOfOutput > 0) {
+//        }
+//        if (numberOfOutput > 0) {
             this.outputPartition = new InventoryPartition("output", numberOfOutput);
             builder.addPartition(outputPartition);
-        }
-        if (this.hasOverclockPartition) {
+//        }
+        if (hasOverclockPartition) {
             this.overclockPartition = new InventoryPartition("overclock", 3);
             builder.addPartition(overclockPartition);
         }
