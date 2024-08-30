@@ -15,22 +15,23 @@ public class MinerExtractorMachine<BE extends BlockEntity> extends MachineBaseTi
 
     private final double initialPowerUsage;
     private final double initialExtractionRate;
-    private final float purityModifier;
+    private float purityModifier;
     private double totalPowerUsage;
     private double totalExtractionRate;
     private DepositBlock blockResource;
 
-    public MinerExtractorMachine(BlockEntityType<BE> type, BlockPos blockPos, BlockState blockState, int numberOfOutput, double initialPowerUsage, double initialExtractionRate, float purityModifier, boolean hasOverclockPartition) {
+    public MinerExtractorMachine(BlockEntityType<BE> type, BlockPos blockPos, BlockState blockState, int numberOfOutput, double initialPowerUsage, double initialExtractionRate, boolean hasOverclockPartition) {
         super(type, blockPos, blockState, 0, numberOfOutput, hasOverclockPartition);
         this.initialPowerUsage = initialPowerUsage;
         this.initialExtractionRate = initialExtractionRate;
-        this.purityModifier = purityModifier;
 
         updateMachineInfos(100);
     }
 
     public void setBlockResource(DepositBlock blockResource) {
         this.blockResource = blockResource;
+        this.purityModifier = blockResource.getPurityModifier();
+        SatisCraftory.LOGGER.info("Purity Modifier: " + purityModifier);
     }
 
     public void setPowerUsage(int overclockPercentage) {
