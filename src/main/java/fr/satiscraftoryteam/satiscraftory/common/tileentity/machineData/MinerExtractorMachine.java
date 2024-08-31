@@ -85,11 +85,6 @@ public class MinerExtractorMachine<BE extends BlockEntity> extends MachineBaseTi
     }
 
     protected boolean hasPower() {
-//        boolean hasItemInFirstSlot = overclockPartition.getStackInSlot(0).getItem() == ItemInit.POWER_SHARD.get();
-//        boolean hasItemInSecondSlot = overclockPartition.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get();
-//        boolean hasItemInThirdSlot = overclockPartition.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();
-
-//        return hasItemInFirstSlot && hasItemInSecondSlot && hasItemInThirdSlot;
         // TODO: implement here power system
         return true;
     }

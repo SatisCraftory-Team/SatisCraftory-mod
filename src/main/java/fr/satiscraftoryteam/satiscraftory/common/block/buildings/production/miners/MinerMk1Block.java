@@ -1,6 +1,5 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.miners;
 
-import com.mojang.serialization.MapCodec;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.MachineBaseBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.Attribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.BoudingAttribute;
@@ -21,8 +20,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -97,67 +94,10 @@ public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileE
                 }
             }
 
-// Ça, c'est peut-être mieux, mais je sais pas si ça marche vraiment
-//            Direction direction = Attribute.get(this, FacingAttribute.class).getDirection(state);
-//            int zStart = (direction == Direction.NORTH || direction == Direction.WEST) ? 1 : -3;
-//            int zEnd = (direction == Direction.NORTH || direction == Direction.WEST) ? -3 : 3;
-//
-//            for (int x = -1; x <= 1; x++) {
-//                for (int y = 0; y <= 5; y++) {
-//                    for (int z = zStart; z <= zEnd; z++) {
-//                        if (x != 0 || y != 0 || z != 0) {
-//                            if (direction == Direction.EAST || direction == Direction.WEST) {
-//                                builder.add(pos.offset(z, y, x));
-//                            } else {
-//                                builder.add(pos.offset(x, y, z));
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-
         }));
     }
 
     //------------------------------------------BLOCK_ENTITY----------------------------------------------------------//
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return null;
-    }
-
-    @Override
-    public RenderShape getRenderShape(BlockState blockState) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
-    }
-
-//    @Override
-//    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState pNewState, boolean pIsMoving) {
-//        if (blockState.getBlock() != pNewState.getBlock()) {
-//            BlockEntity blockEntity = level.getBlockEntity(blockPos);
-//            if (blockEntity instanceof MinerMk1BlockEntity) {
-//                ((MinerMk1BlockEntity) blockEntity).drops();
-//            }
-//        }
-//        super.onRemove(blockState, level, blockPos, pNewState, pIsMoving);
-//    }
-
-//    @Override
-//    public void destroy(LevelAccessor level, @NotNull BlockPos pos, BlockState state) {
-//        BlockEntity blockEntity = level.getBlockEntity(pos);
-//        if (blockEntity instanceof MinerMk1BlockEntity) {
-//            ((MinerMk1BlockEntity) blockEntity).drops();
-//        }
-//        super.destroy(level, pos, state);
-//    }
-
-//    @Override
-//    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool) {
-//        if (blockEntity instanceof MinerMk1BlockEntity) {
-//            ((MinerMk1BlockEntity) blockEntity).giveInventoryToPlayer(player);
-//        }
-//        super.playerDestroy(level, player, pos, state, blockEntity, tool);
-//    }
 
     @Override
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
@@ -183,39 +123,8 @@ public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileE
     public void onPlace(BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean isMoving) {
         Objects.requireNonNull(this.getTileType().get().getBlockEntity(world, pos)).setBlockResource((DepositBlock) world.getBlockState(pos.below()).getBlock());
     }
-    //----------------------------------------------------------------------------------------------------------------//
-
-    //---------------------------------------------DirectionFace------------------------------------------------------//
 
 
-
-    //----------------------------------------------------------------------------------------------------------------//
-
-
-    //------------------------------------------OPEN_INTERFACE--------------------------------------------------------//
-
-    //############ NOW HANDLED BY MACHINEBASEBLOCK ############//
-
-//    @Override
-//    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos blockPos, Player player, BlockHitResult hitResult) {
-////        if (!level.isClientSide()) {
-////            BlockEntity entity = level.getBlockEntity(blockPos);
-////            if(entity instanceof MinerMk1BlockEntity) {
-////                NetworkHooks.openScreen(((ServerPlayer)player), (MinerMk1BlockEntity)entity, blockPos);
-////            } else {
-////                throw new IllegalStateException("Our Container provider is missing!");
-////            }
-////        }
-////        return InteractionResult.sidedSuccess(level.isClientSide());
-//
-//        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
-//            //serverPlayer.openMenu(state.getMenuProvider(level, blockPos));
-//            serverPlayer.openMenu()
-//        }
-//        return InteractionResult.sidedSuccess(level.isClientSide);
-//    }
-
-    //----------------------------------------------------------------------------------------------------------------//
 
     //------------------------------------------------particle--------------------------------------------------------//
     public static boolean particle = true;

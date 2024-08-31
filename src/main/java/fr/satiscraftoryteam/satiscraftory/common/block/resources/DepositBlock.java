@@ -1,22 +1,24 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.resources;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 public class DepositBlock extends Block {
-    private final Item residue;
+    private final DeferredItem<Item> residue;
     private float purityModifier = 1;
-    public DepositBlock(Item residue) {
+    public DepositBlock(DeferredItem<Item> residue) {
         super(BlockBehaviour.Properties.of());
         this.residue = residue;
     }
 
     public Item getResidueExtracted() {
-        return residue;
+        return ((Holder<Item>) residue).value();
     }
 
     public float getPurityModifier() {

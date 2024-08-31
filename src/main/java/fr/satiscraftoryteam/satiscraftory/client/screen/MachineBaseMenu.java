@@ -1,8 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.client.screen;
 
 import fr.satiscraftoryteam.satiscraftory.client.screen.element.slot.RestrictedSlot;
-import fr.satiscraftoryteam.satiscraftory.client.screen.element.slot.ResultSlotInit;
-import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities.InventoryPartition;
 import net.minecraft.network.FriendlyByteBuf;
@@ -14,7 +12,6 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import static fr.satiscraftoryteam.satiscraftory.common.init.ItemInit.POWER_SHARD;
 
@@ -25,7 +22,10 @@ public abstract class MachineBaseMenu<T extends MachineBaseTileEntity> extends A
     protected MachineBaseMenu(MenuType<?> menuType, int containerId, Inventory inv, FriendlyByteBuf extraData) {
         super(menuType, containerId);
         machineEntity = (T) inv.player.level().getBlockEntity(extraData.readBlockPos());
-        BE_INVENTORY_SLOT_COUNT = machineEntity.inputPartition.getSlots() + machineEntity.outputPartition.getSlots() + (machineEntity.hasOverclockPartition ? machineEntity.overclockPartition.getSlots() : 0);
+        BE_INVENTORY_SLOT_COUNT =
+                (machineEntity.inputPartition != null ? machineEntity.inputPartition.getSlots() : 0 ) +
+                (machineEntity.outputPartition != null ? machineEntity.outputPartition.getSlots() : 0 ) +
+                (machineEntity.hasOverclockPartition ? machineEntity.overclockPartition.getSlots() : 0);
         init(inv, machineEntity);
     }
 

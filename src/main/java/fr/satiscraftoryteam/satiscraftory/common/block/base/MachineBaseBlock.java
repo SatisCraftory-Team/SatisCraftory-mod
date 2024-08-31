@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.block.base;
 
+import com.mojang.serialization.MapCodec;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.Attribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.BlockProps;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.BoudingAttribute;
@@ -9,7 +10,6 @@ import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conve
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IPropsGetter;
-import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.conveyor.ConveyorOutputPartBlockEntity;
 import fr.satiscraftoryteam.satiscraftory.utils.BlockstateUtils;
@@ -21,9 +21,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Tuple;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -32,11 +30,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -214,8 +208,15 @@ public abstract class MachineBaseBlock extends BaseEntityBlock implements IProps
 //        return getDestroyProgress(state, player, world, pos, state.hasBlockEntity() ? WorldUtils.getTileEntity(world, pos) : null);
 //    }
 
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
+    }
 
-
+    @Override
+    public RenderShape getRenderShape(BlockState blockState) {
+        return RenderShape.ENTITYBLOCK_ANIMATED;
+    }
 
     public Stream<Vec3i> getBoundingPositions(Level level, BlockPos pos, BlockState state) {
         MachineBaseTileEntity tile = WorldUtils.getTileEntity(MachineBaseTileEntity.class, level, pos);

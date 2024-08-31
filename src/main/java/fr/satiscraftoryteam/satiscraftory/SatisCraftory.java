@@ -26,13 +26,15 @@ public class SatisCraftory {
     public SatisCraftory(IEventBus modEventBus, Dist dist, ModContainer container) {
         instance = this;
 //        modEventBus.addListener(this::registerRenderers);
-        modEventBus.addListener(this::registerScreens);
+
         packetHandler = new ModPackets(modEventBus);
         
         CreativeModeTabsInit.register(modEventBus);
 
         ItemInit.register(modEventBus);
         BlockInit.register(modEventBus);
+
+        modEventBus.addListener(this::registerScreens);
 
         TileEntityInit.TILE_ENTITY_TYPES.register(modEventBus);
         TileEntityInit.BLOCK_ENTITIES.register(modEventBus);

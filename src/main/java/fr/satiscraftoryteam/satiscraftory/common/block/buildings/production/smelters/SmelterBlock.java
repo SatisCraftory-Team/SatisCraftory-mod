@@ -49,22 +49,6 @@ public class SmelterBlock extends MachineBaseBlock implements IHasTileEntity<Sme
     }
 
 
-    //------------------------------------------OPEN_INTERFACE--------------------------------------------------------//
-//    @Override
-//    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
-//        if (!level.isClientSide()) {
-//            BlockEntity entity = level.getBlockEntity(blockPos);
-//            if(entity instanceof SmelterBlockEntity) {
-//                NetworkHooks.openScreen(((ServerPlayer)player), (SmelterBlockEntity)entity, blockPos);
-//            } else {
-//                throw new IllegalStateException("Our Container provider is missing!");
-//            }
-//        }
-//        return InteractionResult.sidedSuccess(level.isClientSide());
-//    }
-    //----------------------------------------------------------------------------------------------------------------//
-
-
     //------------------------------------------BLOCK_ENTITY----------------------------------------------------------//
     @Override
     public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState pNewState, boolean pIsMoving) {
