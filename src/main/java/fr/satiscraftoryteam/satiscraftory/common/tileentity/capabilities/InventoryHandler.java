@@ -30,16 +30,6 @@ public class InventoryHandler implements INBTSerializable<CompoundTag> {
         tile.setChanged();
     }
 
-//    @Override
-//    public CompoundTag serializeNBT() {
-//        return inventory.serializeNBT();
-//    }
-//
-//    @Override
-//    public void deserializeNBT(CompoundTag nbt) {
-//        inventory.deserializeNBT(nbt);
-//    }
-
     @Override
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
         return inventory.serializeNBT(provider);

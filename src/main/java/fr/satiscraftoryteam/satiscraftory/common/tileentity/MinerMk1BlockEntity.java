@@ -7,7 +7,6 @@ import fr.satiscraftoryteam.satiscraftory.common.tileentity.machineData.MinerExt
 import fr.satiscraftoryteam.satiscraftory.utils.RelativeOrientationUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
-import net.minecraft.network.chat.Component;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -53,12 +52,6 @@ public class MinerMk1BlockEntity extends MinerExtractorMachine<MinerMk1BlockEnti
                 }
             }
         }
-    }
-
-
-    @Override
-    public Component getDisplayName() {
-        return Component.literal("Miner Mk1");
     }
 
     @Nullable

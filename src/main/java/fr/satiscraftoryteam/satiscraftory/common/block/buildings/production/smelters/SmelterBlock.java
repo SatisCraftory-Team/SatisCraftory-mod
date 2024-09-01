@@ -3,25 +3,25 @@ package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.sme
 import com.mojang.serialization.MapCodec;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.MachineBaseBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.FacingAttribute;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.IOAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.ShapeAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
-import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTickableTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import fr.satiscraftoryteam.satiscraftory.common.shapes.ShapesList;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.SmelterBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.FluidState;
 
-public class SmelterBlock extends MachineBaseBlock implements IHasTileEntity<SmelterBlockEntity> {
+public class SmelterBlock extends MachineBaseBlock implements IHasTickableTileEntity {
 
     public SmelterBlock() {
         super(BlockBehaviour.Properties.of().noOcclusion());
@@ -40,27 +40,25 @@ public class SmelterBlock extends MachineBaseBlock implements IHasTileEntity<Sme
     protected void initProperties() {
         this.getProps().addProperties(new ShapeAttribute(ShapesList.SMELTER));
         this.getProps().addProperties(new FacingAttribute(BlockStateProperties.HORIZONTAL_FACING, FacingAttribute.FacePlacementType.PLAYER_LOCATION));
-        this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.INPUT_OUTPUT, (pos, state, builder) -> {
-            builder.add(pos.north(1));
-        }));
-        this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.OUTPUT_ONLY, (pos, state, builder) -> {
-            builder.add(pos.north(-1));
-        }));
+//        this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.INPUT_OUTPUT, (pos, state, builder) -> {
+//            builder.add(pos.north(1));
+//        }));
+//        this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.OUTPUT_ONLY, (pos, state, builder) -> {
+//            builder.add(pos.north(-1));
+//        }));
     }
 
 
     //------------------------------------------BLOCK_ENTITY----------------------------------------------------------//
-    @Override
-    public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState pNewState, boolean pIsMoving) {
-        if (blockState.getBlock() != pNewState.getBlock()) {
-            BlockEntity blockEntity = level.getBlockEntity(blockPos);
-            if (blockEntity instanceof SmelterBlockEntity) {
-                ((SmelterBlockEntity) blockEntity).drops();
-            }
-        }
-        super.onRemove(blockState, level, blockPos, pNewState, pIsMoving);
-    }
 
+    @Override
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof SmelterBlockEntity) {
+            ((SmelterBlockEntity) blockEntity).giveInventoryToPlayer(player);
+        }
+        return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
+    }
 
     @Override
     public TileEntityDeferredHolder<? extends SmelterBlockEntity> getTileType() {
@@ -68,13 +66,8 @@ public class SmelterBlock extends MachineBaseBlock implements IHasTileEntity<Sme
     }
 
     @Override
-    public SmelterBlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new SmelterBlockEntity(blockPos, blockState);
-    }
-
-    @Override
-    public RenderShape getRenderShape(BlockState blockState) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     //----------------------------------------------------------------------------------------------------------------//

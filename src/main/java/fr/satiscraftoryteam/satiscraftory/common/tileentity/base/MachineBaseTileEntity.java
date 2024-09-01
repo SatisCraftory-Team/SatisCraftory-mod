@@ -10,8 +10,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Tuple;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -28,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 //TODO: implement here capabilities
-public abstract class MachineBaseTileEntity<BE extends BlockEntity> extends TickableTileEntity<BE> implements IBlockCapabilityProvider {
+public abstract class MachineBaseTileEntity<BE extends BlockEntity> extends TickableTileEntity<BE> implements MenuProvider, IBlockCapabilityProvider {
 
     public InventoryHandler inventoryHandler;
     public InventoryPartition inputPartition;
@@ -42,9 +44,12 @@ public abstract class MachineBaseTileEntity<BE extends BlockEntity> extends Tick
     public final ArrayList<Vec3i> BOUNDING_BLOCKS_POS = new ArrayList<>();
     public final ArrayList<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> CONVEYOR_INPUT_POS_ORIENTATION = new ArrayList<>();
     public final ArrayList<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> CONVEYOR_OUTPUT_POS_ORIENTATION = new ArrayList<>();
+    private String displayName = "Unnamed machine";
 
     public MachineBaseTileEntity(BlockEntityType<BE> type, BlockPos pos, BlockState state, int numberOfInput, int numberOfOutput, boolean hasOverclockPartition) {
         super(type, pos, state);
+        this.displayName = state.getBlock().getName().getString();
+
         this.hasOverclockPartition = hasOverclockPartition;
 
         InventoryHandler.Builder builder = new InventoryHandler.Builder();
@@ -76,6 +81,11 @@ public abstract class MachineBaseTileEntity<BE extends BlockEntity> extends Tick
     }
 
     public abstract void updateMachineInfos(int overclockPercentage);
+
+    @Override
+    public Component getDisplayName() {
+        return Component.literal(this.displayName);
+    }
 
     @Override
     protected void saveAdditional(CompoundTag tag, @NotNull HolderLookup.Provider registries) {

@@ -5,13 +5,17 @@ import fr.satiscraftoryteam.satiscraftory.common.block.resources.DepositBlock;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
-public class MinerExtractorMachine<BE extends BlockEntity> extends MachineBaseTileEntity<BE> {
+public abstract class MinerExtractorMachine<BE extends BlockEntity> extends MachineBaseTileEntity<BE> {
 
     private final double initialPowerUsage;
     private final double initialExtractionRate;
@@ -89,4 +93,5 @@ public class MinerExtractorMachine<BE extends BlockEntity> extends MachineBaseTi
         return true;
     }
 
+    public abstract @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player);
 }

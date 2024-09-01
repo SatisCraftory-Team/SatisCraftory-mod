@@ -2,11 +2,15 @@ package fr.satiscraftoryteam.satiscraftory.common.tileentity.machineData;
 
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
-public class ProductionBuildingMachine<BE extends BlockEntity> extends MachineBaseTileEntity<BE> {
+public abstract class ProductionBuildingMachine<BE extends BlockEntity> extends MachineBaseTileEntity<BE> {
 
     private final double initialPowerUsage;
     private final double initialProductionRate;
@@ -46,4 +50,7 @@ public class ProductionBuildingMachine<BE extends BlockEntity> extends MachineBa
     public double getProductionRate() {
         return totalProductionRate;
     }
+
+    public abstract @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player);
+
 }

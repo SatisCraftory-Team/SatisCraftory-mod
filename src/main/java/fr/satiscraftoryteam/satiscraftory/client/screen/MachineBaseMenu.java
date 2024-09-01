@@ -15,23 +15,23 @@ import net.minecraft.world.level.Level;
 
 import static fr.satiscraftoryteam.satiscraftory.common.init.ItemInit.POWER_SHARD;
 
-public abstract class MachineBaseMenu<T extends MachineBaseTileEntity> extends AbstractContainerMenu {
+public abstract class MachineBaseMenu<T extends MachineBaseTileEntity<?>> extends AbstractContainerMenu {
     public T machineEntity;
     private Level level;
 
     protected MachineBaseMenu(MenuType<?> menuType, int containerId, Inventory inv, FriendlyByteBuf extraData) {
         super(menuType, containerId);
         machineEntity = (T) inv.player.level().getBlockEntity(extraData.readBlockPos());
-        BE_INVENTORY_SLOT_COUNT =
-                (machineEntity.inputPartition != null ? machineEntity.inputPartition.getSlots() : 0 ) +
-                (machineEntity.outputPartition != null ? machineEntity.outputPartition.getSlots() : 0 ) +
-                (machineEntity.hasOverclockPartition ? machineEntity.overclockPartition.getSlots() : 0);
+
+        BE_INVENTORY_SLOT_COUNT = machineEntity.inventoryHandler.inventory.getSlots();
+
         init(inv, machineEntity);
     }
 
     protected MachineBaseMenu(MenuType<?> menuType, int containerId, Inventory inv, T entity) {
         super(menuType, containerId);
         machineEntity = entity;
+        BE_INVENTORY_SLOT_COUNT = machineEntity.inventoryHandler.inventory.getSlots();
         init(inv, entity);
     }
 

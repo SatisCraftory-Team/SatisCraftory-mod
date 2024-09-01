@@ -3,12 +3,16 @@ package fr.satiscraftoryteam.satiscraftory.common.tileentity.machineData;
 import fr.satiscraftoryteam.satiscraftory.common.init.ItemInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
-public class GlobalMachineData<BE extends BlockEntity> extends MachineBaseTileEntity<BE> {
+public abstract class GlobalMachineData<BE extends BlockEntity> extends MachineBaseTileEntity<BE> {
 
     // Data for MinerExtractorMachine and ProductionBuildingMachine
     private double initialPowerUsage;
@@ -124,4 +128,6 @@ public class GlobalMachineData<BE extends BlockEntity> extends MachineBaseTileEn
         // TODO: implement here power system
         return true;
     }
+
+    public abstract @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player);
 }
