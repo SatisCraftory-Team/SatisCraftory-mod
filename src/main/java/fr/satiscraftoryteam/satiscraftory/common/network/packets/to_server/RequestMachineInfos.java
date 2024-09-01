@@ -19,10 +19,6 @@ public record RequestMachineInfos(BlockPos pos) implements IPacket {
             RequestMachineInfos::new
     );
 
-    public RequestMachineInfos(BlockPos pos) {
-        this.pos = pos;
-    }
-
     @NotNull
     @Override
     public CustomPacketPayload.Type<RequestMachineInfos> type() {
@@ -33,7 +29,7 @@ public record RequestMachineInfos(BlockPos pos) implements IPacket {
     public void handle(IPayloadContext context) {
         context.enqueueWork(() -> {
             final MachineBaseTileEntity blockEntity = (MachineBaseTileEntity) context.player().level().getBlockEntity(this.pos);
-            PacketDistributor.sendToAllPlayers(new UpdateMachineInfosClient(blockEntity.isActive, blockEntity.overclockPercentage));
+            PacketDistributor.sendToAllPlayers(new UpdateMachineInfosClient(this.pos, blockEntity.isActive, blockEntity.overclockPercentage));
         });
     }
 

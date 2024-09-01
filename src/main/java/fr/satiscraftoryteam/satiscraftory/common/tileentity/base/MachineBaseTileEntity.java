@@ -82,6 +82,10 @@ public abstract class MachineBaseTileEntity<BE extends BlockEntity> extends Tick
 
     public abstract void updateMachineInfos(int overclockPercentage);
 
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
     @Override
     public Component getDisplayName() {
         return Component.literal(this.displayName);

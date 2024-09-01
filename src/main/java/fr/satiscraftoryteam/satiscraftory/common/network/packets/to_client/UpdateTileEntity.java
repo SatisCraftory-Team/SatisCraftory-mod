@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -25,11 +24,6 @@ public record UpdateTileEntity(BlockPos pos, CompoundTag updateTag) implements I
 
     public UpdateTileEntity(TileEntityUpdatable tile) {
         this(tile.getBlockPos(), tile.getReducedUpdateTag(tile.getLevel().registryAccess()));
-    }
-
-    public UpdateTileEntity(BlockPos pos, CompoundTag updateTag) {
-        this.pos = pos;
-        this.updateTag = updateTag;
     }
 
     @Override
@@ -50,14 +44,5 @@ public record UpdateTileEntity(BlockPos pos, CompoundTag updateTag) implements I
                 tile.handleUpdatePacket(updateTag, world.registryAccess());
             }
         }
-    }
-
-    public void encode(FriendlyByteBuf buffer) {
-        buffer.writeBlockPos(pos);
-        buffer.writeNbt(updateTag);
-    }
-
-    public static UpdateTileEntity decode(FriendlyByteBuf buffer) {
-        return new UpdateTileEntity(buffer.readBlockPos(), buffer.readNbt());
     }
 }
