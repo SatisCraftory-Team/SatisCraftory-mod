@@ -39,10 +39,11 @@ public abstract class MinerExtractorMachine<BE extends BlockEntity> extends Mach
     }
 
     public void setPowerUsage(int overclockPercentage) {
-        this.totalPowerUsage = (double) Math.round((initialPowerUsage * Math.pow( (double) overclockPercentage / 100, 1.321928)) * 10.0) / 10.0;
+        this.totalPowerUsage = (double) Math.round((initialPowerUsage * Math.pow( (double) overclockPercentage / 100, 1.321928)) * 100.0) / 100.0;
     }
 
     public void setExtractionRate(int overclockPercentage) {
+        if (purityModifier == 0) this.purityModifier = 1;
         this.totalExtractionRate = (double) Math.round((purityModifier * overclockPercentage / 100 * initialExtractionRate) * 10.0) / 10.0;
     }
 
