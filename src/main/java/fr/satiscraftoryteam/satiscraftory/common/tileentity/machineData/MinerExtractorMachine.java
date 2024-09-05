@@ -50,6 +50,7 @@ public abstract class MinerExtractorMachine<BE extends BlockEntity> extends Mach
     public void updateMachineInfos(int overclockPercentage) {
         setPowerUsage(overclockPercentage);
         setExtractionRate(overclockPercentage);
+        this.overclockPercentage = overclockPercentage;
         maxProgress = (int) (60 * 20 / getExtractionRate());
     }
 
@@ -73,6 +74,11 @@ public abstract class MinerExtractorMachine<BE extends BlockEntity> extends Mach
             if(hasPower() && this.isActive) {
                 SatisCraftory.LOGGER.info("Progress: " + progress + " / " + maxProgress + " | Power Usage: " + getPowerUsage() + " | Extraction Rate: " + getExtractionRate() + " | Overclock Percentage: " + overclockPercentage);
                 if (progress >= maxProgress) {
+
+                    if (this.blockResource == null) {
+                        this.blockResource = (DepositBlock) level.getBlockState(pos.below()).getBlock();
+                    }
+
                     progress = 0;
                     updateMachineInfos(overclockPercentage);
                     extractResource();
