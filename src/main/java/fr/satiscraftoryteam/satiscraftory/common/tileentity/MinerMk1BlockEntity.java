@@ -64,11 +64,17 @@ public class MinerMk1BlockEntity extends MinerExtractorMachine<MinerMk1BlockEnti
     //-------------------------------------------------Animation------------------------------------------------------//
 
     private static final RawAnimation DEFAULT_ANIMATION = RawAnimation.begin().thenPlay("running");
+    private static final RawAnimation START_ANIMATION = RawAnimation.begin().thenPlay("start").thenLoop("running");
+    private static final RawAnimation STOP_ANIMATION = RawAnimation.begin().thenPlay("stop");
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, state -> {
-            return state.setAndContinue(DEFAULT_ANIMATION);
+            if (this.isActive && this.hasNotReachedStackLimit()) {
+                return state.setAndContinue(START_ANIMATION);
+            } else {
+                return state.setAndContinue(STOP_ANIMATION);
+            }
         }));
     }
 }
