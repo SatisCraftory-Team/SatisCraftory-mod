@@ -25,8 +25,7 @@ public class SmelterMenu extends MachineBaseMenu<SmelterBlockEntity> {
 
     @Override
     protected void init(Inventory inv, SmelterBlockEntity entity) {
-        blockEntity = ((SmelterBlockEntity) entity);
-
+        super.init(inv, entity);
         this.addSlot(new RestrictedSlot(entity.inputPartition, 0, 1, 45, Arrays.asList(IRON_RESIDUE.get(), COPPER_RESIDUE.get())));
         this.addSlot(new ResultSlotInit(entity.outputPartition, 0, 17, 45));
     }
