@@ -21,7 +21,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 public class MinerMk1BlockEntity extends MinerExtractorMachine<MinerMk1BlockEntity> implements IBoundingBlock, MenuProvider {
 
     public MinerMk1BlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(TileEntityInit.MINER_MK1_BLOCK_ENTITY.get(), blockPos, blockState, 1, 5, 60, true);
+        super(TileEntityInit.MINER_MK1_BLOCK_ENTITY.get(), blockPos, blockState, 1, 1, 5, 60, true);
 
         this.CONVEYOR_OUTPUT_POS_ORIENTATION.add(new Tuple<>(new Vec3i(0,0,3), RelativeOrientationUtils.RelativeOrientation.FRONT));
 

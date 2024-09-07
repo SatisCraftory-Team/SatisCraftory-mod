@@ -80,72 +80,9 @@ public class SmelterBlockEntity extends ProductionBuildingMachine<SmelterBlockEn
         }
     }
 
-//    private final ItemStackHandler itemHandler = new ItemStackHandler(5) {
-//        @Override
-//        protected void onContentsChanged(int slot) {
-//            setChanged();
-//        }
-//    };
-//
-//    private Lazy<IItemHandler> lazyItemHandler = Lazy.of(() -> itemHandler);
-
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory, Player pPlayer) {
         return new SmelterMenu(pContainerId, pInventory, this);
     }
-
-//    @Override
-//    public void onLoad() {
-//        super.onLoad();
-//        lazyItemHandler = Lazy.of(() -> itemHandler);
-//    }
-
-//    @Override
-//    protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.Provider lookupProvider) {
-//        tag.put("inventory", itemHandler.serializeNBT(lookupProvider));
-//        super.saveAdditional(tag, lookupProvider);
-//    }
-//
-//
-//    @Override
-//    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider lookupProvider) {
-//        super.loadAdditional(nbt, lookupProvider);
-//        itemHandler.deserializeNBT(lookupProvider, nbt.getCompound("inventory"));
-//    }
-
-//    public void drops() {
-//        SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
-//        for (int i = 0; i < itemHandler.getSlots(); i++) {
-//            inventory.setItem(i, itemHandler.getStackInSlot(i));
-//        }
-//
-//        Containers.dropContents(this.level, this.worldPosition, inventory);
-//    }
-
-//    @Override
-//    public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
-//        if(hasRecipe() && hasNotReachedStackLimit()) {
-//            craftItem();
-//        }
-//    }
-//
-//    private void craftItem() {/*
-//        itemHandler.extractItem(1, 1, false);
-//        itemHandler.extractItem(2, 1, false);
-//        itemHandler.extractItem(3, 1, false);*/
-//
-//        itemHandler.setStackInSlot(0, new ItemStack(ItemInit.PALEBERRY.get(),
-//                itemHandler.getStackInSlot(0).getCount() + 1));
-//
-//    }
-
-//    private boolean hasRecipe() {
-//        boolean hasItemInFirstSlot = itemHandler.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get();
-//        boolean hasItemInSecondSlot = itemHandler.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();
-//        boolean hasItemInThirdSlot = itemHandler.getStackInSlot(3).getItem() == ItemInit.POWER_SHARD.get();
-//
-//        return hasItemInFirstSlot && hasItemInSecondSlot && hasItemInThirdSlot;
-//    }
-
 }

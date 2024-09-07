@@ -31,11 +31,12 @@ public abstract class PowerGeneratorMachine<BE extends BlockEntity> extends Mach
     public void updateMachineInfos(int overclockPercentage) {
         setFuelBurnTime(overclockPercentage);
         setPowerCapacity(overclockPercentage);
+        this.overclockPercentage = overclockPercentage;
         maxProgress = (int) (60 * 20 / getFuelBurnTime());
     }
 
     public void setPowerCapacity(int overclockPercentage) {
-        this.totalPowerCapacity = (double) Math.round((initialPowerCapacity * overclockPercentage / 100) * 10.0) / 10.0;
+        this.totalPowerCapacity = (double) Math.round((initialPowerCapacity * overclockPercentage / 100) * 100.0) / 100.0;
     }
 
     public void setFuelBurnTime(int overclockPercentage) {

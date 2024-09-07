@@ -32,11 +32,12 @@ public abstract class ProductionBuildingMachine<BE extends BlockEntity> extends 
     public void updateMachineInfos(int overclockPercentage) {
         setPowerUsage(overclockPercentage);
         setProductionRate(overclockPercentage);
+        this.overclockPercentage = overclockPercentage;
         maxProgress = (int) (60 * 20 / getProductionRate());
     }
 
     public void setPowerUsage(int overclockPercentage) {
-        this.totalPowerUsage = (double) Math.round((initialPowerUsage * Math.pow( (double) overclockPercentage / 100, 1.321928)) * 10.0) / 10.0;
+        this.totalPowerUsage = (double) Math.round((initialPowerUsage * Math.pow( (double) overclockPercentage / 100, 1.321928)) * 100.0) / 100.0;
     }
 
     public void setProductionRate(int overclockPercentage) {

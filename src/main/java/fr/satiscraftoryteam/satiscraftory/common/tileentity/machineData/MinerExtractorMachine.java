@@ -24,8 +24,8 @@ public abstract class MinerExtractorMachine<BE extends BlockEntity> extends Mach
     private double totalExtractionRate;
     private DepositBlock blockResource;
 
-    public MinerExtractorMachine(BlockEntityType<BE> type, BlockPos blockPos, BlockState blockState, int numberOfOutput, double initialPowerUsage, double initialExtractionRate, boolean hasOverclockPartition) {
-        super(type, blockPos, blockState, 0, numberOfOutput, hasOverclockPartition);
+    public MinerExtractorMachine(BlockEntityType<BE> type, BlockPos blockPos, BlockState blockState, int numberOfInput, int numberOfOutput, double initialPowerUsage, double initialExtractionRate, boolean hasOverclockPartition) {
+        super(type, blockPos, blockState, numberOfInput, numberOfOutput, hasOverclockPartition);
         this.initialPowerUsage = initialPowerUsage;
         this.initialExtractionRate = initialExtractionRate;
 

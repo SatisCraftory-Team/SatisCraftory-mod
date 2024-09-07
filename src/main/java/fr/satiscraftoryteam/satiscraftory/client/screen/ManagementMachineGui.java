@@ -108,7 +108,7 @@ public abstract class ManagementMachineGui<T extends MachineBaseMenu<?>> extends
     @Override
     protected void init() {
         super.init();
-        this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(blockEntity, this.leftPos + 6, this.topPos + 60, Component.translatable("gui.satiscraftory.machine.power")));
+        this.checkBoxOnOff = this.addRenderableWidget(new CheckBox(blockEntity, this.leftPos + 6, this.topPos + 60, Component.translatable("gui.satiscraftory.ui.switch_activation_button")));
 
         if (this.blockEntity.hasOverclockPartition) {
             sliderOverclockInner = new ExtendedSlider(this.leftPos + 184, this.topPos + 15, 52, 20, Component.empty(), Component.translatable(" %"), 1, 250, this.overclockPercentage, true){

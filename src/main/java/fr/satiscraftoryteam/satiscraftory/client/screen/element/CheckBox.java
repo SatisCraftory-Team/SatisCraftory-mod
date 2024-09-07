@@ -61,18 +61,6 @@ public class CheckBox extends AbstractButton
         PacketDistributor.sendToServer(new UpdateMachineInfosServer(this.entity.getBlockPos(), isToggled(), entity.overclockPercentage));
     }
 
-//    @Override
-//    public void onClick(double mouseX, double mouseY)
-//    {
-//        this.setToggled(!this.isToggled());
-//    }
-
-//    @Override
-//    public void updateNarration(NarrationElementOutput output)
-//    {
-//        this.defaultButtonNarrationText(output);
-//    }
-
     @Override
     protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
 

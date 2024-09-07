@@ -2,10 +2,7 @@ package fr.satiscraftoryteam.satiscraftory.common.block.buildings.production.min
 
 import fr.satiscraftoryteam.satiscraftory.common.block.base.MachineBaseBlock;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.Attribute;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.BoudingAttribute;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.FacingAttribute;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.RestrictedPlacementAttribute;
-import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.ShapeAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.*;
 import fr.satiscraftoryteam.satiscraftory.common.block.resources.DepositBlock;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
 import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
@@ -15,7 +12,6 @@ import fr.satiscraftoryteam.satiscraftory.common.shapes.ShapesList;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
@@ -32,8 +28,6 @@ import java.util.Objects;
 
 public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileEntity {
 
-    private static final Vec3i P2OFFSET = new Vec3i(0, 0, 3);
-
     public MinerMk1Block() {
         super(BlockBehaviour.Properties.of().noOcclusion());
     }
@@ -47,6 +41,9 @@ public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileE
         this.getProps().addProperties(new RestrictedPlacementAttribute(BlockInit.IRON_DEPOSIT.getBlock(), BlockInit.COPPER_DEPOSIT.getBlock()));
         this.getProps().addProperties(new ShapeAttribute(ShapesList.MINER_MK1));
         this.getProps().addProperties(new FacingAttribute(BlockStateProperties.HORIZONTAL_FACING, FacingAttribute.FacePlacementType.PLAYER_LOCATION));
+        this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.OUTPUT_ONLY, (pos, state, builder) -> {
+            builder.add(pos.north(5));
+        }));
         this.getProps().addProperties(new BoudingAttribute((pos, state, builder) -> {
 
 

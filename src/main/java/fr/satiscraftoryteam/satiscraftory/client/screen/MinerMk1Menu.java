@@ -9,12 +9,10 @@ import net.minecraft.world.entity.player.Inventory;
 public class MinerMk1Menu extends MachineBaseMenu<MinerMk1BlockEntity> {
     public MinerMk1BlockEntity blockEntity;
 
-    //Client side
     public MinerMk1Menu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
         super(MenuTypesInit.MINER_MK1_MENU.get(), pContainerId, inv, extraData);
     }
 
-    //Server side
     public MinerMk1Menu(int pContainerId, Inventory inv, MinerMk1BlockEntity entity) {
         super(MenuTypesInit.MINER_MK1_MENU.get(), pContainerId, inv, entity);
     }
