@@ -9,9 +9,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,6 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockstateUtils {
+
+    public static final BlockBehaviour.StatePredicate NEVER_PREDICATE = (state, world, pos) -> false;
+    public static final BlockBehaviour.StatePredicate ALWAYS_PREDICATE = (state, world, pos) -> true;
+
+    public static BlockState getDefaultState(@NotNull BlockState state) {
+        return state;
+    }
 
     public static BlockState getStateForPlacement(Block block, @Nullable BlockState state, BlockPlaceContext context) {
         return getStateForPlacement(block, state, context.getLevel(), context.getClickedPos(), context.getPlayer(), context.getClickedFace());

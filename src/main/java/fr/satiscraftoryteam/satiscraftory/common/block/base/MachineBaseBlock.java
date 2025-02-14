@@ -5,6 +5,7 @@ import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.Attribute
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.BlockProps;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.BoudingAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.FacingAttribute;
+import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.IOAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.base.properties.attributes.ShapeAttribute;
 import fr.satiscraftoryteam.satiscraftory.common.block.buildings.logistics.conveyors.ConveyorStreamPartBlock;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
@@ -34,6 +35,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -165,6 +167,10 @@ public abstract class MachineBaseBlock extends BaseEntityBlock implements IProps
         Attribute.ifHas(state, BoudingAttribute.class, (attribute) -> {
             attribute.placeBoundingBlocks(world, pos, state);
         });
+
+        Attribute.ifHas(state, IOAttribute.class, (attribute) -> {
+            attribute.placeIOEntries(world, pos, state);
+        });
     }
 
     //Method to override for setting some simple tile specific stuff
@@ -183,7 +189,17 @@ public abstract class MachineBaseBlock extends BaseEntityBlock implements IProps
         super.onPlace(state, world, pos, oldState, isMoving);
     }
 
-//    @Override
+    @Override
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        Attribute.ifHas(state, IOAttribute.class, (attribute) -> {
+            attribute.removeIOEntries(level, pos, state);
+        });
+
+        return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
+    }
+
+
+    //    @Override
 //    @Deprecated
 //    public boolean hasAnalogOutputSignal(@NotNull BlockState blockState) {
 //        return Attribute.has(this, AttributeComparator.class);

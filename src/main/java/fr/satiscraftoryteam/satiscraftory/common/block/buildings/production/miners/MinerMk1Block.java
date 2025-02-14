@@ -41,51 +41,24 @@ public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileE
         this.getProps().addProperties(new RestrictedPlacementAttribute(BlockInit.IRON_DEPOSIT.getBlock(), BlockInit.COPPER_DEPOSIT.getBlock()));
         this.getProps().addProperties(new ShapeAttribute(ShapesList.MINER_MK1));
         this.getProps().addProperties(new FacingAttribute(BlockStateProperties.HORIZONTAL_FACING, FacingAttribute.FacePlacementType.PLAYER_LOCATION));
-        this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.OUTPUT_ONLY, (pos, state, builder) -> {
-            builder.add(pos.north(5));
+        this.getProps().addProperties(new IOAttribute((pos, state, builder) -> {
+            builder.add(IOAttribute.IOEntry.of(IOAttribute.BlockIOType.OUTPUT, pos.south(3)));
         }));
+
         this.getProps().addProperties(new BoudingAttribute((pos, state, builder) -> {
 
 
-            //FIXME: PLEASE FIX THIS SHIT (it's working but we need to find a better way to do that)
             Direction direction = Attribute.get(this, FacingAttribute.class).getDirection(state);
-            if (direction == Direction.SOUTH) {
-                for (int x = -1; x <= 1; x++) {
-                    for (int y = 0; y <= 5; y++) {
-                        for (int z = -1; z <= 3; z++) {
-                            if (x != 0 || y != 0 || z != 0) {
-                                builder.add(pos.offset(x, y, z));
-                            }
-                        }
-                    }
-                }
-            } else if (direction == Direction.NORTH) {
-                for (int x = -1; x <= 1; x++) {
-                    for (int y = 0; y <= 5; y++) {
-                        for (int z = 1; z >= -3; z--) {
-                            if (x != 0 || y != 0 || z != 0) {
-                                builder.add(pos.offset(x, y, z));
-                            }
-                        }
-                    }
-                }
-            } else if (direction == Direction.EAST) {
-                for (int x = -1; x <= 1; x++) {
-                    for (int y = 0; y <= 5; y++) {
-                        for (int z = -1; z <= 3; z++) {
-                            if (x != 0 || y != 0 || z != 0) {
-                                builder.add(pos.offset(z, y, x));
-                            }
-                        }
-                    }
-                }
-            } else if (direction == Direction.WEST) {
-                for (int x = -1; x <= 1; x++) {
-                    for (int y = 0; y <= 5; y++) {
-                        for (int z = 1; z >= -3; z--) {
-                            if (x != 0 || y != 0 || z != 0) {
-                                builder.add(pos.offset(z, y, x));
-                            }
+            int[][] offsets = new int[][]{{-1, 1}, {0, 5}, {-3, 3}};
+            boolean reverseZ = direction == Direction.NORTH || direction == Direction.WEST;
+
+            for (int x = offsets[0][0]; x <= offsets[0][1]; x++) {
+                for (int y = offsets[1][0]; y <= offsets[1][1]; y++) {
+                    for (int z = offsets[2][0]; z <= offsets[2][1]; z++) {
+                        if (x != 0 || y != 0 || z != 0) {
+                            int offsetX = direction == Direction.EAST || direction == Direction.WEST ? z : x;
+                            int offsetZ = reverseZ ? -z : z;
+                            builder.add(pos.offset(offsetX, y, offsetZ));
                         }
                     }
                 }

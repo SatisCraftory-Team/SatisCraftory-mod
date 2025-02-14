@@ -113,8 +113,4 @@ public class TileEntityBoundingBlock extends TileEntityUpdatable<TileEntityBound
         setMainLocation(new BlockPos(coords[0], coords[1], coords[2]));
         super.handleUpdateTag(tag, lookupProvider);
     }
-
-    public void sendUpdatePacket() {
-        sendUpdatePacket(this);
-    }
 }

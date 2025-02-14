@@ -34,11 +34,9 @@ public class SmelterBlock extends MachineBaseBlock implements IHasTickableTileEn
     protected void initProperties() {
         this.getProps().addProperties(new ShapeAttribute(ShapesList.SMELTER));
         this.getProps().addProperties(new FacingAttribute(BlockStateProperties.HORIZONTAL_FACING, FacingAttribute.FacePlacementType.PLAYER_LOCATION));
-        this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.INPUT_OUTPUT, (pos, state, builder) -> {
-            builder.add(pos.north(1));
-        }));
-        this.getProps().addProperties(new IOAttribute(IOAttribute.IOType.OUTPUT_ONLY, (pos, state, builder) -> {
-            builder.add(pos.north(-1));
+        this.getProps().addProperties(new IOAttribute((pos, state, builder) -> {
+            builder.add(IOAttribute.IOEntry.of(IOAttribute.BlockIOType.INPUT, pos.north(1)));
+            builder.add(IOAttribute.IOEntry.of(IOAttribute.BlockIOType.OUTPUT, pos.north(-1)));
         }));
     }
 

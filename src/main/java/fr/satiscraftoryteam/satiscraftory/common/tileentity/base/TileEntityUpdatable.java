@@ -1,11 +1,13 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity.base;
 
+import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.network.packets.to_client.UpdateTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.GeoBlockAnimable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -59,6 +61,10 @@ public abstract class TileEntityUpdatable<BE extends BlockEntity> extends GeoBlo
         //We don't want to do a full read from NBT so simply call the super's read method to let Forge do whatever
         // it wants, but don't treat this as if it was the full saved NBT data as not everything has to be synced to the client
         super.loadAdditional(tag, lookupProvider);
+        //Copy of logic from BlockEntity#loadWithComponents which we can't just call directly as we don't want to call sub-implementations of loadAdditional
+        BlockEntity.ComponentHelper.COMPONENTS_CODEC.parse(lookupProvider.createSerializationContext(NbtOps.INSTANCE), tag)
+                .resultOrPartial(p_337987_ -> SatisCraftory.LOGGER.warn("Failed to load components: {}", p_337987_))
+                .ifPresent(this::setComponents);
     }
 
     @Override
@@ -72,6 +78,10 @@ public abstract class TileEntityUpdatable<BE extends BlockEntity> extends GeoBlo
         }
     }
 
+    public void sendUpdatePacket() {
+        sendUpdatePacket(this);
+    }
+
     public void sendUpdatePacket(BlockEntity tracking) {
         if (isRemote()) {
             // Mekanism.logger.warn("Update packet call requested from client side", new IllegalStateException());
@@ -81,7 +91,7 @@ public abstract class TileEntityUpdatable<BE extends BlockEntity> extends GeoBlo
             //TODO: custom channel read bellow
             //Note: We use our own update packet/channel to avoid chunk trashing and minecraft attempting to rerender
             // the entire chunk when most often we are just updating a TileEntityRenderer, so the chunk itself
-            // does not need to and should not be redrawn
+            // does not need to and should not be redrawnq
             PacketDistributor.sendToAllPlayers(new UpdateTileEntity(this));
         }
     }

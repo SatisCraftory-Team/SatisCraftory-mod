@@ -127,6 +127,7 @@ public class WorldUtils {
             return clazz.cast(tile);
         } else if (logWrongType) {
            SatisCraftory.LOGGER.warn("Unexpected TileEntity class at {}, expected {}, but found: {}", pos, clazz, tile.getClass());
+           new Exception().printStackTrace();
         }
         return null;
     }

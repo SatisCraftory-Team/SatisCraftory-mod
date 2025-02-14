@@ -69,6 +69,6 @@ public class BoudingAttribute implements StateAttribute {
     public Stream<BlockPos> getPositions(BlockPos pos, BlockState state) {
         Stream.Builder<BlockPos> builder = Stream.builder();
         boundingPositions.accept(pos, state, builder);
-        return builder.build();
+        return builder.build().filter(p -> !p.equals(pos));
     }
 }

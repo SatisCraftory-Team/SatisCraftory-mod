@@ -17,14 +17,6 @@ public interface IHasTileEntity<TILE extends BlockEntity> extends EntityBlock {
 
     TileEntityDeferredHolder<? extends TILE> getTileType();
 
-    default TILE createDummyBlockEntity() {
-        return createDummyBlockEntity(((Block) this).defaultBlockState());
-    }
-
-    default TILE createDummyBlockEntity(@NotNull BlockState state) {
-        return newBlockEntity(BlockPos.ZERO, state);
-    }
-
     @Override
     default TILE newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return getTileType().get().create(pos, state);

@@ -12,6 +12,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record UpdateTileEntity(BlockPos pos, CompoundTag updateTag) implements IPacket {
@@ -33,12 +34,12 @@ public record UpdateTileEntity(BlockPos pos, CompoundTag updateTag) implements I
 
     @Override
     public void handle(IPayloadContext context) {
-        ClientLevel world = Minecraft.getInstance().level;
-        //Only handle the update packet if the block is currently loaded
+        Level world = context.player().level();
+        //Only handle the update packet if the block is currently loaded (otherwise we would have the warning get logged in cases we don't want it to)
         if (WorldUtils.isBlockLoaded(world, pos)) {
             TileEntityUpdatable tile = WorldUtils.getTileEntity(TileEntityUpdatable.class, world, pos, true);
             if (tile == null) {
-               SatisCraftory.LOGGER.warn("Update tile packet received for position: {} in world: {}, but no valid tile was found.", pos,
+                SatisCraftory.LOGGER.warn("Update tile packet received for position: {} in world: {}, but no valid tile was found.", pos,
                         world.dimension().location());
             } else {
                 tile.handleUpdatePacket(updateTag, world.registryAccess());

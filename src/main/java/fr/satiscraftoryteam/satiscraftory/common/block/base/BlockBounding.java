@@ -6,17 +6,18 @@ import fr.satiscraftoryteam.satiscraftory.common.init.TileEntityInit;
 import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTileEntity;
 import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityBoundingBlock;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TileEntityUpdatable;
+import fr.satiscraftoryteam.satiscraftory.utils.BlockstateUtils;
 import fr.satiscraftoryteam.satiscraftory.utils.WorldUtils;
-import net.minecraft.client.renderer.chunk.RenderChunkRegion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -27,6 +28,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -38,16 +40,22 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
 
     @Nullable
     public static BlockPos getMainBlockPos(BlockGetter world, BlockPos thisPos) {
-        TileEntityBoundingBlock te = WorldUtils.getTileEntity(TileEntityBoundingBlock.class, world, thisPos);
-        if (te != null && te.hasReceivedCoords() && !thisPos.equals(te.getMainPos())) {
-            return te.getMainPos();
+        TileEntityUpdatable te = WorldUtils.getTileEntity(TileEntityUpdatable.class, world, thisPos);
+
+        if (te instanceof TileEntityBoundingBlock boundingBlock) {
+            if (te != null && boundingBlock.hasReceivedCoords() && !thisPos.equals(boundingBlock.getMainPos())) {
+                return boundingBlock.getMainPos();
+            }
         }
         return null;
-    }
 
-    @Override
-    public TileEntityBoundingBlock newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-        return new TileEntityBoundingBlock(pos, state);
+
+
+//        TileEntityBoundingBlock te = WorldUtils.getTileEntity(TileEntityBoundingBlock.class, world, thisPos);
+//        if (te != null && te.hasReceivedCoords() && !thisPos.equals(te.getMainPos())) {
+//            return te.getMainPos();
+//        }
+//        return null;
     }
 
     public BlockBounding() {
@@ -55,17 +63,26 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
         // Torches cannot be placed on the sides due to vanilla checking the incorrect shape
         //Note: We mark it as not having occlusion as our occlusion shape is not quite right in that it goes past a single block size which confuses MC
         // Eventually we may want to try cropping it but for now this works better
-        super(BlockBehaviour.Properties.of().strength(3.5F, 4.8F)
-                .requiresCorrectToolForDrops().dynamicShape().noOcclusion().isViewBlocking((a, b, c) -> false));
-        registerDefaultState(stateDefinition.any());
+        //Note: We explicitly set the push reaction to protect against mods like Quark that allow blocks with TEs to be moved
+        super(BlockBehaviour.Properties.of()
+                .strength(3.5F, 4.8F).requiresCorrectToolForDrops().dynamicShape().noOcclusion()
+                .isViewBlocking(BlockstateUtils.NEVER_PREDICATE).pushReaction(PushReaction.BLOCK));
+        registerDefaultState(BlockstateUtils.getDefaultState(stateDefinition.any()));
     }
 
 
     @Override
     protected void createBlockStateDefinition(@NotNull StateDefinition.Builder<Block, BlockState> blockStateBuilder) {
         super.createBlockStateDefinition(blockStateBuilder);
-        //BlockStateHelper.fillBlockStateContainer(this, builder);
+        BlockstateUtils.fillBlockStateContainer(this, blockStateBuilder);
     }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
+        return BlockstateUtils.getStateForPlacement(this, super.getStateForPlacement(context), context);
+    }
+
 
     @NotNull
     @Override
@@ -91,6 +108,19 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
         return mainState.getBlock().defaultBlockState().useWithoutItem(level, player, hitResult.withPosition(mainPos));
     }
 
+    @NotNull
+    @Override
+    protected ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull Player player,
+                                              @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+        BlockPos mainPos = getMainBlockPos(world, pos);
+        if (mainPos == null) {
+            return ItemInteractionResult.FAIL;
+        }
+        BlockState mainState = world.getBlockState(mainPos);
+        //TODO: Use proper ray trace result, currently is using the one we got but we probably should make one with correct position information
+        return mainState.useItemOn(stack, world, player, hand, hit.withPosition(mainPos));
+    }
+
     @Override
     @Deprecated
     public void onRemove(BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull BlockState newState, boolean isMoving) {
@@ -109,19 +139,19 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
         }
     }
 
-//    /**
-//     * {@inheritDoc} Delegate to main {@link Block#getCloneItemStack(BlockState, HitResult, BlockGetter, BlockPos, Player)}.
-//     */
-//    @NotNull
-//    @Override
-//    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
-//        BlockPos mainPos = getMainBlockPos(level, pos);
-//        if (mainPos == null) {
-//            return ItemStack.EMPTY;
-//        }
-//        BlockState mainState = level.getBlockState(mainPos);
-//        return mainState.getBlock().getCloneItemStack(mainState, target, world, mainPos, player);
-//    }
+    /**
+     * {@inheritDoc} Delegate to main {@link Block#getCloneItemStack(BlockState, HitResult, LevelReader, BlockPos, Player)}.
+     */
+    @NotNull
+    @Override
+    public ItemStack getCloneItemStack(@NotNull BlockState state, @NotNull HitResult target, @NotNull LevelReader world, @NotNull BlockPos pos, @NotNull Player player) {
+        BlockPos mainPos = getMainBlockPos(world, pos);
+        if (mainPos == null) {
+            return ItemStack.EMPTY;
+        }
+        BlockState mainState = world.getBlockState(mainPos);
+        return mainState.getBlock().getCloneItemStack(mainState, target, world, mainPos, player);
+    }
 
     @Override
     public boolean onDestroyedByPlayer(@NotNull BlockState state, Level world, @NotNull BlockPos pos, @NotNull Player player, boolean willHarvest,
@@ -182,9 +212,9 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
     public void neighborChanged(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull Block neighborBlock, @NotNull BlockPos neighborPos,
                                 boolean isMoving) {
         if (!world.isClientSide) {
-            TileEntityBoundingBlock tile = WorldUtils.getTileEntity(TileEntityBoundingBlock.class, world, pos);
-            if (tile != null) {
-                tile.onNeighborChange(neighborBlock, neighborPos);
+            BlockEntity tile = WorldUtils.getTileEntity(BlockEntity.class, world, pos);
+            if (tile instanceof TileEntityBoundingBlock boundingBlock) {
+                boundingBlock.onNeighborChange(neighborBlock, neighborPos);
             }
         }
         BlockPos mainPos = getMainBlockPos(world, pos);
@@ -296,26 +326,18 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
     public VoxelShape getInteractionShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos) {
         return proxyShape(world, pos, null, (s, level, p, ctx) -> s.getInteractionShape(level, p));
     }
+
+    //Context should only be null if there is none, and it isn't used in the shape proxy
     private VoxelShape proxyShape(BlockGetter world, BlockPos pos, @Nullable CollisionContext context, ShapeProxy proxy) {
         BlockPos mainPos = getMainBlockPos(world, pos);
         if (mainPos == null) {
+            //If we don't have a main pos, then act as if the block is empty so that we can move into it properly
             return Shapes.empty();
         }
-        BlockState mainState;
-        try {
-            mainState = world.getBlockState(mainPos);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            if (world instanceof RenderChunkRegion region) {
-                world = region.level;
-                mainState = world.getBlockState(mainPos);
-            } else {
-//                Mekanism.logger.error("Error getting bounding block shape, for position {}, with main position {}. World of type {}", pos, mainPos,
-//                        world.getClass().getName());
-                return Shapes.empty();
-            }
-        }
+        BlockState mainState = world.getBlockState(mainPos);
         VoxelShape shape = proxy.getShape(mainState, world, mainPos, context);
         BlockPos offset = pos.subtract(mainPos);
+        //TODO: Can we somehow cache the withOffset? It potentially would have to then be moved into the Tile, but that is probably fine
         return shape.move(-offset.getX(), -offset.getY(), -offset.getZ());
     }
 
