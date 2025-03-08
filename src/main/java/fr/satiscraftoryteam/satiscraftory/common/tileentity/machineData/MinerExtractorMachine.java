@@ -75,8 +75,8 @@ public abstract class MinerExtractorMachine<BE extends BlockEntity> extends Mach
                 //SatisCraftory.LOGGER.info("Progress: " + progress + " / " + maxProgress + " | Power Usage: " + getPowerUsage() + " | Extraction Rate: " + getExtractionRate() + " | Overclock Percentage: " + overclockPercentage);
                 if (progress >= maxProgress) {
 
-                    if (this.blockResource == null) {
-                        this.blockResource = (DepositBlock) level.getBlockState(pos.below()).getBlock();
+                    if (this.blockResource == null && level.getBlockState(pos.below()).getBlock() instanceof DepositBlock depositBlock) {
+                        this.blockResource = depositBlock;
                     }
 
                     progress = 0;
@@ -91,6 +91,9 @@ public abstract class MinerExtractorMachine<BE extends BlockEntity> extends Mach
     }
 
     private void extractResource() {
+        if (blockResource == null) {
+            return;
+        }
         outputPartition.setStackInSlot(0, new ItemStack(blockResource.getResidueExtracted(),
                 outputPartition.getStackInSlot(0).getCount() + 1));
     }
