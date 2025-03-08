@@ -2,14 +2,12 @@ package fr.satiscraftoryteam.satiscraftory.common.item;
 
 import fr.satiscraftoryteam.satiscraftory.client.screen.BuilderToolMenu;
 import fr.satiscraftoryteam.satiscraftory.common.init.BlockInit;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -30,7 +28,7 @@ public class BuilderToolItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
         if(!pLevel.isClientSide)
-            pPlayer.openMenu( new SimpleMenuProvider((pId, pInv, pPlayer1) -> new BuilderToolMenu(pId, pInv, (FriendlyByteBuf) ContainerLevelAccess.create(pLevel, pPlayer.blockPosition())), Component.nullToEmpty("Builder Tool")));
+            pPlayer.openMenu(new SimpleMenuProvider((pId, pInv, pPlayer1) -> new BuilderToolMenu(pId, pInv, null), Component.nullToEmpty("Builder Tool")));
         return InteractionResultHolder.sidedSuccess(stack, pLevel.isClientSide);
     }
 

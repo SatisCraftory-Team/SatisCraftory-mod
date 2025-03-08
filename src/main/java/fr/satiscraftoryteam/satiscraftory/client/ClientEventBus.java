@@ -2,6 +2,7 @@ package fr.satiscraftoryteam.satiscraftory.client;
 
 import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.client.renderer.blocks.*;
+import fr.satiscraftoryteam.satiscraftory.client.screen.BuilderToolScreen;
 import fr.satiscraftoryteam.satiscraftory.client.screen.MinerMk1Screen;
 import fr.satiscraftoryteam.satiscraftory.client.screen.SmelterScreen;
 import fr.satiscraftoryteam.satiscraftory.common.init.MenuTypesInit;
@@ -29,5 +30,6 @@ public class ClientEventBus {
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(MenuTypesInit.MINER_MK1_MENU.get(), MinerMk1Screen::new);
         event.register(MenuTypesInit.SMELTER_MENU.get(), SmelterScreen::new);
+        event.register(MenuTypesInit.BUILDER_TOOL_MENU.get(), BuilderToolScreen::new);
     }
 }
