@@ -11,11 +11,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ProductionBuildingMachineGUI<T extends MachineBaseMenu<?>> extends ManagementMachineGui<T> {
-    private final ProductionBuildingMachine<?> blockEntity;
+    private final ProductionBuildingMachine<?, ?> blockEntity;
 
     public ProductionBuildingMachineGUI(MachineBaseMenu<?> menu, Inventory inventory, Component component, ResourceLocation machineGUI) {
         super(menu, inventory, component, machineGUI);
-        this.blockEntity = (ProductionBuildingMachine<?>) menu.machineEntity;
+        this.blockEntity = (ProductionBuildingMachine<?, ?>) menu.machineEntity;
         PacketDistributor.sendToServer(new RequestMachineInfos(blockEntity.getBlockPos()));
     }
 

@@ -65,8 +65,8 @@ public abstract class MinerExtractorMachine<BE extends BlockEntity> extends Mach
 
     // --------------------------------------MachineLogic---------------------------------------------------------//
 
-    private int progress = 0;
-    private int maxProgress = 0;
+//    private int progress = 0;
+//    private int maxProgress = 0;
 
     @Override
     public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
@@ -96,11 +96,6 @@ public abstract class MinerExtractorMachine<BE extends BlockEntity> extends Mach
         }
         outputPartition.setStackInSlot(0, new ItemStack(blockResource.getResidueExtracted(),
                 outputPartition.getStackInSlot(0).getCount() + 1));
-    }
-
-    protected boolean hasPower() {
-        // TODO: implement here power system
-        return true;
     }
 
     public abstract @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player);

@@ -1,5 +1,6 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity.base;
 
+import fr.satiscraftoryteam.satiscraftory.SatisCraftory;
 import fr.satiscraftoryteam.satiscraftory.common.init.ItemInit;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities.IBlockCapabilityProvider;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.capabilities.InventoryHandler;
@@ -16,6 +17,8 @@ import net.minecraft.util.Tuple;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -45,29 +48,8 @@ public abstract class MachineBaseTileEntity<BE extends BlockEntity> extends Tick
     public final ArrayList<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> CONVEYOR_INPUT_POS_ORIENTATION = new ArrayList<>();
     public final ArrayList<Tuple<Vec3i, RelativeOrientationUtils.RelativeOrientation>> CONVEYOR_OUTPUT_POS_ORIENTATION = new ArrayList<>();
     private String displayName = "Unnamed machine";
-
-    public MachineBaseTileEntity(BlockEntityType<BE> type, BlockPos pos, BlockState state, int numberOfInput, int numberOfOutput, boolean hasOverclockPartition) {
-        super(type, pos, state);
-        this.displayName = state.getBlock().getName().getString();
-
-        this.hasOverclockPartition = hasOverclockPartition;
-
-        InventoryHandler.Builder builder = new InventoryHandler.Builder();
-        if (numberOfInput > 0) {
-            this.inputPartition = new InventoryPartition("input", numberOfInput);
-            builder.addPartition(inputPartition);
-        }
-        if (numberOfOutput > 0) {
-            this.outputPartition = new InventoryPartition("output", numberOfOutput);
-            builder.addPartition(outputPartition);
-        }
-        if (hasOverclockPartition) {
-            this.overclockPartition = new InventoryPartition("overclock", 3);
-            builder.addPartition(overclockPartition);
-        }
-
-        this.inventoryHandler = builder.build(this);
-    }
+    protected final ContainerData data;
+    protected int progress = 0;
 
     @Override
     public void onLoad() {
@@ -90,28 +72,8 @@ public abstract class MachineBaseTileEntity<BE extends BlockEntity> extends Tick
     public Component getDisplayName() {
         return Component.literal(this.displayName);
     }
-
-    @Override
-    protected void saveAdditional(CompoundTag tag, @NotNull HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putInt("overclockPercentage", overclockPercentage);
-        tag.putBoolean("isActive", isActive);
-        tag.put("inventory", inventoryHandler.serializeNBT(registries));
-        if (overclockPartition != null) overclockPartition.serializeNBT(tag);
-        if (outputPartition != null) outputPartition.serializeNBT(tag);
-        if (inputPartition != null) inputPartition.serializeNBT(tag);
-    }
-
-    @Override
-    protected void loadAdditional(CompoundTag tag, @NotNull HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        isActive = tag.getBoolean("isActive");
-        overclockPercentage = tag.getInt("overclockPercentage");
-        inventoryHandler.deserializeNBT(registries, tag.getCompound("inventory"));
-        if (overclockPartition != null) overclockPartition.deserializeNBT(tag);
-        if (outputPartition != null) outputPartition.deserializeNBT(tag);
-        if (inputPartition != null) inputPartition.deserializeNBT(tag);
-    }
+    protected int maxProgress = 72;
+    private String idName = "unnamed_machine";
 
     @Override
     public CompoundTag getReducedUpdateTag(HolderLookup.Provider lookupProvider) {
@@ -167,10 +129,113 @@ public abstract class MachineBaseTileEntity<BE extends BlockEntity> extends Tick
         }
     }
 
+    public MachineBaseTileEntity(BlockEntityType<BE> type, BlockPos pos, BlockState state, int numberOfInput, int numberOfOutput, boolean hasOverclockPartition) {
+        super(type, pos, state);
+        this.displayName = state.getBlock().getName().getString();
+        this.idName = state.getBlock().getDescriptionId().split(SatisCraftory.MODID + ".")[1];
+
+        this.hasOverclockPartition = hasOverclockPartition;
+
+        InventoryHandler.Builder builder = new InventoryHandler.Builder();
+        if (numberOfInput > 0) {
+            this.inputPartition = new InventoryPartition("input", numberOfInput);
+            builder.addPartition(inputPartition);
+        }
+        if (numberOfOutput > 0) {
+            this.outputPartition = new InventoryPartition("output", numberOfOutput);
+            builder.addPartition(outputPartition);
+        }
+        if (hasOverclockPartition) {
+            this.overclockPartition = new InventoryPartition("overclock", 3);
+            builder.addPartition(overclockPartition);
+        }
+
+        this.inventoryHandler = builder.build(this);
+
+        data = new ContainerData() {
+            @Override
+            public int get(int i) {
+                return switch (i) {
+                    case 0 -> MachineBaseTileEntity.this.progress;
+                    case 1 -> MachineBaseTileEntity.this.maxProgress;
+                    default -> 0;
+                };
+            }
+
+            @Override
+            public void set(int i, int value) {
+                switch (i) {
+                    case 0:
+                        MachineBaseTileEntity.this.progress = value;
+                    case 1:
+                        MachineBaseTileEntity.this.maxProgress = value;
+                }
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        };
+    }
+
+    // --------------------------------------ProgressPart---------------------------------------------------------//
+
+    @Override
+    protected void saveAdditional(CompoundTag tag, @NotNull HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.putInt("overclockPercentage", overclockPercentage);
+        tag.putBoolean("isActive", isActive);
+        tag.put("inventory", inventoryHandler.serializeNBT(registries));
+        tag.putInt(this.idName + ".progress", progress);
+        tag.putInt(this.idName + ".max_progress", maxProgress);
+        if (overclockPartition != null) overclockPartition.serializeNBT(tag);
+        if (outputPartition != null) outputPartition.serializeNBT(tag);
+        if (inputPartition != null) inputPartition.serializeNBT(tag);
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag tag, @NotNull HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        isActive = tag.getBoolean("isActive");
+        overclockPercentage = tag.getInt("overclockPercentage");
+        inventoryHandler.deserializeNBT(registries, tag.getCompound("inventory"));
+        progress = tag.getInt(this.idName + ".progress");
+        maxProgress = tag.getInt(this.idName + ".max_progress");
+        if (overclockPartition != null) overclockPartition.deserializeNBT(tag);
+        if (outputPartition != null) outputPartition.deserializeNBT(tag);
+        if (inputPartition != null) inputPartition.deserializeNBT(tag);
+    }
+
+    public void onAdded() {
+    }
+
     protected boolean hasNotReachedStackLimit() {
         return outputPartition.getStackInSlot(0).getCount() < outputPartition.getStackInSlot(0).getMaxStackSize();
     }
 
-    public void onAdded() {
+    private boolean hasCraftingFinished() {
+        return this.progress >= this.maxProgress;
+    }
+
+    private void increaseCraftingProgress() {
+        progress++;
+    }
+
+    protected boolean canInsertItemIntoOutputSlot(ItemStack output) {
+        return this.outputPartition.getStackInSlot(0).isEmpty() ||
+                this.outputPartition.getStackInSlot(0).getItem() == output.getItem();
+    }
+
+    protected boolean canInsertAmountIntoOutputSlot(int count) {
+        int maxCount = this.outputPartition.getStackInSlot(0).isEmpty() ? 64 : this.outputPartition.getStackInSlot(0).getMaxStackSize();
+        int currentCount = this.outputPartition.getStackInSlot(0).getCount();
+
+        return maxCount >= currentCount + count;
+    }
+
+    protected boolean hasPower() {
+        // TODO: implement here power system
+        return true;
     }
 }

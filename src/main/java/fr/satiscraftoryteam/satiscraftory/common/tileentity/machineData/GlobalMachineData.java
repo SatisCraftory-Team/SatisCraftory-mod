@@ -119,7 +119,7 @@ public abstract class GlobalMachineData<BE extends BlockEntity> extends MachineB
                 outputPartition.getStackInSlot(0).getCount() + 1));
     }
 
-    private boolean hasPower() {
+    protected boolean hasPower() {
 //        boolean hasItemInFirstSlot = overclockPartition.getStackInSlot(0).getItem() == ItemInit.POWER_SHARD.get();
 //        boolean hasItemInSecondSlot = overclockPartition.getStackInSlot(1).getItem() == ItemInit.POWER_SHARD.get();
 //        boolean hasItemInThirdSlot = overclockPartition.getStackInSlot(2).getItem() == ItemInit.POWER_SHARD.get();

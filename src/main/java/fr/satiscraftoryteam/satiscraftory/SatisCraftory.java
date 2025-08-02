@@ -29,6 +29,7 @@ public class SatisCraftory {
 
         ItemInit.register(modEventBus);
         BlockInit.register(modEventBus);
+        RecipeInit.register(modEventBus);
 
         TileEntityInit.TILE_ENTITY_TYPES.register(modEventBus);
         TileEntityInit.BLOCK_ENTITIES.register(modEventBus);

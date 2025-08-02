@@ -1,0 +1,10 @@
+{
+  "type": "satiscraftory:smelter",
+  "ingredient": {
+    "item": "satiscraftory:iron_residue"
+  },
+  "result": {
+    "id": "satiscraftory:power_shard",
+    "count": 1
+  }
+}

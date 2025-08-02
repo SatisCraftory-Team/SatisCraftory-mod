@@ -1,16 +1,23 @@
 package fr.satiscraftoryteam.satiscraftory.common.tileentity.machineData;
 
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.MachineBaseTileEntity;
+import fr.satiscraftoryteam.satiscraftory.common.tileentity.base.TickableTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class ProductionBuildingMachine<BE extends BlockEntity> extends MachineBaseTileEntity<BE> {
+import java.util.Optional;
+
+public abstract class ProductionBuildingMachine<BE extends BlockEntity, RC extends Recipe<?>> extends MachineBaseTileEntity<BE> {
 
     private final double initialPowerUsage;
     private final double initialProductionRate;
@@ -18,13 +25,13 @@ public abstract class ProductionBuildingMachine<BE extends BlockEntity> extends 
     private double totalPowerUsage;
     private double totalProductionRate;
 
-    private int progress = 0;
-    private int maxProgress = 0;
+    protected RecipeType<RC> recipeType;
 
-    public ProductionBuildingMachine(BlockEntityType<BE> type, BlockPos pos, BlockState state, int numberOfInput, int numberOfOutput, double initialPowerUsage, double initialProductionRate, boolean hasOverclockPartition) {
+    public ProductionBuildingMachine(BlockEntityType<BE> type, BlockPos pos, BlockState state, int numberOfInput, int numberOfOutput, double initialPowerUsage, double initialProductionRate, boolean hasOverclockPartition, RecipeType recipeType) {
         super(type, pos, state, numberOfInput, numberOfOutput, hasOverclockPartition);
         this.initialPowerUsage = initialPowerUsage;
         this.initialProductionRate = initialProductionRate;
+        this.recipeType = recipeType;
         updateMachineInfos(100);
     }
 
@@ -33,7 +40,7 @@ public abstract class ProductionBuildingMachine<BE extends BlockEntity> extends 
         setPowerUsage(overclockPercentage);
         setProductionRate(overclockPercentage);
         this.overclockPercentage = overclockPercentage;
-        maxProgress = (int) (60 * 20 / getProductionRate());
+        this.maxProgress = (int) (60 * 20 / getProductionRate());
     }
 
     public void setPowerUsage(int overclockPercentage) {
@@ -54,4 +61,25 @@ public abstract class ProductionBuildingMachine<BE extends BlockEntity> extends 
 
     public abstract @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player);
 
+    protected abstract boolean hasRecipe();
+
+    protected abstract Optional<RecipeHolder<RC>> getCurrentRecipe();
+
+    protected abstract void craftItem();
+
+    @Override
+    public void onServerTick(Level level, BlockPos pos, BlockState state, TickableTileEntity tile) {
+        if (hasNotReachedStackLimit()) {
+            if (hasPower() && this.isActive) {
+                if (progress >= maxProgress) {
+                    progress = 0;
+                    updateMachineInfos(overclockPercentage);
+                    craftItem();
+                }
+                progress++;
+            }
+        } else {
+            progress = 0;
+        }
+    }
 }
