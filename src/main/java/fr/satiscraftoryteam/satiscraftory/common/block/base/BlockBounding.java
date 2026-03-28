@@ -105,7 +105,7 @@ public class BlockBounding extends BaseEntityBlock implements IHasTileEntity<Til
         BlockState mainState = level.getBlockState(mainPos);
         //TODO: Use proper ray trace result, currently is using the one we got but we probably should make one with correct position information
         //hacky way to use the correct position information
-        return mainState.getBlock().defaultBlockState().useWithoutItem(level, player, hitResult.withPosition(mainPos));
+        return mainState.useWithoutItem(level, player, hitResult.withPosition(mainPos));
     }
 
     @NotNull

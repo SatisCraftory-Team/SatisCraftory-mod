@@ -22,6 +22,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -208,6 +210,17 @@ public abstract class MachineBaseTileEntity<BE extends BlockEntity> extends Tick
     }
 
     public void onAdded() {
+    }
+
+    public AABB getDynamicRenderBoundingBox() {
+        if (level == null) {
+            return new AABB(worldPosition);
+        }
+        VoxelShape shape = getBlockState().getShape(level, worldPosition);
+        if (shape.isEmpty()) {
+            return new AABB(worldPosition);
+        }
+        return shape.bounds().move(worldPosition);
     }
 
     protected boolean hasNotReachedStackLimit() {

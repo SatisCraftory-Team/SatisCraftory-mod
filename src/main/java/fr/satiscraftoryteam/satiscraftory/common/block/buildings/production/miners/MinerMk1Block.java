@@ -10,8 +10,10 @@ import fr.satiscraftoryteam.satiscraftory.common.interfaces.IHasTickableTileEnti
 import fr.satiscraftoryteam.satiscraftory.common.registration.TileEntityDeferredHolder;
 import fr.satiscraftoryteam.satiscraftory.common.shapes.ShapesList;
 import fr.satiscraftoryteam.satiscraftory.common.tileentity.MinerMk1BlockEntity;
+import fr.satiscraftoryteam.satiscraftory.utils.MultiBlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
@@ -46,24 +48,11 @@ public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileE
         }));
 
         this.getProps().addProperties(new BoudingAttribute((pos, state, builder) -> {
-
-
             Direction direction = Attribute.get(this, FacingAttribute.class).getDirection(state);
-            int[][] offsets = new int[][]{{-1, 1}, {0, 5}, {-3, 3}};
-            boolean reverseZ = direction == Direction.NORTH || direction == Direction.WEST;
-
-            for (int x = offsets[0][0]; x <= offsets[0][1]; x++) {
-                for (int y = offsets[1][0]; y <= offsets[1][1]; y++) {
-                    for (int z = offsets[2][0]; z <= offsets[2][1]; z++) {
-                        if (x != 0 || y != 0 || z != 0) {
-                            int offsetX = direction == Direction.EAST || direction == Direction.WEST ? z : x;
-                            int offsetZ = reverseZ ? -z : z;
-                            builder.add(pos.offset(offsetX, y, offsetZ));
-                        }
-                    }
-                }
-            }
-
+            MinerMk1BlockEntity.getBoundingOffsets().map(offset -> {
+                Vec3i absoluteOffset = MultiBlockUtil.getAbsolutePosFromRelativeFacingSouth(offset, direction);
+                return pos.offset(absoluteOffset);
+            }).forEach(builder::add);
         }));
     }
 
