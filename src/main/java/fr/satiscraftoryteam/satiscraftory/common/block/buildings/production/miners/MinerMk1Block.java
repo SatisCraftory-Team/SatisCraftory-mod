@@ -38,7 +38,7 @@ public class MinerMk1Block extends MachineBaseBlock implements IHasTickableTileE
 
     @Override
     protected void initProperties() {
-        this.getProps().addProperties(new RestrictedPlacementAttribute(BlockInit.IRON_DEPOSIT.getBlock(), BlockInit.COPPER_DEPOSIT.getBlock()));
+        this.getProps().addProperties(new RestrictedPlacementAttribute(BlockInit.IRON_RESOURCE_NODE.getBlock(), BlockInit.COPPER_DEPOSIT.getBlock()));
         this.getProps().addProperties(new ShapeAttribute(ShapesList.MINER_MK1));
         this.getProps().addProperties(new FacingAttribute(BlockStateProperties.HORIZONTAL_FACING, FacingAttribute.FacePlacementType.PLAYER_LOCATION));
         this.getProps().addProperties(new IOAttribute((pos, state, builder) -> {

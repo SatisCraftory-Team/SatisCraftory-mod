@@ -8,8 +8,7 @@
   "item.satiscraftory.iron_residue": "Iron Residue",
 
   "block.satiscraftory.miner_mk1": "Miner MK1",
-
-  "block.satiscraftory.iron_deposit": "Iron Deposit",
+  "block.satiscraftory.iron_resource_node": "Iron Deposit Node",
 
   "block.satiscraftory.eliocube": "Eliocube",
   "item.satiscraftory.eliocube_block_item": "Eliocube",

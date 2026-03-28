@@ -2,6 +2,7 @@ package fr.satiscraftoryteam.satiscraftory;
 
 import fr.satiscraftoryteam.satiscraftory.common.init.*;
 import fr.satiscraftoryteam.satiscraftory.common.network.ModPackets;
+import fr.satiscraftoryteam.satiscraftory.common.registration.ModProcessors;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
@@ -35,6 +36,8 @@ public class SatisCraftory {
         TileEntityInit.BLOCK_ENTITIES.register(modEventBus);
         MenuTypesInit.MENUS.register(modEventBus);
         StructuresInit.DEFERRED_REGISTRY_STRUCTURE.register(modEventBus);
+
+        ModProcessors.REGISTRY.register(modEventBus);
 
         LOGGER.info("ici, c'est le goulag, préparez vous au combat");
     }

@@ -17,7 +17,7 @@
 
     // The biome tag to use for what biomes that this structure can spawn in
   //"biomes": "#satiscraftory:has_structure/code_structure_sky_fan_biomes",
-  "biomes": "#satiscraftory:has_structure/iron_deposit_structure_biomes",
+  "biomes": "#satiscraftory:has_structure/iron_resource_node_structure_biomes",
 
     // The generation step for when to generate the structure. there are 10 stages you can pick from!
     // This surface structure stage places the structure before plants and ores are generated

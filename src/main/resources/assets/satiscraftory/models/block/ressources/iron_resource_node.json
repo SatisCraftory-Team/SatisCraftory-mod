@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench by vgtom4",
 	"textures": {
-		"0": "satiscraftory:block/ressources/deposit/stone_deposit",
-		"1": "satiscraftory:block/ressources/deposit/iron_deposit",
+		"0": "satiscraftory:block/ressources/deposit/iron_resource_node",
+		"1": "satiscraftory:block/ressources/deposit/iron_resource_node",
 		"particle": "satiscraftory:block/ressources/deposit/stone_deposit"
 	},
 	"elements": [
