@@ -31,8 +31,8 @@ logoFile="satiscraftorylogo.png" #optional
 # A text field displayed in the mod UI
 credits="" #optional
 # A text field displayed in the mod UI
-authors="SatisCraftory Team (manugame_, goldor, vgtom4)" #optional
+authors = "SatisCraftory Team (manugame_, goldor, vgtom)" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Mod to recreate Satisfactory in Minecraft
+Recreates the factory building game Satisfactory in Minecraft, with a focus on automation and logistics. It adds new machines, tools, and resources to help players build and manage their factories efficiently.
 '''
